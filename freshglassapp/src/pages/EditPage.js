@@ -131,7 +131,7 @@ EditPage.prototype.getContainer = function () {
         contents: [
             headerBar,
             new Line({
-                left: 0, right: 0, height: 50,
+                left: 0, right: 0, height: 35,
                 contents: [
                     new TintTab(),
                     new ImagesTab(),
@@ -146,14 +146,14 @@ EditPage.prototype.getContainer = function () {
                 ]
             }),
             new Line({
-                left: 0, right: 0, height: 50,
+                left: 0, right: 0, height: 35,
                 contents: [
                     new ApplyButton(),
                     new CancelButton()
                 ]
             }),
             new Line({
-                left: 0, right: 0, height: 50,
+                left: 0, right: 0, height: 35,
                 contents: [
                     new ClearButton()
                 ]

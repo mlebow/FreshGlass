@@ -36,7 +36,7 @@ StatusPage.prototype.getContainer = function () {
     });
 
     var EditButton = BUTTONS.Button.template(function ($) { return {
-        left: 0, right: 0, height: 70,
+        left: 0, right: 0, top:0, bottom: 0,
         skin: new Skin({fill: "green"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -54,7 +54,7 @@ StatusPage.prototype.getContainer = function () {
     };});
 
     var SavePresetButton = BUTTONS.Button.template(function ($) { return {
-        left: 0, right: 0, height: 70,
+        left: 0, right: 0, top:0, bottom: 0,
         skin: new Skin({fill: "green"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -86,7 +86,7 @@ StatusPage.prototype.getContainer = function () {
                 ]
             }),
             new Line({
-                left: 0, right: 0, height: 70,
+                left: 0, right: 0, height: 35,
                 contents: [
                     new EditButton({
                         window: page.window
