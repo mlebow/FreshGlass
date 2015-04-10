@@ -37,7 +37,7 @@ Window.prototype.serialize = function () {
  * @return {Container} a kinoma Container object representing the preview of the window.
  * TODO: implement this
  */
-Window.prototype.renderPreviewAsKinoma = function () {
+Window.prototype.renderPreview = function () {
     return new Container();
 };
 
