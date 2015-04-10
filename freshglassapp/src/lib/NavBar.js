@@ -25,9 +25,14 @@ var windowNameTemplate = Label.template(function($) { return {
 	left: 0, right: 0, height: navBarHeight, string:$.name, style: windowNameStyle
 };});
 
-var navBar = Line.template(function($) { return {
+var navBar = Line.template(function($) { 
+	var buttonTemp = null;
+	if ($.back) {
+		var buttonTemp = new backButtonTemplate({page:$.page});
+	}
+	return {
 	left:0, right:0, top:0, height: navBarHeight, skin: navBarSkin, contents: [
-		new backButtonTemplate({page: $.page, used: $.back}),
+		buttonTemp,
 		new windowNameTemplate({name: $.name }),
 	]};}
 );
