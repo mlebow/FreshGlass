@@ -14,5 +14,16 @@ var switchPages = function(nextPage) {
     application.add(nextPage.getContainer());
 };
 
+//This does device discovery
+var ApplicationBehavior = Behavior.template({
+	onDisplayed: function(application) {
+		application.discover("freshglassdevice");
+	},
+    onQuit: function(application) {
+        application.forget("freshglassdevice");
+    },
+});
+application.behavior = new ApplicationBehavior();
+
 var mainPage = new MainPage(switchPages);
 switchPages(mainPage);
