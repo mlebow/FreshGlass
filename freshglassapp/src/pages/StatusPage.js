@@ -3,6 +3,7 @@ var THEME = require('themes/flat/theme'); // required for BUTTONS to work???
 var BUTTONS = require("controls/buttons");
 
 var EditPage = require("pages/EditPage");
+var NavBar = require("lib/NavBar");
 
 var StatusPage = function (window, previousPage, switchPages) {
     this.window = window;
@@ -20,12 +21,7 @@ StatusPage.prototype.getContainer = function () {
     var page = this;
 
     // TODO: replace this with Michael's general header bar template
-    var headerBar = new Label({
-        left: 0, right: 0, height: 40,
-        skin: new Skin({fill: "green"}),
-        style: new Style({color: "white"}),
-        string: "Fresh Glass"
-    });
+    var headerBar = new NavBar({ name: page.window.name, back: true, page: page });
 
     var temperatureLabel = new Label({
         left: 0, right: 0, height: 100,
@@ -40,7 +36,7 @@ StatusPage.prototype.getContainer = function () {
     });
 
     var EditButton = BUTTONS.Button.template(function ($) { return {
-        left: 0, right: 0, height: 70,
+        left: 0, right: 0, top:0, bottom: 0,
         skin: new Skin({fill: "green"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -58,7 +54,7 @@ StatusPage.prototype.getContainer = function () {
     };});
 
     var SavePresetButton = BUTTONS.Button.template(function ($) { return {
-        left: 0, right: 0, height: 70,
+        left: 0, right: 0, top:0, bottom: 0,
         skin: new Skin({fill: "green"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -90,7 +86,7 @@ StatusPage.prototype.getContainer = function () {
                 ]
             }),
             new Line({
-                left: 0, right: 0, height: 70,
+                left: 0, right: 0, height: 35,
                 contents: [
                     new EditButton({
                         window: page.window

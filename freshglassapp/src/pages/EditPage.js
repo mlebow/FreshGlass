@@ -1,4 +1,5 @@
 //@module
+var NavBar = require("lib/NavBar");
 
 var EditPage = function (window, previousPage, switchPages) {
     this.window = window;
@@ -15,13 +16,7 @@ EditPage.prototype.getContainer = function () {
     if (this.container) { return this.container; }
     var page = this;
 
-    // TODO: replace this with Michael's general header bar template
-    var headerBar = new Label({
-        left: 0, right: 0, height: 40,
-        skin: new Skin({fill: "green"}),
-        style: new Style({color: "white"}),
-        string: "Fresh Glass"
-    });
+    var headerBar = new NavBar({ name: page.window.name, back: true, page: page });
 
     var TintTab = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top: 0, bottom: 0,
@@ -73,6 +68,11 @@ EditPage.prototype.getContainer = function () {
             })
         ]
     };});
+
+    var controlContainer = new Container({
+        left: 0, right: 0, height: 70,
+        skin: new Skin({fill: "red"})
+    });
 
     var ApplyButton = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top: 0, bottom: 0,
@@ -131,13 +131,14 @@ EditPage.prototype.getContainer = function () {
         contents: [
             headerBar,
             new Line({
-                left: 0, right: 0, height: 50,
+                left: 0, right: 0, height: 35,
                 contents: [
                     new TintTab(),
                     new ImagesTab(),
                     new ControlTab()
                 ]
             }),
+            controlContainer,
             new Container({
                 left: 0, right: 0, top: 0, bottom: 0,
                 contents: [
@@ -145,14 +146,14 @@ EditPage.prototype.getContainer = function () {
                 ]
             }),
             new Line({
-                left: 0, right: 0, height: 50,
+                left: 0, right: 0, height: 35,
                 contents: [
                     new ApplyButton(),
                     new CancelButton()
                 ]
             }),
             new Line({
-                left: 0, right: 0, height: 50,
+                left: 0, right: 0, height: 35,
                 contents: [
                     new ClearButton()
                 ]

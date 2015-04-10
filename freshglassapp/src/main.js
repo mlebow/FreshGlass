@@ -8,11 +8,13 @@ var MainPage = require("pages/MainPage");
 var currentPage = null; // global
 
 var switchPages = function(nextPage) {
-    if (currentPage !== null) {
-        application.remove(currentPage.getContainer());
+    if (nextPage !== null) {
+        if (currentPage !== null) {
+            application.remove(currentPage.getContainer());
+        }
+        currentPage = nextPage;
+        application.add(nextPage.getContainer());
     }
-    currentPage = nextPage;
-    application.add(nextPage.getContainer());
 };
 
 //This does device discovery
