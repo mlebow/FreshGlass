@@ -3,7 +3,7 @@ var THEME = require('themes/flat/theme'); // required for BUTTONS to work???
 var BUTTONS = require("controls/buttons");
 var Window = require("lib/Window");
 
-var EditPage = require("pages/EditPage");
+var StatusPage = require("pages/StatusPage");
 
 var MainPage = function (switchPages) {
     this.switchPages = switchPages;
@@ -29,8 +29,8 @@ MainPage.prototype.getContainer = function () {
         skin: new Skin({fill: "blue"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                 var editPage = new EditPage($.window, page, page.switchPages);
-                 page.switchPages(editPage);
+                 var statusPage = new StatusPage($.window, page, page.switchPages);
+                 page.switchPages(statusPage);
             }}
         }),
         contents: [
