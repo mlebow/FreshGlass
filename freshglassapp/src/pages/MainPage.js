@@ -2,6 +2,7 @@
 var THEME = require('themes/flat/theme'); // required for BUTTONS to work???
 var BUTTONS = require("controls/buttons");
 var Window = require("lib/Window");
+var NavBar = require("lib/NavBar");
 
 var StatusPage = require("pages/StatusPage");
 
@@ -42,17 +43,12 @@ MainPage.prototype.getContainer = function () {
         ]
     };});
 
-    var headerBar = new Label({
-        left: 0, right: 0, height: 40,
-        skin: new Skin({fill: "red"}),
-        style: new Style({color: "white"}),
-        string: "Fresh Glass"
-    });
+    var navBar = new NavBar({name:"Fresh Glass", back:false});
 
     var rootContainer = new Column({
         top: 0, left: 0, right: 0, bottom: 0,
         contents: [
-            headerBar
+            navBar
         ]
     });
 
