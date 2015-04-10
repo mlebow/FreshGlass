@@ -66,7 +66,7 @@ MainPage.prototype.getContainer = function () {
 
     var rootContainer = new Column({
         top: 0, left: 0, right: 0, bottom: 0,
-        skin: new Skin({fill: "purple"}),
+        skin: new Skin({fill: "#774A8E"}),
         contents: [
             navBar, 
 

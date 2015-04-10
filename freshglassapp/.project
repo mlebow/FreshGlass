@@ -14,4 +14,11 @@
 	<natures>
 		<nature>com.marvell.kinoma.kpr.application</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/lib/backbutton.png</name>
+			<type>1</type>
+			<location>E:/Pictures/backbutton.png</location>
+		</link>
+	</linkedResources>
 </projectDescription>
