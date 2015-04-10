@@ -9,6 +9,7 @@ var StatusPage = require("pages/StatusPage");
 var MainPage = function (switchPages) {
     this.switchPages = switchPages;
     this.container = null;
+    this.previousPage = null;
 
     this.windows = [
         new Window("Window 1"),
@@ -43,7 +44,7 @@ MainPage.prototype.getContainer = function () {
         ]
     };});
 
-    var navBar = new NavBar({name:"Fresh Glass", back:false});
+    var navBar = new NavBar({name:"Fresh Glass", back: false, page: page});
 
     var rootContainer = new Column({
         top: 0, left: 0, right: 0, bottom: 0,

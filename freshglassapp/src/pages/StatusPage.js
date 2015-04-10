@@ -3,6 +3,7 @@ var THEME = require('themes/flat/theme'); // required for BUTTONS to work???
 var BUTTONS = require("controls/buttons");
 
 var EditPage = require("pages/EditPage");
+var NavBar = require("lib/NavBar");
 
 var StatusPage = function (window, previousPage, switchPages) {
     this.window = window;
@@ -20,12 +21,7 @@ StatusPage.prototype.getContainer = function () {
     var page = this;
 
     // TODO: replace this with Michael's general header bar template
-    var headerBar = new Label({
-        left: 0, right: 0, height: 40,
-        skin: new Skin({fill: "green"}),
-        style: new Style({color: "white"}),
-        string: "Fresh Glass"
-    });
+    var headerBar = new NavBar({ name: page.window.name, back: true, page: page });
 
     var temperatureLabel = new Label({
         left: 0, right: 0, height: 100,
