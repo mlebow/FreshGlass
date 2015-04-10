@@ -3,7 +3,8 @@
 /**
  * Constructor for window object.
  */
-var Window = function () {
+var Window = function (name) {
+    this.name = name || "";
     this.tint = 0; // 0 is transparent, 1 is opaque
     this.temperature = null; // will be set eventually to degress fahrenheit
     this.brightness = null; // will be set between 0 (no sun) to 1 (max sun we can detect)

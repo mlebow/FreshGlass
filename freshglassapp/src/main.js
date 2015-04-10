@@ -1,5 +1,6 @@
 //@program
-
+var THEME = require('themes/flat/theme');
+var BUTTONS = require("controls/buttons");
 // var currentPage = new Page();
 // var nextPage = new EditPage(currentWindow, currentPage, switchPages);
 
@@ -15,15 +16,15 @@ var switchPages = function(nextPage) {
 };
 
 //This does device discovery
-var ApplicationBehavior = Behavior.template({
-	onDisplayed: function(application) {
-		application.discover("freshglassdevice");
-	},
-    onQuit: function(application) {
-        application.forget("freshglassdevice");
-    },
-});
-application.behavior = new ApplicationBehavior();
+// var ApplicationBehavior = Behavior.template({
+// 	onDisplayed: function(application) {
+// 		application.discover("freshglassdevice");
+// 	},
+//     onQuit: function(application) {
+//         application.forget("freshglassdevice");
+//     },
+// });
+// application.behavior = new ApplicationBehavior();
 
 var mainPage = new MainPage(switchPages);
 switchPages(mainPage);

@@ -1,8 +1,19 @@
 //@module
+var THEME = require('themes/flat/theme'); // required for BUTTONS to work???
+var BUTTONS = require("controls/buttons");
+var Window = require("lib/Window");
+
+var EditPage = require("pages/EditPage");
 
 var MainPage = function (switchPages) {
     this.switchPages = switchPages;
     this.container = null;
+
+    this.windows = [
+        new Window("Window 1"),
+        new Window("Window 2"),
+        new Window("Window 3")
+    ];
 };
 
 /**
@@ -11,6 +22,25 @@ var MainPage = function (switchPages) {
  */
 MainPage.prototype.getContainer = function () {
     if (this.container) { return this.container; }
+    var page = this;
+
+    var WindowButton = BUTTONS.Button.template(function($) { return {
+        left: 0, right: 0, height: 40,
+        skin: new Skin({fill: "blue"}),
+        behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
+            onTap: { value: function (button) {
+                 var editPage = new EditPage($.window, page, page.switchPages);
+                 page.switchPages(editPage);
+            }}
+        }),
+        contents: [
+            new Label({
+                top: 0, left: 0, bottom: 0, right: 0,
+                style: new Style({color: "white"}),
+                string: $.string
+            })
+        ]
+    };});
 
     var headerBar = new Label({
         left: 0, right: 0, height: 40,
@@ -25,6 +55,13 @@ MainPage.prototype.getContainer = function () {
             headerBar
         ]
     });
+
+    for (var i=0; i < this.windows.length; i++) {
+        rootContainer.add(new WindowButton({
+            window: this.windows[i],
+            string: this.windows[i].name,
+        }));
+    }
 
     this.container = rootContainer;
     return this.container; // TODO: implement
