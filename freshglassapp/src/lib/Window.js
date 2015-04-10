@@ -38,7 +38,17 @@ Window.prototype.serialize = function () {
  * TODO: implement this
  */
 Window.prototype.renderPreview = function () {
-    return new Container();
+    return new Container({
+        height: 200, width: 150,
+        skin: new Skin("blue"),
+        contents: [
+            new Label({
+                top: 0, bottom: 0, left: 0, right: 0,
+                style: new Style({color: "white"}),
+                string: "This is a window preview."
+            })
+        ]
+    });
 };
 
 module.exports = Window;

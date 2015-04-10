@@ -40,7 +40,7 @@ StatusPage.prototype.getContainer = function () {
     });
 
     var EditButton = BUTTONS.Button.template(function ($) { return {
-        left: 0, right: 0, height: 100,
+        left: 0, right: 0, height: 70,
         skin: new Skin({fill: "green"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -58,7 +58,7 @@ StatusPage.prototype.getContainer = function () {
     };});
 
     var SavePresetButton = BUTTONS.Button.template(function ($) { return {
-        left: 0, right: 0, height: 100,
+        left: 0, right: 0, height: 70,
         skin: new Skin({fill: "green"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -83,9 +83,14 @@ StatusPage.prototype.getContainer = function () {
                 left: 0, right: 0, height: 100,
                 contents: [temperatureLabel, brightnessLabel]
             }),
-            page.window.renderPreview(),
+            new Container({
+                left: 0, right: 0, top: 0, bottom: 0,
+                contents: [
+                    page.window.renderPreview(),
+                ]
+            }),
             new Line({
-                left: 0, right: 0, height: 100,
+                left: 0, right: 0, height: 70,
                 contents: [
                     new EditButton({
                         window: page.window
