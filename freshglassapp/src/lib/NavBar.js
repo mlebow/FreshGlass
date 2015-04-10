@@ -3,14 +3,15 @@ var THEME = require('themes/flat/theme');
 var BUTTONS = require('controls/buttons');
 
 var navBarSkin = new Skin({fill:"purple"});
+var backSkin = new Skin({fill:"transparent"});
 
 var navBarHeight = 35;
 
-var windowNameStyle = new Style({font:"bold 20px", color:"white"});
-var backStyle = new Style({font:"20", color:"white"});
+var windowNameStyle = new Style({font:"bold 25px", color:"white"});
+var backStyle = new Style({font:"15", color:"white"});
 
 var backButtonTemplate = BUTTONS.Button.template(function($){ return {
-	left:0, width:60, height:navBarHeight,
+	left:0, bottom:0, width:60, height:navBarHeight, skin: backSkin,
 	contents: [
 		new Label({left:0, right:0, height:navBarHeight, string:"< Back", style: backStyle})
 	],
@@ -22,7 +23,7 @@ var backButtonTemplate = BUTTONS.Button.template(function($){ return {
 };});
 
 var windowNameTemplate = Label.template(function($) { return {
-	left: 0, right: 0, height: navBarHeight, string:$.name, style: windowNameStyle
+	left: 0, right: 0, bottom: 0, height: navBarHeight, string:$.name, style: windowNameStyle
 };});
 
 var navBar = Line.template(function($) { 
