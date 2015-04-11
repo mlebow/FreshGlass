@@ -90,7 +90,7 @@ MainPage.prototype.getContainer = function () {
 	        rootContainer.add(new VerticalWindowButton({
 	            window: this.windows[i],
 	            string: this.windows[i].name,
-                statuspage: this.statusPages[i],
+                statusPage: this.statusPages[i],
         }));        
         
         }

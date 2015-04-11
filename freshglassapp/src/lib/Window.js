@@ -12,7 +12,21 @@ var Window = function (name) {
         // {url: "...", top: 0, left: 0, scale: 0.5}
     ];
     this.controls = null; // TODO: implement this!
+    this.statusPage = null;
     // NOTE: size is hardcoded (v2.0 feature)
+};
+Window.HEX_TINT = "94895f"; // the hex code for the color that the window gets tinted
+
+/**
+ * Return a hex code of the form "#AARRGGBB" where RRGGBB is Window.HEX_TINT and
+ * AA is a hex alpha value based on the window's tint.
+ */
+Window.prototype.getTintHexCode = function () {
+    var alpha = Math.round(this.tint * 255);
+    var hexString = (alpha + 0x10000).toString(16);
+    var hex = hexString.substring(hexString.length - 2, hexString.length).toUpperCase();
+    trace("#" + hex + Window.HEX_TINT + "\n");
+    return "#" + hex + Window.HEX_TINT;
 };
 
 /**
@@ -46,9 +60,14 @@ Window.prototype.serialize = function () {
  * TODO: implement this
  */
 Window.prototype.renderPreview = function () {
+    var window = this;
     return new Container({
-        height: 200, width: 200, bottom: 50, 
-        skin: new Skin({fill: "white", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"}),
+        height: 200, width: 200, bottom: 50,
+        skin: new Skin({
+            fill: window.getTintHexCode(),
+            borders: {left:3, right:3, top:3, bottom:3},
+            stroke:"black"
+        }),
         contents: [
             new Label({
                 top: 0, bottom: 0, left: 0, right: 0,

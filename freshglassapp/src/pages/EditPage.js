@@ -73,7 +73,7 @@ EditPage.prototype.getContainer = function () {
             }},
             onValueChanged: { value: function(container){           
                 SLIDERS.HorizontalSliderBehavior.prototype.onValueChanged.call(this, container);
-                page.window.tint = this.data.value;
+                page.windowCopy.tint = this.data.value;
             }},     
         }),
     };});
