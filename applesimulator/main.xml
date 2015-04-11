@@ -1,0 +1,127 @@
+<module xmlns="http://www.kinoma.com/kpr/1">
+
+    <require id="SimulatorDevice" path="kdt/simulator/SimulatorDevice" />
+
+    <function id="newInstance" params="info">
+        <![CDATA[
+            return new IOSSimulatorDevice( info );
+        ]]>
+    </function>
+
+    <class id="IOSSimulatorDevice" like="SimulatorDevice">
+        <constructor params="info">
+            <![CDATA[
+                SimulatorDevice.SimulatorDevice.call( this, info );
+            ]]>
+        </constructor>
+        <method id="createDeviceContainerContent" params="data">
+            <![CDATA[
+                return new IOSDeviceContainer( data );
+            ]]>
+        </method>
+    </class>
+
+    <container id="IOSDeviceContainer">
+        <behavior like="SimulatorDevice.DeviceBehavior">
+            <field id="statusBarVisible" value="true" />
+            <method id="createDeviceScreenContainer" params="bounds">
+	            <![CDATA[
+	                var data = { top:bounds.top, left:bounds.left, width:bounds.width, height:bounds.height, statusBarVisible:this.statusBarVisible };
+	            
+	                return new IOSDeviceScreenContainer( bounds );
+	            ]]>
+            </method>
+            <method id="getApplicationContainer">
+	            <![CDATA[
+	                return this.screen.applicationContainer;
+	            ]]>
+            </method>
+            <method id="addCustomDeviceMenuItems" params="content, menu">
+                <![CDATA[
+                    menu.addSeparator();
+                    menu.addMenuItem( "Status Bar:" );
+                    menu.addMenuItem( "Display Status Bar", "SelectEvent", null, {id:"ToggleStatusBar"} );
+                ]]>
+            </method>
+            <method id="handleUpdateEvent_ToggleStatusBar" params="content, event">
+                <![CDATA[
+                    event.checked = this.statusBarVisible;
+                ]]>
+            </method>
+            <method id="handleSelectEvent_ToggleStatusBar" params="content, event">
+                <![CDATA[
+                    this.statusBarVisible = this.statusBarVisible ? false : true;
+                    this.screen.statusBar.visible = this.statusBarVisible;
+                    
+                    var coordinates = this.screen.applicationContainer.coordinates;
+                    
+                    coordinates.top = this.statusBarVisible ? 20 : 0;
+                    
+                    this.screen.applicationContainer.coordinates = coordinates;
+                ]]>
+            </method>
+        </behavior>
+    </container>
+
+    <container id="IOSDeviceScreenContainer" like="SimulatorDevice.DeviceScreenContainer">
+        <container name="statusBar" top="0" left="0" right="0" height="20">
+            <skin color="black" />
+            <picture url="'ios-signal.png'" left="0">
+                <behavior>
+                    <method id="onCreate" params="content">
+                        <![CDATA[
+                            var effect = new Effect();
+                            
+                            effect.colorize( "white" );
+                            
+                            content.effect = effect;
+                        ]]>
+                    </method>
+                </behavior>
+            </picture>
+            <label left="0" right="0" string="'10:33 AM'">
+                <style font="12px Arial Bold" color="white"/>
+                <behavior>
+                    <method id="onCreate" params="content">
+                        <![CDATA[
+                            this.update( content );
+                        ]]>
+                    </method>
+                    <method id="onFinished" params="content">
+                        <![CDATA[
+                            this.update( content );
+                        ]]>
+                    </method>
+                    <method id="update" params="content">
+                        <![CDATA[
+                            var d = new Date();
+                            var h = d.getHours();
+                            var m = d.getMinutes();
+                            
+                            content.string = (h > 12 ? h - 12 : h) + ":" + (m > 9 ? m : "0" + m) + " " + (h > 11 ? "PM" : "AM");
+                            
+                            content.duration = (60 - d.getSeconds()) * 1000;
+                            content.time = 0;
+                            content.start();
+                        ]]>
+                    </method>
+                </behavior>
+            </label>
+            <picture url="'ios-battery.png'" right="0">
+                <behavior>
+                    <method id="onCreate" params="content">
+                        <![CDATA[
+                            var effect = new Effect();
+                            
+                            effect.colorize( "white" );
+                            
+                            content.effect = effect;
+                        ]]>
+                    </method>
+                </behavior>
+            </picture>
+        </container>
+        <container name="applicationContainer" top="20" left="0" right="0" bottom="0" />
+    </container>
+
+</module>
