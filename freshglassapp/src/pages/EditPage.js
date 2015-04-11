@@ -29,7 +29,8 @@ var EditPage = function (window, previousPage, switchPages) {
     this.windowCopy = this.window.clone();
 };
 
-var buttonSkin = new Skin({fill: "purple", borders:{right:2, left:2, bottom: 2, top:2}, stroke:"black"});
+var applyButtonSkin = new Skin({fill: "purple", borders:{right:2, left:2, bottom: 2, top:2}, stroke:"black"});
+var cancelButtonSkin = new Skin({fill: "purple", borders:{right:2, bottom: 2, top:2}, stroke:"black"});
 var clearButtonSkin = new Skin({fill: "purple", borders:{right:2, left:2, bottom: 2}, stroke:"black"});
 
 var tintSelectedSkin = new Skin({fill: "#C2BAC6", borders:{right:4, top:4}, stroke:"black"});
@@ -38,11 +39,13 @@ var controlSelectedSkin = new Skin({fill: "#C2BAC6", borders:{left:4, top:4}, st
 
 var unselectedSkin = new Skin({fill: "#C2BAC6", borders:{bottom:4, top: 2}, stroke:"black"});
 var unselectedSkin2 = new Skin({fill: "#C2BAC6", borders:{top: 2}, stroke:"black"});
-
-var rightBorderSkin = new Skin({fill: "#C2BAC6", borders:{right:2, bottom: 4, top: 2}, stroke:"black"});
-
 var unselectedStyle = new Style({color: "white", font: "15px"})
 var selectedStyle = new Style({color: "purple", font: "30px"})
+
+var rightBorderSkin = new Skin({fill: "#C2BAC6", borders:{right:2, bottom: 4, top: 2}, stroke:"black"});
+var addImageSkin = new Skin({fill: "purple", borders:{left:1, right:1, top:1, bottom: 1}, stroke:"black"});
+
+
     
 EditPage.prototype.activateTab = function (tab) {
 
@@ -132,7 +135,7 @@ EditPage.prototype.getContainer = function () {
     
     var AddImageButton = BUTTONS.Button.template(function ($) { return {
         left: 5, width: 150, top: 5, bottom: 5,
-        skin: new Skin({fill: "#00ff1e"}),
+        skin: addImageSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                 trace("Add photo button does nothing for now.");
@@ -179,7 +182,7 @@ EditPage.prototype.getContainer = function () {
 
     var ApplyButton = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top: 0, bottom: 0,
-        skin: buttonSkin,
+        skin: applyButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                 trace("Apply button does nothing for now.");
@@ -198,7 +201,7 @@ EditPage.prototype.getContainer = function () {
 
     var CancelButton = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top: 0, bottom: 0,
-        skin: buttonSkin,
+        skin: cancelButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                 trace("Cancel does nothing right now.");
