@@ -17,7 +17,7 @@ exports.configure = function (config) {
                 valueID : "temperature",
                 dataType: "float",
                 minValue: 32.0,
-                maxValue: 90.0,
+                maxValue: 110.0,
                 value: 32.0,
                 defaultControl: PinsSimulators.SLIDER
             }),

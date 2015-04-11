@@ -43,7 +43,19 @@ application.invoke( new MessageWithObject( "pins:configure", {
     	pins: {
     		temperature: { pin: 48 }
         }
-    }   
+    }, 
+    upSensor: {
+    	require: "up",
+    	pins: {
+    		up: { pin: 46 }
+        }
+    },
+    downSensor: {
+    	require: "down",
+    	pins: {
+    		down: { pin: 48 }
+        }
+    }, 
 }));
 
 /* Use the initialized brightnessSensor object and repeatedly 
@@ -106,6 +118,7 @@ TempContainer.behaviors[0] = Behavior.template({
 		currTemp = result;
 	},
 })
+
 application.add(new MainContainer());
 application.add(new BrightnessContainer());
 application.add(new TempContainer());
