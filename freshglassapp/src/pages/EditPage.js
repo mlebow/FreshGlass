@@ -178,7 +178,6 @@ EditPage.prototype.getContainer = function () {
         skin: new Skin({fill: "green"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                //trace("Clear does nothing right now.");
                 this.window.tint = 0;
                 this.window.images = []
                 this.window.controls = null;

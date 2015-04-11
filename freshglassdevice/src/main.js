@@ -95,14 +95,14 @@ TempContainer.behaviors = new Array(1);
 
 BrightnessContainer.behaviors[0] = Behavior.template({
 	onBrightnessValueChanged: function(content, result) {
-		content.string = "Brightness: " + result.toString().substring( 0, 4 );
+		content.string = "Brightness: " + (result*100).toString().substring( 0, 4 ) + " %";
 		currBrightness = result;
 	},
 })
 
 TempContainer.behaviors[0] = Behavior.template({
 	onTemperatureValueChanged: function(content, result) {
-		content.string = "Temperature: " + result.toString().substring( 0, 4 );
+		content.string = "Temperature: " + result.toString().substring( 0, 4 ) + " F";
 		currTemp = result;
 	},
 })
