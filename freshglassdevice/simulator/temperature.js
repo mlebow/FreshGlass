@@ -7,8 +7,8 @@ exports.configure = function (config) {
     this.pinsSimulator = shell.delegate("addSimulatorPart", {
         header: {
             label: "Temperature",
-            name: "Temperature",
-            iconVariant: PinsSimulators.SENSOR_GUAGE
+            name: "in Fahrenheit",
+            iconVariant:PinsSimulators.SENSOR_SLIDER
         },
         axes: [
             new PinsSimulators.AnalogInputAxisDescription({
@@ -25,9 +25,10 @@ exports.configure = function (config) {
     });
 };
 
-exports.read = function () {
-    return this.pinsSimulator.delegate("getValue");
-};
+var read = exports.read = function() {
+	var axes = this.pinsSimulator.delegate("getValue");
+	return axes.temperature;
+}
 
 exports.write = function () {};
 
@@ -36,5 +37,5 @@ exports.close = function () {
 };
 
 exports.pins = {
-    weight: { type: "A2D" }
+    temperature: { type: "A2D" }
 };
