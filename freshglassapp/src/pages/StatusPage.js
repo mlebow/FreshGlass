@@ -12,7 +12,9 @@ var StatusPage = function (window, previousPage, switchPages) {
     this.container = null;
     this.temperatureLabel = null;
     this.brightnessLabel = null;
+
     this.windowPreviewContainer = null; // kinoma container for window preview
+    this.window.statusPage = this;
 };
 
 /**
