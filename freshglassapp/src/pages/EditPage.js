@@ -1,11 +1,24 @@
 //@module
 var NavBar = require("lib/NavBar");
+var SLIDERS = require('controls/sliders');
 
 var EditPage = function (window, previousPage, switchPages) {
     this.window = window;
     this.previousPage = previousPage;
     this.switchPages = switchPages;
     this.container = null;
+    this.currentTab = "tint";
+    this.tabContainers = {
+        tint: null,
+        images: null,
+        control: null
+    };
+};
+
+EditPage.prototype.activateTab = function (tab) {
+    this.tabContainers[this.currentTab].skin = new Skin({fill: "#00ffcc"});
+    this.currentTab = tab;
+    this.tabContainers[this.currentTab].skin = new Skin({fill: "red"});
 };
 
 /**
@@ -23,7 +36,7 @@ EditPage.prototype.getContainer = function () {
         skin: new Skin({fill: "#00ffcc"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                trace("Tint tab goes nowhere.");
+                page.activateTab("tint");
             }}
         }),
         contents: [
@@ -35,12 +48,26 @@ EditPage.prototype.getContainer = function () {
         ]
     };});
 
+    var TintSlider = SLIDERS.HorizontalSlider.template(function($){ return{
+        left: 0, right: 0, top: 0, bottom: 0,
+        behavior: Object.create(SLIDERS.HorizontalSliderBehavior.prototype, {
+            onCreate: { value : function(container) {
+                this.data = {min:0, max:1, value: page.window.tint}; 
+            }},
+            onValueChanged: { value: function(container){           
+                SLIDERS.HorizontalSliderBehavior.prototype.onValueChanged.call(this, container);
+                page.window.tint = this.data.value;
+            }},     
+        }),
+    };});
+
+
     var ImagesTab = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top: 0, bottom: 0,
         skin: new Skin({fill: "#00ffcc"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                trace("Images tab goes nowhere.");
+                page.activateTab("images");
             }}
         }),
         contents: [
@@ -57,7 +84,7 @@ EditPage.prototype.getContainer = function () {
         skin: new Skin({fill: "#00ffcc"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                trace("Control tab goes nowhere.");
+                page.activateTab("control");
             }}
         }),
         contents: [
@@ -69,9 +96,13 @@ EditPage.prototype.getContainer = function () {
         ]
     };});
 
+
     var controlContainer = new Container({
         left: 0, right: 0, height: 70,
-        skin: new Skin({fill: "red"})
+        skin: new Skin({fill: "red"}),
+        contents: [
+            new TintSlider()
+        ],
     });
 
     var ApplyButton = BUTTONS.Button.template(function ($) { return {
@@ -125,6 +156,10 @@ EditPage.prototype.getContainer = function () {
         ]
     };});
 
+    page.tabContainers.tint = new TintTab();
+    page.tabContainers.images = new ImagesTab();
+    page.tabContainers.control = new ControlTab();
+
     var rootColumn = new Column({
         top: 0, left: 0, bottom: 0, right: 0,
         skin: new Skin({fill: "purple"}),
@@ -133,9 +168,9 @@ EditPage.prototype.getContainer = function () {
             new Line({
                 left: 0, right: 0, height: 35,
                 contents: [
-                    new TintTab(),
-                    new ImagesTab(),
-                    new ControlTab()
+                    page.tabContainers.tint,
+                    page.tabContainers.images,
+                    page.tabContainers.control
                 ]
             }),
             controlContainer,
