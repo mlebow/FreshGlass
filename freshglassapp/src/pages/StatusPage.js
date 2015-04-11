@@ -12,6 +12,7 @@ var StatusPage = function (window, previousPage, switchPages) {
     this.container = null;
     this.temperatureLabel = null;
     this.brightnessLabel = null;
+    this.windowPreviewContainer = null; // kinoma container for window preview
 };
 
 /**
@@ -77,18 +78,20 @@ StatusPage.prototype.getContainer = function () {
         ]
     };});
 
+    page.windowPreviewContainer = new Container({
+        left: 0, right: 0, top: 0, bottom: 0,
+        contents: [
+            page.window.renderPreview()
+        ]
+    });
+
     var rootColumn = new Column({
         top: 0, left: 0, bottom: 0, right: 0,
         skin: new Skin({fill: "#C2BAC6"}),
         contents: [
             headerBar,
             statusLine,
-            new Container({
-                left: 0, right: 0, top: 0, bottom: 0,
-                contents: [
-                    page.window.renderPreview(),
-                ]
-            }),
+            page.windowPreviewContainer,
             new Line({
                 left: 0, right: 0, height: 35,
                 contents: [
@@ -105,12 +108,16 @@ StatusPage.prototype.getContainer = function () {
     return this.container; // TODO: implement
 };
 
+StatusPage.prototype.rerenderWindowPreview = function() {
+    this.windowPreviewContainer.empty();
+    this.windowPreviewContainer.add(this.window.renderPreview());
+};
 
 StatusPage.prototype.updateContainerWithData = function() {
-    //trace(this.window.temperature + " F\n");
     if (this.container !== null) {
         this.temperatureLabel.string = this.window.temperature.toString().substring( 0, 4 ) + " F";
         this.brightnessLabel.string = "Sunshine: " + (Math.floor(this.window.brightness * 100)).toString().substring( 0, 4 ) + "%";
+        this.rerenderWindowPreview();
     }
 };
 
