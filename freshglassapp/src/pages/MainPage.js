@@ -38,7 +38,7 @@ MainPage.prototype.getContainer = function () {
         contents: [
             new Label({
                 top: 0, left: 0, bottom: 0, right: 0,
-                style: new Style({color: "black"}),
+                style: new Style({color: "black", font: "30px Georgia"}),
                 string: $.string
             })
         ]
@@ -56,7 +56,7 @@ MainPage.prototype.getContainer = function () {
         contents: [
             new Label({
                 top: 0, left: 0, bottom: 0, right: 0,
-                style: new Style({color: "black"}),
+                style: new Style({color: "black", font: "30px Georgia"}),
                 string: $.string
             })
         ]
@@ -66,7 +66,7 @@ MainPage.prototype.getContainer = function () {
 
     var rootContainer = new Column({
         top: 0, left: 0, right: 0, bottom: 0,
-        skin: new Skin({fill: "#774A8E"}),
+        skin: new Skin({fill: "#C2BAC6"}),
         contents: [
             navBar, 
 

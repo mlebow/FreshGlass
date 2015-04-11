@@ -25,19 +25,19 @@ StatusPage.prototype.getContainer = function () {
 
     var temperatureLabel = new Label({
         left: 0, right: 0, height: 100,
-        style: new Style({color: "red", font: "bold 20px"}),
+        style: new Style({color: "black", font: "27px Georgia"}),
         string: page.window.temperature + " F"
     });
 
     var brightnessLabel = new Label({
         left: 0, right: 0, height: 100,
-        style: new Style({color: "red", font: "bold 20px"}),
+        style: new Style({color: "black", font: "27px Georgia"}),
         string: "Sunshine: " + (Math.floor(page.window.brightness * 100)) + "%"
     });
 
     var EditButton = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top:0, bottom: 0,
-        skin: new Skin({fill: "green"}),
+        skin: new Skin({fill: "#3E1255", borders:{left:2, right:1, top:2, bottom:2}, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                  var editPage = new EditPage($.window, page, page.switchPages);
@@ -55,7 +55,7 @@ StatusPage.prototype.getContainer = function () {
 
     var SavePresetButton = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top:0, bottom: 0,
-        skin: new Skin({fill: "green"}),
+        skin: new Skin({fill: "#3E1255", borders:{left:1, right:2, top:2, bottom:2}, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                 trace("This does nothing right now.");
@@ -72,7 +72,7 @@ StatusPage.prototype.getContainer = function () {
 
     var rootColumn = new Column({
         top: 0, left: 0, bottom: 0, right: 0,
-        skin: new Skin({fill: "purple"}),
+        skin: new Skin({fill: "#774A8E"}),
         contents: [
             headerBar,
             new Line({

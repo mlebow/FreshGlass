@@ -39,12 +39,12 @@ Window.prototype.serialize = function () {
  */
 Window.prototype.renderPreview = function () {
     return new Container({
-        height: 200, width: 150,
-        skin: new Skin("blue"),
+        height: 300, width: 250, bottom: 50, 
+        skin: new Skin({fill: "white", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"}),
         contents: [
             new Label({
                 top: 0, bottom: 0, left: 0, right: 0,
-                style: new Style({color: "white"}),
+                style: new Style({color: "black"}),
                 string: "This is a window preview."
             })
         ]

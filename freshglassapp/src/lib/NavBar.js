@@ -1,16 +1,16 @@
 // KPR Script file
 var THEME = require('themes/flat/theme');
-THEME.buttonStyle = new Style({ font: "20px"});
+THEME.buttonStyle = new Style({ font: "20px Georgia"});
 THEME.buttonSkin = new Skin({fill: "#00FFFFFF", borders:{left: 2, right:2, bottom:2}, stroke:"black" })
 
 
 var BUTTONS = require('controls/buttons');
 
-var navBarSkin = new Skin({fill:"#774A8E"});
+var navBarSkin = new Skin({fill:"#9E40C3"});
 
 var navBarHeight = 35;
 
-var windowNameStyle = new Style({font:"bold 40px", color:"black"});
+var windowNameStyle = new Style({font:"40px Georgia", color:"white"});
 var backStyle = new Style({font:"20", color:"white"});
 
 var backButtonTemplate = BUTTONS.Button.template(function($){ return {
