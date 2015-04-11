@@ -107,6 +107,32 @@ TempContainer.behaviors[0] = Behavior.template({
 	},
 })
 
+
+//This is where communication with the iPhone App Begins
+var ApplicationBehavior = Behavior.template({
+	onLaunch: function(application) {
+		application.shared = true;
+	},
+	onQuit: function(application) {
+		application.shared = false;
+	},
+})
+
+
+
+//Handle Messages from the Phone
+
+//Send the phone updates about the sensor data
+Handler.bind("/update", Behavior({
+	onInvoke: function(handler, message){
+		message.responseText = JSON.stringify( { temperature: currTemp, brightness: currBrightness } );
+		message.status = 200;
+	}
+}));
+
+
+
+
 application.add(new MainContainer());
 application.add(new BrightnessContainer());
 application.add(new TempContainer());

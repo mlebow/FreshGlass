@@ -16,6 +16,12 @@ var MainPage = function (switchPages) {
         new Window("Window 2"),
         new Window("Window 3")
     ];
+
+    this.statusPages = [
+        new StatusPage(this.windows[0], this, this.switchPages),
+        new StatusPage(this.windows[1], this, this.switchPages),
+        new StatusPage(this.windows[2], this, this.switchPages),
+    ];
 };
 
 /**
@@ -31,7 +37,7 @@ MainPage.prototype.getContainer = function () {
         skin: new Skin({fill: "white", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                 var statusPage = new StatusPage($.window, page, page.switchPages);
+                 var statusPage = $.statusPage;// new StatusPage($.window, page, page.switchPages);
                  page.switchPages(statusPage);
             }}
         }),
@@ -49,7 +55,7 @@ MainPage.prototype.getContainer = function () {
         skin: new Skin({fill: "white", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                 var statusPage = new StatusPage($.window, page, page.switchPages);
+                 var statusPage = $.statusPage;// new StatusPage($.window, page, page.switchPages);
                  page.switchPages(statusPage);
             }}
         }),
@@ -78,11 +84,13 @@ MainPage.prototype.getContainer = function () {
 	        rootContainer.add(new HorizontalWindowButton({
 	            window: this.windows[i],
 	            string: this.windows[i].name,
+                statusPage: this.statusPages[i],
 	        }));
         } else {
 	        rootContainer.add(new VerticalWindowButton({
 	            window: this.windows[i],
 	            string: this.windows[i].name,
+                statuspage: this.statusPages[i],
         }));        
         
         }
