@@ -1,6 +1,7 @@
 //@program
 var THEME = require('themes/flat/theme');
 var BUTTONS = require("controls/buttons");
+var SLIDERS = require('controls/sliders');
 // var currentPage = new Page();
 // var nextPage = new EditPage(currentWindow, currentPage, switchPages);
 
