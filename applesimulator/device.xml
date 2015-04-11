@@ -1,0 +1,14 @@
+<device xmlns="http://www.kinoma.com/kpr/device/1" title="iOS Devices" id="com.marvell.kinoma.ios.devices" touch="multi" keyboard="true" module="main">
+    <variation id="iphone4" title="iPhone 4" icon="iphone4-simulator.png">
+        <mockup>
+            <background src="iphone4v.png" />
+            <screen x="50" y="134" width="320" height="480" />
+        </mockup>
+    </variation>
+    <variation id="ipad2" title="iPad 2" icon="ipad-simulator.png">
+        <mockup>
+            <background src="ipad2.png" />
+            <screen x="102" y="116" width="768" height="1024" />
+        </mockup>
+    </variation>
+</device>
