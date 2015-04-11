@@ -6,7 +6,7 @@ THEME.buttonSkin = new Skin({fill: "#00FFFFFF", borders:{left: 2, right:2, botto
 var BUTTONS = require('controls/buttons');
 
 var backSkin = new Skin({fill:"transparent"});
-var navBarSkin = new Skin({fill:"#774A8E"});
+var navBarSkin = new Skin({fill:"purple"});
 
 var navBarHeight = 35;
 
