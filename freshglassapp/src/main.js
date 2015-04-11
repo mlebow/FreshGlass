@@ -19,6 +19,22 @@ var switchPages = function(nextPage) {
 };
 
 //This does device discovery
+deviceURL = "";
+
+Handler.bind("/discover", Behavior({
+	onInvoke: function(handler, message){
+		deviceURL = JSON.parse(message.requestText).url;	
+		application.invoke(new Message("/pollDevice"));
+	},
+}));
+
+
+Handler.bind("/forget", Behavior({
+	onInvoke: function(handler, message){
+		deviceURL = "";
+	}
+}));
+
 var ApplicationBehavior = Behavior.template({
 	onDisplayed: function(application) {
 		application.discover("freshglassdevice");
@@ -28,6 +44,31 @@ var ApplicationBehavior = Behavior.template({
     },
 });
 application.behavior = new ApplicationBehavior();
+
+//Live polling of the device
+Handler.bind("/delay", {
+    onInvoke: function(handler, message){
+        handler.wait(100); //will call onComplete after 1 seconds
+    },
+    onComplete: function(handler, message){
+        handler.invoke(new Message("/pollDevice"));
+    }
+});
+
+
+Handler.bind("/pollDevice", Behavior({
+	onInvoke: function(handler, message){
+		handler.invoke(new Message(deviceURL + "update"), Message.JSON);
+	},
+	onComplete: function(handler, message, json){
+		statusLabel.string = json.status;
+		dogPresentLabel.string = json.dogPresent;
+		foodPresentLabel.string = json.foodPresent;
+        handler.invoke(new Message("/delay"));
+	}
+}));
+
+
 
 var mainPage = new MainPage(switchPages);
 switchPages(mainPage);

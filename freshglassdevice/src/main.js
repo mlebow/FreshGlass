@@ -4,15 +4,6 @@ var currTemp = -1;
 var currBrightness = -1; 
 var titleStyle = new Style( { font: "bold 20px", color:"green" } );
 
-var ApplicationBehavior = Behavior.template({
-	onLaunch: function(application) {
-		application.shared = true;
-	},
-	onQuit: function(application) {
-		application.shared = false;
-	},
-})
-
 Handler.bind("/gotBrightnessResult", Object.create(Behavior.prototype, {
 	onInvoke: { value: function( handler, message ){
         		var result = message.requestObject;  
@@ -106,6 +97,41 @@ TempContainer.behaviors[0] = Behavior.template({
 		currTemp = result;
 	},
 })
+
+
+//This is where communication with the iPhone App Begins
+var ApplicationBehavior = Behavior.template({
+	onLaunch: function(application) {
+		application.shared = true;
+	},
+	onQuit: function(application) {
+		application.shared = false;
+	},
+})
+
+
+
+//Handle Messages from the Phone
+
+//Send the phone updates about the sensor data
+Handler.bind("/update", Behavior({
+	onInvoke: function(handler, message){
+		message.responseText = JSON.stringify( { temp: currTemp, brighness: currBrightness } );
+		message.status = 200;
+	}
+}));
+
+
+
+
+
+
+
+
+
+
+
+
 application.add(new MainContainer());
 application.add(new BrightnessContainer());
 application.add(new TempContainer());
