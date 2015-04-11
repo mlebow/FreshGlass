@@ -197,6 +197,11 @@ EditPage.prototype.getContainer = function () {
     page.tabContainers.images = new ImagesTab();
     page.tabContainers.control = new ControlTab();
 
+    trace("PREPAREING TO ADD MAIN EDIT PAGE COLUMN\n");
+    trace(page.window.renderPreview() + "\n");
+    if (page.window.renderPreview() === null) {
+        trace("UH OHHHHHH\n");
+    }
     var rootColumn = new Column({
         top: 0, left: 0, bottom: 0, right: 0,
         skin: new Skin({fill: "#C2BAC6"}),

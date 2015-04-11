@@ -26,7 +26,7 @@ deviceURL = "";
 //This does device discovery
 Handler.bind("/discover", Behavior({
 	onInvoke: function(handler, message){
-		deviceURL = JSON.parse(message.requestText).url;	
+		deviceURL = JSON.parse(message.requestText).url;
 		application.invoke(new Message("/pollDevice"));
 	},
 }));
@@ -60,6 +60,7 @@ Handler.bind("/pollDevice", Behavior({
         mainPage.windows[0].temperature = json.temperature;
         mainPage.windows[0].brightness = json.brightness;
         mainPage.statusPages[0].updateContainerWithData();
+        mainPage.windows[0].updatePreview();
         //trace(mainPage.statusPages[0].container.temperatureLabel.string + "\n");
         handler.invoke(new Message("/delay"));
     }
