@@ -25,6 +25,14 @@ Window.prototype.updateSensorData = function (temperature, brightness) {
     this.brightness = brightness;
 };
 
+Window.prototype.clone = function () {
+    var clone = new Window(this.name);
+    clone.tint = this.tint;
+    clone.images = this.images;
+    clone.controls = this.controls;
+    return clone;
+};
+
 /**
  * Return a string representation of this window to send to the device.
  * TODO: implement

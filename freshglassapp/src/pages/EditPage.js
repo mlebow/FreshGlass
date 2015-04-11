@@ -19,13 +19,16 @@ var EditPage = function (window, previousPage, switchPages) {
         images: null,
         control: null
     }
+    this.windowCopy = this.window.clone();
 };
+
+var selectedSkin = new Skin({fill: "red"});
 
 EditPage.prototype.activateTab = function (tab) {
     this.tabContainers[this.currentTab].skin = new Skin({fill: "#00ffcc"});
     this.controlContainer.remove(this.controls[this.currentTab]);
     this.currentTab = tab;
-    this.tabContainers[this.currentTab].skin = new Skin({fill: "red"});
+    this.tabContainers[this.currentTab].skin = selectedSkin;
     this.controlContainer.add(this.controls[this.currentTab]);
 };
 
@@ -41,7 +44,7 @@ EditPage.prototype.getContainer = function () {
 
     var TintTab = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top: 0, bottom: 0,
-        skin: new Skin({fill: "#00ffcc"}),
+        skin: selectedSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                 page.activateTab("tint");
@@ -87,6 +90,23 @@ EditPage.prototype.getContainer = function () {
         ]
     };});
 
+    var AddImageButton = BUTTONS.Button.template(function ($) { return {
+        left: 5, width: 150, top: 5, bottom: 5,
+        skin: new Skin({fill: "#00ff1e"}),
+        behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
+            onTap: { value: function (button) {
+                trace("Add photo button does nothing for now.");
+            }}
+        }),
+        contents: [
+            new Label({
+                left: 0, right: 0, bottom: 0, top: 0,
+                style: new Style({color: "white"}),
+                string: "Add Image"
+            })
+        ]
+    };});
+
     var ControlTab = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top: 0, bottom: 0,
         skin: new Skin({fill: "#00ffcc"}),
@@ -105,7 +125,7 @@ EditPage.prototype.getContainer = function () {
     };});
 
     page.controls.tint = new TintSlider();
-    page.controls.images = new Container(); //TODO: change!
+    page.controls.images = new AddImageButton(); //TODO: change!
     page.controls.control = new Container(); //TODO: change!
 
     page.controlContainer = new Container({
@@ -123,6 +143,8 @@ EditPage.prototype.getContainer = function () {
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                 trace("Apply button does nothing for now.");
+                this.window = this.windowCopy;
+                //This function still needs to send a message to the device
             }}
         }),
         contents: [
@@ -156,7 +178,10 @@ EditPage.prototype.getContainer = function () {
         skin: new Skin({fill: "green"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                trace("Clear does nothing right now.");
+                //trace("Clear does nothing right now.");
+                this.window.tint = 0;
+                this.window.images = []
+                this.window.controls = null;
             }}
         }),
         contents: [
