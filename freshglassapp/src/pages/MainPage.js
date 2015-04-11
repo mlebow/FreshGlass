@@ -28,7 +28,7 @@ MainPage.prototype.getContainer = function () {
 
     var HorizontalWindowButton = BUTTONS.Button.template(function($) { return {
         left: 50, right: 50, top: 30, bottom: 30, 
-        skin: new Skin({fill: "white", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"}),
+        skin: new Skin({fill: "#80FFFFFF", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                  var statusPage = new StatusPage($.window, page, page.switchPages);
@@ -46,7 +46,7 @@ MainPage.prototype.getContainer = function () {
     
     var VerticalWindowButton = BUTTONS.Button.template(function($) { return {
         left: 250, right: 20, height: 200, top: 10, 
-        skin: new Skin({fill: "white", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"}),
+        skin: new Skin({fill: "#80FFFFFF", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                  var statusPage = new StatusPage($.window, page, page.switchPages);
