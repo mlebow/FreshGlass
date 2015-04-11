@@ -1,9 +1,13 @@
 // KPR Script file
 var THEME = require('themes/flat/theme');
+THEME.buttonStyle = new Style({ font: "20px"});
+THEME.buttonSkin = new Skin({fill: "#00FFFFFF", borders:{left: 2, right:2, bottom:2}, stroke:"black" })
+
+
 var BUTTONS = require('controls/buttons');
 
-var navBarSkin = new Skin({fill:"purple"});
 var backSkin = new Skin({fill:"transparent"});
+var navBarSkin = new Skin({fill:"#774A8E"});
 
 var navBarHeight = 35;
 
