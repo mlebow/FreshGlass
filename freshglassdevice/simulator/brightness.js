@@ -8,7 +8,7 @@ exports.configure = function (config) {
         header: {
             label: "Brightness of window",
             name: "Brightness of window",
-            iconVariant: PinsSimulators.SENSOR_GUAGE
+            iconVariant: PinsSimulators.SENSOR_SLIDER
         },
         axes: [
             new PinsSimulators.AnalogInputAxisDescription({
@@ -25,9 +25,10 @@ exports.configure = function (config) {
     });
 };
 
-exports.read = function () {
-    return this.pinsSimulator.delegate("getValue");
-};
+var read = exports.read = function() {
+	var axes = this.pinsSimulator.delegate("getValue");
+	return axes.brightness;
+}
 
 exports.write = function () {};
 
@@ -36,5 +37,5 @@ exports.close = function () {
 };
 
 exports.pins = {
-    weight: { type: "A2D" }
+    brightness: { type: "A2D" }
 };
