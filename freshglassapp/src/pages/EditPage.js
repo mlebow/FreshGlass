@@ -13,12 +13,20 @@ var EditPage = function (window, previousPage, switchPages) {
         images: null,
         control: null
     };
+    this.controlContainer = null;
+    this.controls = {
+        tint: null,
+        images: null,
+        control: null
+    }
 };
 
 EditPage.prototype.activateTab = function (tab) {
     this.tabContainers[this.currentTab].skin = new Skin({fill: "#00ffcc"});
+    this.controlContainer.remove(this.controls[this.currentTab]);
     this.currentTab = tab;
     this.tabContainers[this.currentTab].skin = new Skin({fill: "red"});
+    this.controlContainer.add(this.controls[this.currentTab]);
 };
 
 /**
@@ -96,14 +104,18 @@ EditPage.prototype.getContainer = function () {
         ]
     };});
 
+    page.controls.tint = new TintSlider();
+    page.controls.images = new Container(); //TODO: change!
+    page.controls.control = new Container(); //TODO: change!
 
-    var controlContainer = new Container({
+    page.controlContainer = new Container({
         left: 0, right: 0, height: 70,
         skin: new Skin({fill: "red"}),
         contents: [
-            new TintSlider()
+            page.controls.tint
         ],
     });
+
 
     var ApplyButton = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top: 0, bottom: 0,
@@ -173,7 +185,7 @@ EditPage.prototype.getContainer = function () {
                     page.tabContainers.control
                 ]
             }),
-            controlContainer,
+            page.controlContainer,
             new Container({
                 left: 0, right: 0, top: 0, bottom: 0,
                 contents: [
