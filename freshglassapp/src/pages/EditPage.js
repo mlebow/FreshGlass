@@ -18,7 +18,7 @@ var EditPage = function (window, previousPage, switchPages) {
         tint: null,
         images: null,
         control: null
-    }
+    };
     this.windowCopy = this.window.clone();
 };
 

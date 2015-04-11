@@ -10,6 +10,8 @@ var StatusPage = function (window, previousPage, switchPages) {
     this.previousPage = previousPage;
     this.switchPages = switchPages;
     this.container = null;
+    this.temperatureLabel = null;
+    this.brightnessLabel = null;
 };
 
 /**
@@ -23,16 +25,21 @@ StatusPage.prototype.getContainer = function () {
     // TODO: replace this with Michael's general header bar template
     var headerBar = new NavBar({ name: page.window.name, back: true, page: page });
 
-    var temperatureLabel = new Label({
+    this.temperatureLabel = new Label({
         left: 0, right: 0, height: 100,
-        style: new Style({color: "black", font: "27px Georgia"}),
+        style: new Style({color: "black", font: "25px Georgia"}),
         string: page.window.temperature + " F"
     });
 
-    var brightnessLabel = new Label({
+    this.brightnessLabel = new Label({
         left: 0, right: 0, height: 100,
-        style: new Style({color: "black", font: "27px Georgia"}),
+        style: new Style({color: "black", font: "25px Georgia"}),
         string: "Sunshine: " + (Math.floor(page.window.brightness * 100)) + "%"
+    });
+
+    var statusLine = new Line({
+        left: 0, right: 0, height: 100,
+        contents: [page.temperatureLabel, page.brightnessLabel]
     });
 
     var EditButton = BUTTONS.Button.template(function ($) { return {
@@ -75,10 +82,7 @@ StatusPage.prototype.getContainer = function () {
         skin: new Skin({fill: "#C2BAC6"}),
         contents: [
             headerBar,
-            new Line({
-                left: 0, right: 0, height: 100,
-                contents: [temperatureLabel, brightnessLabel]
-            }),
+            statusLine,
             new Container({
                 left: 0, right: 0, top: 0, bottom: 0,
                 contents: [
@@ -103,7 +107,11 @@ StatusPage.prototype.getContainer = function () {
 
 
 StatusPage.prototype.updateContainerWithData = function() {
-    // nothing for now
+    //trace(this.window.temperature + " F\n");
+    if (this.container !== null) {
+        this.temperatureLabel.string = this.window.temperature.toString().substring( 0, 4 ) + " F";
+        this.brightnessLabel.string = "Sunshine: " + (Math.floor(this.window.brightness * 100)).toString().substring( 0, 4 ) + "%";
+    }
 };
 
 module.exports = StatusPage;

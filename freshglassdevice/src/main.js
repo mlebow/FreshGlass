@@ -43,19 +43,7 @@ application.invoke( new MessageWithObject( "pins:configure", {
     	pins: {
     		temperature: { pin: 48 }
         }
-    }, 
-    upSensor: {
-    	require: "up",
-    	pins: {
-    		up: { pin: 46 }
-        }
     },
-    downSensor: {
-    	require: "down",
-    	pins: {
-    		down: { pin: 48 }
-        }
-    }, 
 }));
 
 /* Use the initialized brightnessSensor object and repeatedly 
@@ -118,6 +106,32 @@ TempContainer.behaviors[0] = Behavior.template({
 		currTemp = result;
 	},
 })
+
+
+//This is where communication with the iPhone App Begins
+var ApplicationBehavior = Behavior.template({
+	onLaunch: function(application) {
+		application.shared = true;
+	},
+	onQuit: function(application) {
+		application.shared = false;
+	},
+})
+
+
+
+//Handle Messages from the Phone
+
+//Send the phone updates about the sensor data
+Handler.bind("/update", Behavior({
+	onInvoke: function(handler, message){
+		message.responseText = JSON.stringify( { temperature: currTemp, brightness: currBrightness } );
+		message.status = 200;
+	}
+}));
+
+
+
 
 application.add(new MainContainer());
 application.add(new BrightnessContainer());
