@@ -62,8 +62,8 @@ Handler.bind("/pollDevice", Behavior({
 	},
 	onComplete: function(handler, message, json){
 		statusLabel.string = json.status;
-		dogPresentLabel.string = json.dogPresent;
-		foodPresentLabel.string = json.foodPresent;
+		//From Lebow's IPA3 for reference: foodPresentLabel.string = json.foodPresent;
+        //Update the window information
         handler.invoke(new Message("/delay"));
 	}
 }));
