@@ -1,19 +1,19 @@
-// This is a BLL which represents a button simulator for the up control. 
+// This is a BLL which represents a button simulator for the down control. 
 
 var PinsSimulators = require('PinsSimulators');
 
 exports.configure = function (config) {
     this.pinsSimulator = shell.delegate("addSimulatorPart", {
         header: {
-            label: "Up Button",
+            label: "Down Button",
             name: "",
             iconVariant: PinsSimulators.SENSOR_BUTTON
         },
         axes: [
             new PinsSimulators.DigitalInputAxisDescription({
                 ioType: "input",
-                valueLabel : "Up Button",
-                valueID : "up",
+                valueLabel : "Down Button",
+                valueID : "down",
                 defaultControl: PinsSimulators.BOTTON
             }),
         ]
@@ -22,7 +22,7 @@ exports.configure = function (config) {
 
 var read = exports.read = function() {
 	var axes = this.pinsSimulator.delegate("getValue");
-	return axes.up;
+	return axes.down;
 }
 
 exports.write = function () {};
@@ -32,5 +32,5 @@ exports.close = function () {
 };
 
 exports.pins = {
-    up: { type: "A2D" }
+    down: { type: "A2D" }
 };
