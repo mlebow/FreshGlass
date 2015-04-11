@@ -18,9 +18,12 @@ var switchPages = function(nextPage) {
     }
 };
 
-//This does device discovery
+
+//Globals
+var mainPage = new MainPage(switchPages);
 deviceURL = "";
 
+//This does device discovery
 Handler.bind("/discover", Behavior({
 	onInvoke: function(handler, message){
 		deviceURL = JSON.parse(message.requestText).url;	
@@ -46,6 +49,22 @@ var ApplicationBehavior = Behavior.template({
 application.behavior = new ApplicationBehavior();
 
 //Live polling of the device
+Handler.bind("/pollDevice", Behavior({
+    onInvoke: function(handler, message){
+        handler.invoke(new Message(deviceURL + "update"), Message.JSON);
+    },
+    onComplete: function(handler, message, json){
+        //From Lebow's IPA3 for reference: foodPresentLabel.string = json.foodPresent;
+        //Update the window information
+        //One window is hard-coded right now
+        mainPage.windows[0].temperature = json.temperature;
+        mainPage.windows[0].brightness = json.brightness;
+        mainPage.statusPages[0].updateContainerWithData();
+        //trace(mainPage.statusPages[0].container.temperatureLabel.string + "\n");
+        handler.invoke(new Message("/delay"));
+    }
+}));
+
 Handler.bind("/delay", {
     onInvoke: function(handler, message){
         handler.wait(100); //will call onComplete after 1 seconds
@@ -56,19 +75,7 @@ Handler.bind("/delay", {
 });
 
 
-Handler.bind("/pollDevice", Behavior({
-	onInvoke: function(handler, message){
-		handler.invoke(new Message(deviceURL + "update"), Message.JSON);
-	},
-	onComplete: function(handler, message, json){
-		statusLabel.string = json.status;
-		//From Lebow's IPA3 for reference: foodPresentLabel.string = json.foodPresent;
-        //Update the window information
-        handler.invoke(new Message("/delay"));
-	}
-}));
 
 
 
-var mainPage = new MainPage(switchPages);
 switchPages(mainPage);

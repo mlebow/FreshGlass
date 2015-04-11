@@ -16,6 +16,12 @@ var MainPage = function (switchPages) {
         new Window("Window 2"),
         new Window("Window 3")
     ];
+
+    this.statusPages = [
+        new StatusPage(this.windows[0], this, this.switchPages),
+        new StatusPage(this.windows[1], this, this.switchPages),
+        new StatusPage(this.windows[2], this, this.switchPages),
+    ];
 };
 
 /**
@@ -27,11 +33,11 @@ MainPage.prototype.getContainer = function () {
     var page = this;
 
     var HorizontalWindowButton = BUTTONS.Button.template(function($) { return {
-        left: 50, right: 50, height: 40, top: 50,
-        skin: new Skin({fill: "white", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"}),
+        left: 50, right: 50, top: 30, bottom: 30, 
+        skin: new Skin({fill: "#80FFFFFF", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                 var statusPage = new StatusPage($.window, page, page.switchPages);
+                 var statusPage = $.statusPage;// new StatusPage($.window, page, page.switchPages);
                  page.switchPages(statusPage);
             }}
         }),
@@ -45,11 +51,11 @@ MainPage.prototype.getContainer = function () {
     };});
     
     var VerticalWindowButton = BUTTONS.Button.template(function($) { return {
-        left: 250, right: 20, height: 200, top: 60, 
-        skin: new Skin({fill: "white", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"}),
+        left: 250, right: 20, height: 200, top: 10, 
+        skin: new Skin({fill: "#80FFFFFF", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                 var statusPage = new StatusPage($.window, page, page.switchPages);
+                 var statusPage = $.statusPage;// new StatusPage($.window, page, page.switchPages);
                  page.switchPages(statusPage);
             }}
         }),
@@ -78,11 +84,13 @@ MainPage.prototype.getContainer = function () {
 	        rootContainer.add(new HorizontalWindowButton({
 	            window: this.windows[i],
 	            string: this.windows[i].name,
+                statusPage: this.statusPages[i],
 	        }));
         } else {
 	        rootContainer.add(new VerticalWindowButton({
 	            window: this.windows[i],
 	            string: this.windows[i].name,
+                statuspage: this.statusPages[i],
         }));        
         
         }

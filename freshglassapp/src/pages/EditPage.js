@@ -22,10 +22,11 @@ var EditPage = function (window, previousPage, switchPages) {
     this.windowCopy = this.window.clone();
 };
 
-var selectedSkin = new Skin({fill: "red"});
+var selectedSkin = new Skin({fill: "#C2BAC6", borders:{left:2, right:2, top:2}, stroke:"black"});
+
 
 EditPage.prototype.activateTab = function (tab) {
-    this.tabContainers[this.currentTab].skin = new Skin({fill: "#00ffcc"});
+    this.tabContainers[this.currentTab].skin = new Skin({fill: "#00ffcc", borders:{bottom:2}, stroke: "black"});
     this.controlContainer.remove(this.controls[this.currentTab]);
     this.currentTab = tab;
     this.tabContainers[this.currentTab].skin = selectedSkin;
@@ -75,7 +76,7 @@ EditPage.prototype.getContainer = function () {
 
     var ImagesTab = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top: 0, bottom: 0,
-        skin: new Skin({fill: "#00ffcc"}),
+        skin: new Skin({fill: "#00ffcc", borders:{bottom:2}, stroke: "black" }),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                 page.activateTab("images");
@@ -109,7 +110,7 @@ EditPage.prototype.getContainer = function () {
 
     var ControlTab = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top: 0, bottom: 0,
-        skin: new Skin({fill: "#00ffcc"}),
+        skin: new Skin({fill: "#00ffcc", borders:{bottom:2}, stroke: "black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                 page.activateTab("control");
@@ -130,7 +131,7 @@ EditPage.prototype.getContainer = function () {
 
     page.controlContainer = new Container({
         left: 0, right: 0, height: 70,
-        skin: new Skin({fill: "red"}),
+        skin: new Skin({fill: "#C2BAC6"}),
         contents: [
             page.controls.tint
         ],
@@ -198,7 +199,7 @@ EditPage.prototype.getContainer = function () {
 
     var rootColumn = new Column({
         top: 0, left: 0, bottom: 0, right: 0,
-        skin: new Skin({fill: "purple"}),
+        skin: new Skin({fill: "#C2BAC6"}),
         contents: [
             headerBar,
             new Line({

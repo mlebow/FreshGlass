@@ -47,7 +47,7 @@ Window.prototype.serialize = function () {
  */
 Window.prototype.renderPreview = function () {
     return new Container({
-        height: 300, width: 250, bottom: 50, 
+        height: 200, width: 200, bottom: 50, 
         skin: new Skin({fill: "white", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"}),
         contents: [
             new Label({
