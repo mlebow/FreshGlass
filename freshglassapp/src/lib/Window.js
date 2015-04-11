@@ -12,6 +12,7 @@ var Window = function (name) {
         // {url: "...", top: 0, left: 0, scale: 0.5}
     ];
     this.controls = null; // TODO: implement this!
+    this.statusPage = null;
     // NOTE: size is hardcoded (v2.0 feature)
 };
 

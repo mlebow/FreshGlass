@@ -12,6 +12,7 @@ var StatusPage = function (window, previousPage, switchPages) {
     this.container = null;
     this.temperatureLabel = null;
     this.brightnessLabel = null;
+    this.window.statusPage = this;
 };
 
 /**
