@@ -72,7 +72,7 @@ StatusPage.prototype.getContainer = function () {
 
     var rootColumn = new Column({
         top: 0, left: 0, bottom: 0, right: 0,
-        skin: new Skin({fill: "#774A8E"}),
+        skin: new Skin({fill: "#C2BAC6"}),
         contents: [
             headerBar,
             new Line({
