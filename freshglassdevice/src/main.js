@@ -43,19 +43,7 @@ application.invoke( new MessageWithObject( "pins:configure", {
     	pins: {
     		temperature: { pin: 48 }
         }
-    }, 
-    upSensor: {
-    	require: "up",
-    	pins: {
-    		up: { pin: 46 }
-        }
     },
-    downSensor: {
-    	require: "down",
-    	pins: {
-    		down: { pin: 48 }
-        }
-    }, 
 }));
 
 /* Use the initialized brightnessSensor object and repeatedly 
