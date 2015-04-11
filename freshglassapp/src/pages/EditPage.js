@@ -22,11 +22,16 @@ var EditPage = function (window, previousPage, switchPages) {
     this.windowCopy = this.window.clone();
 };
 
-var selectedSkin = new Skin({fill: "#C2BAC6", borders:{left:2, right:2, top:2}, stroke:"black"});
+var selectedSkin = new Skin({fill: "#C2BAC6", borders:{right:2, left:2, top:2}, stroke:"black"});
+var selectedSkin2 = new Skin({fill: "#C2BAC6", borders:{right:2, top:2}, stroke:"black"});
+var selectedSkin3 = new Skin({fill: "#C2BAC6", borders:{left:2, top:2}, stroke:"black"});
+
+var imagesSkin = new Skin({fill: "#C2BAC6", borders:{bottom:2, right:2}, stroke: "black"});
+var controlSkin = new Skin({fill: "#C2BAC6", borders:{bottom:2}, stroke:"black"});
 
 
 EditPage.prototype.activateTab = function (tab) {
-    this.tabContainers[this.currentTab].skin = new Skin({fill: "#00ffcc", borders:{bottom:2}, stroke: "black"});
+    this.tabContainers[this.currentTab].skin = imagesSkin;
     this.controlContainer.remove(this.controls[this.currentTab]);
     this.currentTab = tab;
     this.tabContainers[this.currentTab].skin = selectedSkin;
@@ -76,7 +81,7 @@ EditPage.prototype.getContainer = function () {
 
     var ImagesTab = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top: 0, bottom: 0,
-        skin: new Skin({fill: "#00ffcc", borders:{bottom:2}, stroke: "black" }),
+        skin: imagesSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                 page.activateTab("images");
@@ -110,7 +115,7 @@ EditPage.prototype.getContainer = function () {
 
     var ControlTab = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top: 0, bottom: 0,
-        skin: new Skin({fill: "#00ffcc", borders:{bottom:2}, stroke: "black"}),
+        skin: controlSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                 page.activateTab("control");
