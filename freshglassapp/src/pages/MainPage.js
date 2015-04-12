@@ -24,6 +24,9 @@ var MainPage = function (switchPages) {
     ];
 };
 
+var buttonSkin = new Skin({fill: "#80FFFFFF", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"});
+var labelStyle = new Style({ color: 'black', font: "30px Georgia", horizontal: 'center', vertical: 'middle', });
+
 /**
  * Return the kinoma Container which will be added to the application when this
  * page becomes active.
@@ -34,17 +37,17 @@ MainPage.prototype.getContainer = function () {
 
     var HorizontalWindowButton = BUTTONS.Button.template(function($) { return {
         left: 50, right: 50, top: 30, bottom: 30, 
-        skin: new Skin({fill: "#80FFFFFF", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"}),
+        skin: buttonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                  var statusPage = $.statusPage;// new StatusPage($.window, page, page.switchPages);
                  page.switchPages(statusPage);
-            }}
+            }},   
         }),
         contents: [
             new Label({
                 top: 0, left: 0, bottom: 0, right: 0,
-                style: new Style({color: "black", font: "30px Georgia"}),
+                style: labelStyle,
                 string: $.string
             })
         ]
@@ -52,20 +55,26 @@ MainPage.prototype.getContainer = function () {
     
     var VerticalWindowButton = BUTTONS.Button.template(function($) { return {
         left: 250, right: 20, height: 200, top: 10, 
-        skin: new Skin({fill: "#80FFFFFF", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"}),
+        skin: buttonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                  var statusPage = $.statusPage;// new StatusPage($.window, page, page.switchPages);
                  page.switchPages(statusPage);
-            }}
+            }},
+            
+            onDisplaying: {value: function(button) {
+            	//trace("onDisplaying\n");
+            	var string = $.string;
+		        var size = labelStyle.measure(string);
+		        var label = new Label( { left: 0, right: 0, top: 0, bottom: 0}, undefined, labelStyle, string );
+		        var layer = new Layer( { width:button.height, height:size.height, opacity:0.9 });
+		        layer.add( label );
+		        layer.origin = { x:115, y:30 };//hard coded the origin, no idea what it means... but it works, kinda
+		        layer.rotation = -90;
+		        button.add(layer);
+            }},
         }),
-        contents: [
-            new Label({
-                top: 0, left: 0, bottom: 0, right: 0,
-                style: new Style({color: "black", font: "30px Georgia"}),
-                string: $.string
-            })
-        ]
+        contents: []
     };});    
 
     var navBar = new NavBar({name:"Fresh Glass", back: false, page: page});
