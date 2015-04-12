@@ -6,12 +6,12 @@ THEME.buttonSkin = new Skin({fill: "#00FFFFFF", borders:{left: 2, right:2, botto
 var BUTTONS = require('controls/buttons');
 
 var backSkin = new Skin({fill:"transparent"});
-var navBarSkin = new Skin({fill:"#774A8E"});
+var navBarSkin = new Skin({fill:"white"});
 
 var navBarHeight = 35;
 
-var windowNameStyle = new Style({font:"bold 25px", color:"white"});
-var backStyle = new Style({font:"15", color:"white"});
+var windowNameStyle = new Style({font:"bold 25px", color:"black"});
+var backStyle = new Style({font:"15", color:"black"});
 
 var BackButtonTemplate = BUTTONS.Button.template(function($){ return {
 	left:0, bottom:0, width:60, height:navBarHeight, skin: backSkin,
