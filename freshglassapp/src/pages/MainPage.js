@@ -5,6 +5,7 @@ var Window = require("lib/Window");
 var NavBar = require("lib/NavBar");
 
 var StatusPage = require("pages/StatusPage");
+var PresetsPage = require("pages/PresetsPage");
 
 var red = "#DB4C3F";
 var blue = "#4682EA";
@@ -35,6 +36,7 @@ var MainPage = function (switchPages) {
 var buttonSkin = new Skin({fill: "#80FFFFFF", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"});
 var rootSkin = new Skin({fill: "#dddddd"}); //root container's color
 var labelStyle = new Style({ color: 'black', font: "30px Georgia", horizontal: 'center', vertical: 'middle', });
+var presetsButtonSkin = new Skin({fill: "green", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"});
 
 /**
  * Return the kinoma Container which will be added to the application when this
@@ -43,9 +45,10 @@ var labelStyle = new Style({ color: 'black', font: "30px Georgia", horizontal: '
 MainPage.prototype.getContainer = function () {
     if (this.container) { return this.container; }
     var page = this;
-
+	
+	//changed to top, bottom to 20 after adding the presets button at the bottom of the screen
     var HorizontalWindowButton = BUTTONS.Button.template(function($) { return {
-        left: 50, right: 50, top: 30, bottom: 30,
+        left: 50, right: 50, top: 20, bottom: 20,
         skin: buttonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -84,7 +87,25 @@ MainPage.prototype.getContainer = function () {
             }},
         }),
         contents: []
-    };});    
+    };});
+
+    var PresetsButton = BUTTONS.Button.template(function ($) { return {
+         left: 0, right: 0, top:0, bottom: 0,
+         skin: presetsButtonSkin,
+         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
+             onTap: { value: function (button) {
+                  var presetsPage = new PresetsPage($.window, page, page.switchPages);
+                  page.switchPages(presetsPage);
+             }}
+         }),
+         contents: [
+             new Label({
+                 left: 0, right: 0, bottom: 0, top: 0,
+                 style: new Style({color: "white"}),
+                 string: "Presets"
+             })
+         ]
+     };});    
 
     var navBar = new NavBar({name:"Fresh Glass", back: false, home: true, borders: true, page: page});
 
@@ -113,6 +134,10 @@ MainPage.prototype.getContainer = function () {
         
         }
     }
+
+    rootContainer.add(new PresetsButton({
+        window: this.windows[2], //hardcode 
+    }));
 
     this.container = rootContainer;
     return this.container; // TODO: implement

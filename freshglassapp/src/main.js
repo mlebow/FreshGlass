@@ -14,7 +14,7 @@ var switchPages = function(nextPage) {
             application.remove(currentPage.getContainer());
         }
         currentPage = nextPage;
-        if (nextPage.onNavigatedTo) {
+        if (nextPage.onNavigatedTo == "function") {
             nextPage.onNavigatedTo();
         }
         application.add(nextPage.getContainer());
@@ -52,7 +52,7 @@ Handler.bind("/discover", Object.create(Behavior.prototype, {
 
 Handler.bind("/forget", Object.create(Behavior.prototype, {
     onInvoke: { value: function(handler, message) {
-        trace("\n/forget\n");
+       //trace("\n/forget\n");
         var discovery = JSON.parse(message.requestText);
         var uuid = discovery.uuid;
         if (uuid in devicesTable) {
