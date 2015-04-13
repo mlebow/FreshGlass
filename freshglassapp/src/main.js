@@ -70,28 +70,31 @@ Handler.bind("/forget", Object.create(Behavior.prototype, {
 Handler.bind("/pollDevice", Behavior({
     onInvoke: function(handler, message){
         var device = devices[index];
-        var message = device.createMessage("update", { uuid: device.uuid});
-        handler.invoke(message, Message.JSON);
+        var windowsJSON = [];
+        for (var i = 0; i < mainPage.windows.length; i++) {
+            windowsJSON.push(mainPage.windows[i].serialize());
+        }
+        var deviceMessage = device.createMessage("update", { uuid: device.uuid, windowsJSON: JSON.stringify(windowsJSON)});
+        handler.invoke(deviceMessage, Message.JSON);
     },
     onComplete: function(handler, message, json){
         //Update the window information
         if (json) {
-        	mainPage.windows[index].temperature = json.temperature;
-        	mainPage.windows[index].brightness = json.brightness;
-        	mainPage.statusPages[index].updateContainerWithData();
-        	index += 1;
+            mainPage.windows[index].temperature = json.temperature;
+            mainPage.windows[index].brightness = json.brightness;
+            mainPage.statusPages[index].updateContainerWithData();
+            index += 1;
         
-        	//to pollDevice for each launched device
-        	if (index == (devices.length)){
-        	    index = 0;//reset index to 0
-        	    handler.invoke(new Message("/delay"));
-        	} else{
-        	    handler.invoke(new Message("/pollDevice"));
-        	}
+            //to pollDevice for each launched device
+            if (index == (devices.length)) {
+                index = 0;//reset index to 0
+                handler.invoke(new Message("/delay"));
+            } else{
+                handler.invoke(new Message("/pollDevice"));
+            }
         }
     }
 }));
-
 
 Handler.bind("/delay", {
     onInvoke: function(handler, message){
@@ -101,7 +104,6 @@ Handler.bind("/delay", {
         handler.invoke(new Message("/pollDevice"));
     }
 });
-
 
 //Device object for each launched device 
 var Device = function(discovery) {

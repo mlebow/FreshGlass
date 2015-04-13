@@ -2,6 +2,7 @@
 var NavBar = require("lib/NavBar");
 var CameraRoll = require("pages/CameraRoll");
 var SLIDERS = require('controls/sliders');
+var Window = require('lib/Window');
 
 var EditPage = function (window, previousPage, switchPages) {
     this.window = window;
@@ -26,6 +27,11 @@ var EditPage = function (window, previousPage, switchPages) {
         images: null,
         control: null
     };
+    this.directional = {
+    	tint: null, 
+    	images: null, 
+    	control: null
+    }
 
     this.windowCopy = this.window.clone();
 };
@@ -41,9 +47,11 @@ var applyButtonSkin = new Skin({fill: green, stroke:"black"});
 var cancelButtonSkin = new Skin({fill: blue, stroke:"black"});
 var clearButtonSkin = new Skin({fill: red, stroke:"black"});
 
-var uri = mergeURI(application.url, "images/applyicon.png");
-var applyIcon = new Picture({url: uri});
+var applyuri = mergeURI(application.url, "images/applyicon.png");
+var applyIcon = new Picture({url: applyuri});
 
+var controluri = mergeURI(application.url, "images/controlbutton.png");
+var controlwithlabeluri = mergeURI(application.url, "images/controlbuttonwithlabel.png");
 
 var imagesSkin = new Skin({fill: blue, borders:{bottom:4, right:2}, stroke: "black"});
 var controlSkin = new Skin({fill: green, borders:{bottom:4}, stroke:"black"});
@@ -61,6 +69,8 @@ var unselectedImagesSkin = new Skin({fill: green, borders:{bottom:4, top: 2, rig
 var unselectedControlSkin = new Skin({fill: red, borders:{bottom:4, top: 2}, stroke:"black"});
 
 var unselectedStyle = new Style({color: "white", font: "20px Lucinda Grande"});
+var controlLabelStyle = new Style({color: "black", font: "14px Lucinda Grande"});
+
 var selectedStyle = new Style({color: "white", font: "bold 28px Lucinda Grande"});
 
 var tintRightBorderSkin = new Skin({fill: blue, borders:{right:2, bottom: 4, top: 2}, stroke:"black"});
@@ -81,7 +91,9 @@ EditPage.prototype.activateTab = function (tab) {
 	this.tabContainers["tint"].first.style = unselectedStyle;
 
     this.controlContainer.remove(this.controls[this.currentTab]);
+    
     this.currentTab = tab;
+    
     this.controlContainer.add(this.controls[this.currentTab]);
     
     if (this.currentTab == "tint") {
@@ -196,13 +208,30 @@ EditPage.prototype.getContainer = function () {
                 left: 0, right: 0, bottom: 0, top: 0,
                 style: unselectedStyle,
                 string: "Control"
-            })
+            }), 
         ]
     };});
-
+    
+      
+     var controlButton = BUTTONS.Button.template(function ($) { return {
+        left: 0, right: 0, top: 0, height: 80,
+        skin: controlContainerSkin,
+        behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
+            onTap: { value: function (button) {
+				trace("control button pressed - ADD CONTROLS")
+                page.windowCopy.addImage(controluri, 130, 130, 25, 25);				
+	
+            }}
+        }),
+        contents: [
+        	new Picture({right: 160, left: 5, width: 100, height:70, url: controlwithlabeluri}),
+        ]
+    };});
+    
     page.controls.tint = new TintSlider();
     page.controls.images = new AddImageButton(page); //TODO: change!
-    page.controls.control = new Container(); //TODO: change!
+    page.controls.control = new controlButton(); //TODO: change!
+
 
     page.controlContainer = new Container({
         left: 0, right: 0, height: 50,
@@ -211,6 +240,8 @@ EditPage.prototype.getContainer = function () {
             page.controls.tint
         ],
     });
+    
+
 
     var ApplyButton = BUTTONS.Button.template(function ($) { return {
         left: 10, right: 5, top: 0, height: 35,
@@ -249,6 +280,7 @@ EditPage.prototype.getContainer = function () {
         ]
     };});
 
+    
     var ClearButton = BUTTONS.Button.template(function ($) { return {
         left: 10, right: 10, top: 0, height: 35,
         skin: clearButtonSkin,

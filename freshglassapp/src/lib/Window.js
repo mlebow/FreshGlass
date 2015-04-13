@@ -11,7 +11,7 @@ var Window = function (name) {
     this.images = [
         // {url: "...", top: 0, left: 0, width: 10, height: 10}
     ];
-    this.controls = null; // TODO: implement this!
+    this.controls = []; // TODO: implement this!
     this.statusPage = null;
     // NOTE: size is hardcoded (v2.0 feature)
     this.preview = null; // kinoma container for window preview that will be used on multiple pages
@@ -49,6 +49,7 @@ Window.prototype.addImage = function (url, x, y, height, width) {
     this.updatePreview();
 };
 
+
 /**
  * Update the window to store the data from the kinoma create pins.
  * @param  {float} temperature
@@ -81,10 +82,27 @@ Window.prototype.updateFrom = function (window) {
 
 /**
  * Return a string representation of this window to send to the device.
- * TODO: implement
  */
 Window.prototype.serialize = function () {
-    return JSON.stringify({});
+    return JSON.stringify({
+        name: this.name,
+        tint: this.tint,
+        images: this.images,
+        controls: this.controls // WARNING: this assumes whatever we store in controls is valid JSON
+    });
+};
+
+/**
+ * Given a string representation of a window as returned from Window.prototype.serialize,
+ * return an actual copy of the window it represents.
+ */
+Window.deserialize = function (data) {
+    var obj = JSON.parse(data);
+    var window = new Window(obj.name);
+    window.tint = obj.tint;
+    window.images = obj.images;
+    window.controls = obj.controls;
+    return window;
 };
 
 /**
@@ -125,12 +143,15 @@ Window.prototype.updatePreviewImages = function() {
             left: window.images[i].x
         }));
     }
+
 };
 
 /**
  * @return {Container} a kinoma Container object representing the preview of the window.
  */
-Window.prototype.renderPreview = function () {
+Window.prototype.renderPreview = function (height, width) {
+    height = height || Window.PREVIEW_HEIGHT;
+    width = width || Window.PREVIEW_WIDTH;
     if (this.preview !== null) {
         if (this.preview.container) {
             this.preview.container.remove(this.preview);
@@ -141,7 +162,7 @@ Window.prototype.renderPreview = function () {
     var window = this;
 
     var preview = new Container({
-        height: Window.PREVIEW_HEIGHT, width: Window.PREVIEW_WIDTH,
+        height: height, width: width,
         skin: new Skin({
             borders: {left:3, right:3, top:3, bottom:3},
             stroke:"black"

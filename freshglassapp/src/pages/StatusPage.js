@@ -1,6 +1,7 @@
 //@module
 var THEME = require('themes/flat/theme'); // required for BUTTONS to work???
 var BUTTONS = require("controls/buttons");
+var Window = require('lib/Window');
 
 var EditPage = require("pages/EditPage");
 var NavBar = require("lib/NavBar");
