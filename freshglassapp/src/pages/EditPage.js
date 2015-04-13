@@ -135,7 +135,7 @@ EditPage.prototype.getContainer = function () {
     };});
 
     var TintSlider = SLIDERS.HorizontalSlider.template(function($){ return{
-        left: 0, right: 0, top: 0, bottom: 0,
+        left: 0, right: 0, top: 0, bottom: 0, 
         behavior: Object.create(SLIDERS.HorizontalSliderBehavior.prototype, {
             onCreate: { value : function(container) {
                 this.data = {min:0, max:1, value: page.window.tint};
