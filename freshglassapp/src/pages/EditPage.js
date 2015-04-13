@@ -253,9 +253,12 @@ EditPage.prototype.getContainer = function () {
         skin: clearButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                //this.window.tint = 0;
-                this.window.images = [];
-                this.window.controls = null;
+                page.controls.tint.behavior.data.value = 0;
+                page.windowCopy.tint = 0;
+                page.windowCopy.images = [];
+                page.windowCopy.controls = null;
+                page.controls.tint.behavior.onValueChanged();
+                page.controls.tint.behavior.onLayoutChanged(page.controls.tint);
             }}
         }),
         contents: [
