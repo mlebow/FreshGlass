@@ -19,6 +19,7 @@ var Window = function (name) {
 Window.HEX_TINT = "94895f"; // the hex code for the color that the window gets tinted
 Window.PREVIEW_WIDTH = 200;
 Window.PREVIEW_HEIGHT = 200;
+Window.currentImageId = 0;
 
 /**
  * Return a hex code of the form "#AARRGGBB" where RRGGBB is Window.HEX_TINT and
@@ -37,16 +38,38 @@ Window.prototype.getTintHexCode = function () {
  * @param {float} scale  between 0 and 1, the scale of the image
  * @param {int} x        the x position, in pixels
  * @param {int} y        the y position, in pixels
+ * @return {int}         the unique ID of the image for use with getImageByID
  */
 Window.prototype.addImage = function (url, x, y, height, width) {
+    var newID = Window.currentImageId;
     this.images.push({
         url: url,
         x: x,
         y: y,
         height: height,
-        width: width
+        width: width,
+        id: newID
     });
     this.updatePreview();
+    Window.currentImageId++;
+    return newID;
+};
+
+/**
+ * Return the image of this window specified by the given id, or null if no
+ * image found with that id. For example:
+ *
+ * var imageID = this.window.addImage(...);
+ * this.window.getImageByID(imageID).x = 50;
+ * this.window.updatePreview();
+ */
+Window.prototype.getImageByID = function(id) {
+    for (var i = 0; i < this.images.length; i++) {
+        if (this.images[i].id === id) {
+            return this.images[i];
+        }
+    }
+    return null;
 };
 
 Window.prototype.addControl = function (url, x, y, height, width) {
