@@ -111,7 +111,7 @@ StatusPage.prototype.getContainer = function () {
     });
 
     var statusContainer = new Container({
-        left: 0, right: 0, height: 100,
+        top: 5, left: 0, right: 0, height: 100,
         contents: [
            this.sunIcon,
            this.thermometer,
