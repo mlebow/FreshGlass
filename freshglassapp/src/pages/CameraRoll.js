@@ -84,7 +84,7 @@ CameraRoll.prototype.getContainer = function () {
         	contents: [
             	new Label({
                 	left: 0, right: 0, bottom: 0, top: 0,
-                	style: new Style({color: "white"}),
+                	style: new Style({color: "white", font: "Helvetica Neue"}),
                 	string: "Insert",
             	})
         	]
