@@ -166,7 +166,7 @@ EditPage.prototype.getContainer = function () {
     };});
 
     var AddImageButton = BUTTONS.Button.template(function ($) { return {
-        left: 5, width: 150, top: 5, bottom: 5,
+        left: 10, width: 150, top: 10, bottom: 5,
         skin: addImageSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
