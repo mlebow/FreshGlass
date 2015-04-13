@@ -111,7 +111,7 @@ Window.prototype.updatePreviewImages = function() {
     this.preview.empty();
 
     this.preview.add(new Container({
-        top: 0, bottom: 0, left: 0, right: 0,
+        top: 3, bottom: 3, left: 3, right: 3, // for borders
         skin: new Skin({fill: window.getTintHexCode()}),
     }));
 
