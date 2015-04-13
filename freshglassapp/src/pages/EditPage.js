@@ -29,9 +29,16 @@ var EditPage = function (window, previousPage, switchPages) {
     this.windowCopy = this.window.clone();
 };
 
-var applyButtonSkin = new Skin({fill: "white", borders:{right:2, left:2, bottom: 2, top:2}, stroke:"black"});
-var cancelButtonSkin = new Skin({fill: "white", borders:{right:2, bottom: 2, top:2}, stroke:"black"});
-var clearButtonSkin = new Skin({fill: "white", borders:{right:2, left:2, bottom: 2}, stroke:"black"});
+var red = "#DB4C3F";
+var blue = "#4682EA";
+var yellow = "#FDBA35";
+var green = "#67AF4B";
+var purple = "AF6DC5";
+var darkBlue = "#43489B";
+
+var applyButtonSkin = new Skin({fill: green, stroke:"black"});
+var cancelButtonSkin = new Skin({fill: blue, stroke:"black"});
+var clearButtonSkin = new Skin({fill: red, stroke:"black"});
 
 var uri = mergeURI(application.url, "images/applyicon.png");
 var applyIcon = new Picture({url: uri});
@@ -40,16 +47,9 @@ var applyIcon = new Picture({url: uri});
 var imagesSkin = new Skin({fill: blue, borders:{bottom:4, right:2}, stroke: "black"});
 var controlSkin = new Skin({fill: green, borders:{bottom:4}, stroke:"black"});
 
-var red = "#DB4C3F";
-var blue = "#4682EA";
-var yellow = "#FDBA35";
-var green = "#67AF4B";
-var purple = "#AF6DC5";
-var darkBlue = "#43489B";
-
-var tintContainerSkin = new Skin({fill: blue});
-var imagesContainerSkin = new Skin({fill: green});
-var controlContainerSkin = new Skin({fill: red});
+var tintContainerSkin = new Skin({fill: "#dddddd"});
+var imagesContainerSkin = new Skin({fill: "#dddddd"});
+var controlContainerSkin = new Skin({fill: "#dddddd"});
 
 var tintSelectedSkin = new Skin({fill: blue, borders:{right:4, top:4}, stroke:"black"});
 var imagesSelectedSkin = new Skin({fill: green, borders:{left:4, right:4, top:4}, stroke:"black"});
@@ -132,7 +132,7 @@ EditPage.prototype.getContainer = function () {
             //applyIcon
         ]
     };});
-    
+
     var TintSlider = SLIDERS.HorizontalSlider.template(function($){ return{
         left: 0, right: 0, top: 0, bottom: 0,
         behavior: Object.create(SLIDERS.HorizontalSliderBehavior.prototype, {
@@ -213,7 +213,7 @@ EditPage.prototype.getContainer = function () {
     });
 
     var ApplyButton = BUTTONS.Button.template(function ($) { return {
-        left: 0, right: 0, top: 0, bottom: 0,
+        left: 10, right: 5, bottom: 10, height: 35,
         skin: applyButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -224,14 +224,14 @@ EditPage.prototype.getContainer = function () {
         contents: [
             new Label({
                 left: 0, right: 0, bottom: 0, top: 0,
-                style: new Style({color: "black", font: "Lucinda Grande"}),
+                style: new Style({color: "white", font: "Helvetica Neue", size: 18}),
                 string: "Apply"
             })
         ]
     };});
 
     var CancelButton = BUTTONS.Button.template(function ($) { return {
-        left: 0, right: 0, top: 0, bottom: 0,
+        left: 5, right: 10, bottom: 10, height: 35,
         skin: cancelButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -248,14 +248,14 @@ EditPage.prototype.getContainer = function () {
         contents: [
             new Label({
                 left: 0, right: 0, bottom: 0, top: 0,
-                style: new Style({color: "black", font: "Lucinda Grande"}),
+                style: new Style({color: "white", font: "Helvetica Neue", size: 18}),
                 string: "Cancel"
             })
         ]
     };});
 
     var ClearButton = BUTTONS.Button.template(function ($) { return {
-        left: 0, right: 0, top: 0, bottom: 0,
+        left: 10, right: 10, bottom: 10, height: 35,
         skin: clearButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -267,7 +267,7 @@ EditPage.prototype.getContainer = function () {
         contents: [
             new Label({
                 left: 0, right: 0, bottom: 0, top: 0,
-                style: new Style({color: "black", font: "Lucinda Grande"}),
+                style: new Style({color: "white", font: "Helvetica Neue", size: 18}),
                 string: "Clear"
             })
         ]
@@ -301,7 +301,7 @@ EditPage.prototype.getContainer = function () {
             page.controlContainer,
             page.windowPreviewContainer,
             new Line({
-                left: 0, right: 0, height: 35,
+                left: 0, right: 0, height: 35, bottom: 10,
                 contents: [
                     new ApplyButton(),
                     new CancelButton()

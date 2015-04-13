@@ -5,17 +5,14 @@ THEME.buttonSkin = new Skin({fill: "#00FFFFFF", borders:{left: 2, right:2, botto
 
 var BUTTONS = require('controls/buttons');
 
-var backSkin = new Skin({fill:"transparent"});
+var backSkin = new Skin({ fill:"transparent" });
 var navBarSkin = new Skin({fill:"white"});
-var navBarSkinWithBorders = new Skin({fill:"white", borders:{bottom:2}, stroke:"gray"  });
+var navBarSkinWithBorders = new Skin({fill:"white", borders: {bottom: 1}, stroke:"gray" });
 
+var navBarHeight = 45;
 
-var navBarHeight = 35;
-
-var windowNameStyle = new Style({font:"bold 25px", color:"black"});
-var windowNameStyle = new Style({font:"bold 25px", color:"black"});
-
-var backStyle = new Style({font:"15", color:"black"});
+var windowNameStyle = new Style({font:"Helvetica Neue", size: 22, color: "black"});
+var backStyle = new Style({font: "bold Helvetica Neue", size: 16, color:"black"});
 
 var BackButtonTemplate = BUTTONS.Button.template(function($){ return {
 	left:0, bottom:0, width:60, height:navBarHeight, skin: backSkin,
