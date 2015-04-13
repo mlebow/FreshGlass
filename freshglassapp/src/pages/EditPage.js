@@ -7,6 +7,7 @@ var EditPage = function (window, previousPage, switchPages) {
     this.previousPage = previousPage;
     this.switchPages = switchPages;
     this.container = null;
+    this.windowPreviewContainer = null;
     this.currentTab = "tint";
     this.tabContainers = {
         tint: null,
@@ -99,6 +100,18 @@ EditPage.prototype.activateTab = function (tab) {
 		
     }
 
+};
+
+/**
+ * Updates the kinoma window preview on this page to be the window preview of
+ * the current window of this page. This is useful when you're just changed the
+ * this.window as a result of clicking apply/clear.
+ */
+EditPage.prototype.refreshWindowPreview = function() {
+    if (this.windowPreviewContainer) {
+        this.windowPreviewContainer.empty();
+        this.windowPreviewContainer.add(this.window.renderPreview());
+    }
 };
 
 /**
@@ -205,15 +218,14 @@ EditPage.prototype.getContainer = function () {
         ],
     });
 
-
     var ApplyButton = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top: 0, bottom: 0,
         skin: applyButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                trace("Apply button does nothing for now.\n");
-                this.window = this.windowCopy;
-                //This function still needs to send a message to the device
+                page.window = page.windowCopy;
+                page.window.updatePreview();
+                page.refreshWindowPreview();
             }}
         }),
         contents: [
@@ -266,6 +278,13 @@ EditPage.prototype.getContainer = function () {
     page.tabContainers.images = new ImagesTab();
     page.tabContainers.control = new ControlTab();
 
+    page.windowPreviewContainer = new Container({
+        left: 0, right: 0, top: 0, bottom: 0,
+        contents: [
+            page.window.renderPreview(),
+        ]
+    });
+
     var rootColumn = new Column({
         top: 0, left: 0, bottom: 0, right: 0,
         skin: tintContainerSkin,
@@ -280,12 +299,7 @@ EditPage.prototype.getContainer = function () {
                 ]
             }),
             page.controlContainer,
-            new Container({
-                left: 0, right: 0, top: 0, bottom: 0,
-                contents: [
-                    page.window.renderPreview(),
-                ]
-            }),
+            page.windowPreviewContainer,
             new Line({
                 left: 0, right: 0, height: 35,
                 contents: [
