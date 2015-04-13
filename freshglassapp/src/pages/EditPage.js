@@ -1,5 +1,6 @@
 //@module
 var NavBar = require("lib/NavBar");
+var CameraRoll = require("pages/CameraRoll");
 var SLIDERS = require('controls/sliders');
 
 var EditPage = function (window, previousPage, switchPages) {
@@ -113,7 +114,7 @@ EditPage.prototype.getContainer = function () {
     if (this.container) { return this.container; }
     var page = this;
 
-    var headerBar = new NavBar({ name: page.window.name, back: true, home: false, borders: false, page: page });
+    var navBar = new NavBar({ name: page.window.name, back: true, home: false, borders: false, page: page });
 
     var TintTab = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top: 0, bottom: 0,
@@ -169,7 +170,8 @@ EditPage.prototype.getContainer = function () {
         skin: addImageSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                trace("Add photo button does nothing for now.");
+                var cameraRoll = new CameraRoll($.window, page, page.switchPages);
+                page.switchPages(cameraRoll);
             }}
         }),
         contents: [
@@ -200,7 +202,7 @@ EditPage.prototype.getContainer = function () {
     };});
 
     page.controls.tint = new TintSlider();
-    page.controls.images = new AddImageButton(); //TODO: change!
+    page.controls.images = new AddImageButton(page); //TODO: change!
     page.controls.control = new Container(); //TODO: change!
 
     page.controlContainer = new Container({
@@ -286,7 +288,7 @@ EditPage.prototype.getContainer = function () {
         top: 0, left: 0, bottom: 0, right: 0,
         skin: tintContainerSkin,
         contents: [
-            headerBar,
+            navBar,
             new Line({
                 left: 0, right: 0, height: 35,
                 contents: [

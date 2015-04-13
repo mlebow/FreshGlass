@@ -21,7 +21,6 @@ var switchPages = function(nextPage) {
     }
 };
 
-
 //Globals
 var mainPage = new MainPage(switchPages);
 var index = 0;//keeps track of which device we are polling for 
