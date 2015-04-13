@@ -26,6 +26,17 @@ var darkBlue = "#43489B";
 
 var sunIcon = new Picture({width: 150, height: 150, left: 165, url: "https://ce12b193d2f7d75eb0d1-a678cc8f4f890e88f71fe9818106b11e.ssl.cf1.rackcdn.com/vault/img/2012/08/09/5023fe9fc29e061d3f000005/medium_sun-big.png"});
 var thermometer = new Picture({width: 140, height: 140, right: 165, url: "http://images.clipartpanda.com/heat-clipart-medical_red_thermometer_2.png"});
+
+StatusPage.prototype.onNavigatedTo = function () {
+    // if we already rendered the kinoma structure for this page, make sure that we
+    // still have the window preview here, because it may have been removed to get
+    // put on another page
+    if (this.container) {
+        this.windowPreviewContainer.empty();
+        this.windowPreviewContainer.add(this.window.renderPreview());
+    }
+};
+
 /**
  * Return the kinoma Container which will be added to the application when this
  * page becomes active.
@@ -130,16 +141,10 @@ StatusPage.prototype.getContainer = function () {
     return this.container; // TODO: implement
 };
 
-StatusPage.prototype.rerenderWindowPreview = function() {
-    this.windowPreviewContainer.empty();
-    this.windowPreviewContainer.add(this.window.renderPreview());
-};
-
 StatusPage.prototype.updateContainerWithData = function() {
     if (this.container !== null) {
         this.temperatureLabel.string = this.window.temperature.toString().substring( 0, 4 ) + " F";
         this.brightnessLabel.string = "Sunshine: " + (Math.floor(this.window.brightness * 100)).toString().substring( 0, 4 ) + "%";
-        this.rerenderWindowPreview();
     }
 };
 

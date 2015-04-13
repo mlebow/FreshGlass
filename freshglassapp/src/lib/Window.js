@@ -14,6 +14,7 @@ var Window = function (name) {
     this.controls = null; // TODO: implement this!
     this.statusPage = null;
     // NOTE: size is hardcoded (v2.0 feature)
+    this.preview = null; // kinoma container for window preview that will be used on multiple pages
 };
 Window.HEX_TINT = "94895f"; // the hex code for the color that the window gets tinted
 
@@ -25,7 +26,6 @@ Window.prototype.getTintHexCode = function () {
     var alpha = Math.round(this.tint * 255);
     var hexString = (alpha + 0x10000).toString(16);
     var hex = hexString.substring(hexString.length - 2, hexString.length).toUpperCase();
-    trace("#" + hex + Window.HEX_TINT + "\n");
     return "#" + hex + Window.HEX_TINT;
 };
 
@@ -47,6 +47,12 @@ Window.prototype.clone = function () {
     return clone;
 };
 
+Window.prototype.updateFrom = function (window) {
+    this.tint = window.tint;
+    this.images = window.images;
+    this.controls = window.controls;
+};
+
 /**
  * Return a string representation of this window to send to the device.
  * TODO: implement
@@ -56,12 +62,34 @@ Window.prototype.serialize = function () {
 };
 
 /**
+ * Changes the window preview kinoma container, does not return anything.
+ */
+Window.prototype.updatePreview = function () {
+    if (this.preview === null) {
+        this.renderPreview(); // will set this.preview as the correct container
+    }
+    var window = this;
+
+    this.preview.skin = new Skin({
+        fill: window.getTintHexCode(),
+        borders: {left:3, right:3, top:3, bottom:3},
+        stroke:"black"
+    });
+};
+
+/**
  * @return {Container} a kinoma Container object representing the preview of the window.
- * TODO: implement this
  */
 Window.prototype.renderPreview = function () {
+    if (this.preview !== null) {
+        if (this.preview.container) {
+            this.preview.container.remove(this.preview);
+        }
+        return this.preview;
+    }
+
     var window = this;
-    return new Container({
+    var preview = new Container({
         height: 200, width: 200, bottom: 50,
         skin: new Skin({
             fill: window.getTintHexCode(),
@@ -76,6 +104,8 @@ Window.prototype.renderPreview = function () {
             })
         ]
     });
+    this.preview = preview;
+    return preview;
 };
 
 module.exports = Window;
