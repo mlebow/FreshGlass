@@ -53,8 +53,8 @@ var imagesContainerSkin = new Skin({fill: "#dddddd"});
 var controlContainerSkin = new Skin({fill: "#dddddd"});
 
 var tintSelectedSkin = new Skin({fill: blue, borders:{right:4, top:4}, stroke:"black"});
-var imagesSelectedSkin = new Skin({fill: green, borders:{left:4, right:4, top:4}, stroke:"black"});
-var controlSelectedSkin = new Skin({fill: red, borders:{left:4, top:4}, stroke:"black"});
+var imagesSelectedSkin = new Skin({fill: green, borders:{left:2, right:4, top:4}, stroke:"black"});
+var controlSelectedSkin = new Skin({fill: red, borders:{left:2, top:4}, stroke:"black"});
 
 var unselectedTintSkin = new Skin({fill: blue, borders:{bottom:4, top: 2, right: 2}, stroke:"black"});
 var unselectedImagesSkin = new Skin({fill: green, borders:{bottom:4, top: 2, right: 2}, stroke:"black"});
