@@ -73,7 +73,7 @@ CameraRoll.prototype.getContainer = function () {
 	});
 	var insertButton = BUTTONS.Button.template(function ($) { 
     	return {
-        	left:100, right:100, top: 0, bottom: 0,
+        	top: 0, bottom: 0, width: 200, height: 40,
         	skin: new Skin({fill: darkBlue}),
         	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             	onTap: { value: function (button) {
@@ -95,7 +95,7 @@ CameraRoll.prototype.getContainer = function () {
         	]
     	}
     });
-	var insert = new Line({top:0, left:0, right:0, height:50, 
+	var insert = new Line({top:0, height:50, 
 		contents: [
 			new insertButton(),
 		]
