@@ -214,7 +214,7 @@ EditPage.prototype.getContainer = function () {
     
       
      var controlButton = BUTTONS.Button.template(function ($) { return {
-        left: 0, right: 0, top: 0, height: 80,
+        left: 25, right: 0, top: 10, height: 80,
         skin: controlContainerSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -224,7 +224,7 @@ EditPage.prototype.getContainer = function () {
             }}
         }),
         contents: [
-        	new Picture({right: 160, left: 5, width: 100, height:70, url: controlwithlabeluri}),
+        	new Picture({top:0, left: 0, width: 100, height:50, url: controlwithlabeluri}),
         ]
     };});
     
