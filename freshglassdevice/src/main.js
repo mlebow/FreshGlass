@@ -4,6 +4,15 @@ var currTemp = -1;
 var currBrightness = -1; 
 var titleStyle = new Style( { font: "bold 20px", color:"green" } );
 
+var ApplicationBehavior = Behavior.template({
+	onLaunch: function(application) {
+		application.shared = true;
+	},
+	onQuit: function(application) {
+		application.shared = false;
+	},
+})
+
 Handler.bind("/gotBrightnessResult", Object.create(Behavior.prototype, {
 	onInvoke: { value: function( handler, message ){
         		var result = message.requestObject;  
@@ -34,7 +43,7 @@ application.invoke( new MessageWithObject( "pins:configure", {
     	pins: {
     		temperature: { pin: 48 }
         }
-    }   
+    },
 }));
 
 /* Use the initialized brightnessSensor object and repeatedly 
@@ -57,7 +66,7 @@ var MainContainer = Container.template(function($) { return {
 	left: 0, right: 0, top: 0, height:30, skin: new Skin({ fill: 'white',}), 
 	contents: [
 		Label($, { left: 0, right: 0, 
-		style: new Style({ color: 'green', font: 'bold 20px Helvetica', horizontal: 'null', vertical: 'null', }), string: 'Window Status', }),
+		style: new Style({ color: 'green', font: '15px Helvetica', horizontal: 'null', vertical: 'null', }), string: "Window Device"  }),
 
 	], 
 }});
@@ -116,18 +125,10 @@ var ApplicationBehavior = Behavior.template({
 //Send the phone updates about the sensor data
 Handler.bind("/update", Behavior({
 	onInvoke: function(handler, message){
-		message.responseText = JSON.stringify( { temp: currTemp, brighness: currBrightness } );
+		message.responseText = JSON.stringify( { temperature: currTemp, brightness: currBrightness } );
 		message.status = 200;
 	}
 }));
-
-
-
-
-
-
-
-
 
 
 

@@ -10,6 +10,34 @@ var StatusPage = function (window, previousPage, switchPages) {
     this.previousPage = previousPage;
     this.switchPages = switchPages;
     this.container = null;
+    this.temperatureLabel = null;
+    this.brightnessLabel = null;
+
+    this.windowPreviewContainer = null; // kinoma container for window preview
+    this.window.statusPage = this;
+};
+
+var red = "#DB4C3F";
+var blue = "#4682EA";
+var yellow = "#FDBA35";
+var green = "#67AF4B";
+var purple = "AF6DC5";
+var darkBlue = "#43489B";
+
+var sunURL = mergeURI(application.url, "images/sunpicture.png");
+var thermURL = mergeURI(application.url, "images/thermometer.png");
+
+var sunIcon = new Picture({width: 150, height: 150, left: 165, url: sunURL});
+var thermometer = new Picture({width: 140, height: 140, right: 165, url: thermURL});
+
+StatusPage.prototype.onNavigatedTo = function () {
+    // if we already rendered the kinoma structure for this page, make sure that we
+    // still have the window preview here, because it may have been removed to get
+    // put on another page
+    if (this.container) {
+        this.windowPreviewContainer.empty();
+        this.windowPreviewContainer.add(this.window.renderPreview());
+    }
 };
 
 /**
@@ -20,23 +48,29 @@ StatusPage.prototype.getContainer = function () {
     if (this.container) { return this.container; }
     var page = this;
 
-    var navBar = new NavBar({ name: page.window.name, back: true, page: page });
+    var navBar = new NavBar( {name: page.window.name, back: true, home: false, borders: true, page: page });
 
-    var temperatureLabel = new Label({
+    this.temperatureLabel = new Label({
         left: 0, right: 0, height: 100,
-        style: new Style({color: "black", font: "27px Georgia"}),
+        style: new Style({color: "black", font: "25px Helvetica Neue"}),
         string: page.window.temperature + " F"
     });
 
-    var brightnessLabel = new Label({
+    this.brightnessLabel = new Label({
         left: 0, right: 0, height: 100,
-        style: new Style({color: "black", font: "27px Georgia"}),
-        string: "Sunshine: " + (Math.floor(page.window.brightness * 100)) + "%"
+        style: new Style({color: "black", font: "35px Helvetica Neue"}),
+        string: (Math.floor(page.window.brightness * 100)) + "%"
+    });
+        
+    var statusLine = new Line({
+        left: 0, right: 0, height: 100,
+        contents: [page.temperatureLabel, page.brightnessLabel]
+
     });
 
     var EditButton = BUTTONS.Button.template(function ($) { return {
-        left: 0, right: 0, top:0, bottom: 0,
-        skin: new Skin({fill: "#3E1255", borders:{left:2, right:1, top:2, bottom:2}, stroke:"black"}),
+        left: 10, right: 5, bottom: 10, height: 35,
+        skin: new Skin({fill: red, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                  var editPage = new EditPage($.window, page, page.switchPages);
@@ -46,15 +80,15 @@ StatusPage.prototype.getContainer = function () {
         contents: [
             new Label({
                 left: 0, right: 0, bottom: 0, top: 0,
-                style: new Style({color: "white"}),
+                style: new Style({color: "white", size: 18, font: "Helvetica Neue"}),
                 string: "Edit"
             })
         ]
     };});
 
     var SavePresetButton = BUTTONS.Button.template(function ($) { return {
-        left: 0, right: 0, top:0, bottom: 0,
-        skin: new Skin({fill: "#3E1255", borders:{left:1, right:2, top:2, bottom:2}, stroke:"black"}),
+        left: 5, right: 10, bottom: 10, height: 35,
+        skin: new Skin({fill: blue, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                 trace("This does nothing right now.");
@@ -63,27 +97,35 @@ StatusPage.prototype.getContainer = function () {
         contents: [
             new Label({
                 left: 0, right: 0, bottom: 0, top: 0,
-                style: new Style({color: "white"}),
+                style: new Style({color: "white", size: 18, font: "Helvetica Neue"}),
                 string: "Save as Preset"
             })
         ]
     };});
 
+    page.windowPreviewContainer = new Container({
+        left: 0, right: 0, top: 0, bottom: 0,
+        contents: [
+            page.window.renderPreview(),
+        ]
+    });
+
+    var statusContainer = new Container({
+        left: 0, right: 0, top: 0, bottom: 0,
+        contents: [
+           sunIcon,
+           thermometer,
+           statusLine,
+        ]
+    });
+
     var rootColumn = new Column({
         top: 0, left: 0, bottom: 0, right: 0,
-        skin: new Skin({fill: "#774A8E"}),
+        skin: new Skin({fill: "white"}),
         contents: [
             navBar,
-            new Line({
-                left: 0, right: 0, height: 100,
-                contents: [temperatureLabel, brightnessLabel]
-            }),
-            new Container({
-                left: 0, right: 0, top: 0, bottom: 0,
-                contents: [
-                    page.window.renderPreview(),
-                ]
-            }),
+			statusContainer,
+            page.windowPreviewContainer,
             new Line({
                 left: 0, right: 0, height: 35,
                 contents: [
@@ -100,9 +142,11 @@ StatusPage.prototype.getContainer = function () {
     return this.container; // TODO: implement
 };
 
-
 StatusPage.prototype.updateContainerWithData = function() {
-    // nothing for now
+    if (this.container !== null) {
+        this.temperatureLabel.string = this.window.temperature.toString().substring( 0, 4 ) + " F";
+        this.brightnessLabel.string = "Sunshine: " + (Math.floor(this.window.brightness * 100)).toString().substring( 0, 4 ) + "%";
+    }
 };
 
 module.exports = StatusPage;
