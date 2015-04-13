@@ -50,13 +50,13 @@ StatusPage.prototype.getContainer = function () {
 
     this.temperatureLabel = new Label({
         left: 0, right: 0, height: 100,
-        style: new Style({color: "black", font: "25px Georgia"}),
+        style: new Style({color: "black", font: "25px Helvetica Neue"}),
         string: page.window.temperature + " F"
     });
 
     this.brightnessLabel = new Label({
         left: 0, right: 0, height: 100,
-        style: new Style({color: "black", font: "35px Georgia"}),
+        style: new Style({color: "black", font: "35px Helvetica Neue"}),
         string: (Math.floor(page.window.brightness * 100)) + "%"
     });
         
@@ -67,8 +67,8 @@ StatusPage.prototype.getContainer = function () {
     });
 
     var EditButton = BUTTONS.Button.template(function ($) { return {
-        left: 0, right: 0, top:0, bottom: 0,
-        skin: new Skin({fill: red, borders:{left:2, right:1, top:2, bottom:2}, stroke:"black"}),
+        left: 10, right: 5, bottom: 10, height: 35,
+        skin: new Skin({fill: red, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                  var editPage = new EditPage($.window, page, page.switchPages);
@@ -78,15 +78,15 @@ StatusPage.prototype.getContainer = function () {
         contents: [
             new Label({
                 left: 0, right: 0, bottom: 0, top: 0,
-                style: new Style({color: "white"}),
+                style: new Style({color: "white", size: 18, font: "Helvetica Neue"}),
                 string: "Edit"
             })
         ]
     };});
 
     var SavePresetButton = BUTTONS.Button.template(function ($) { return {
-        left: 0, right: 0, top:0, bottom: 0,
-        skin: new Skin({fill: blue, borders:{left:1, right:2, top:2, bottom:2}, stroke:"black"}),
+        left: 5, right: 10, bottom: 10, height: 35,
+        skin: new Skin({fill: blue, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                 trace("This does nothing right now.");
@@ -95,7 +95,7 @@ StatusPage.prototype.getContainer = function () {
         contents: [
             new Label({
                 left: 0, right: 0, bottom: 0, top: 0,
-                style: new Style({color: "white"}),
+                style: new Style({color: "white", size: 18, font: "Helvetica Neue"}),
                 string: "Save as Preset"
             })
         ]
@@ -107,7 +107,7 @@ StatusPage.prototype.getContainer = function () {
             page.window.renderPreview(),
         ]
     });
-    
+
     var statusContainer = new Container({
         left: 0, right: 0, top: 0, bottom: 0,
         contents: [
@@ -115,9 +115,8 @@ StatusPage.prototype.getContainer = function () {
            thermometer,
            statusLine,
         ]
-    });    
-    
-    
+    });
+
     var rootColumn = new Column({
         top: 0, left: 0, bottom: 0, right: 0,
         skin: new Skin({fill: "white"}),

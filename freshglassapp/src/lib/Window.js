@@ -39,6 +39,9 @@ Window.prototype.updateSensorData = function (temperature, brightness) {
     this.brightness = brightness;
 };
 
+/**
+ * Return a new Window that is exactly the same as this window.
+ */
 Window.prototype.clone = function () {
     var clone = new Window(this.name);
     clone.tint = this.tint;
@@ -47,6 +50,9 @@ Window.prototype.clone = function () {
     return clone;
 };
 
+/**
+ * Given a window, make this window exactly the same as the given window.
+ */
 Window.prototype.updateFrom = function (window) {
     this.tint = window.tint;
     this.images = window.images;
