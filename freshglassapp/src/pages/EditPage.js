@@ -143,7 +143,6 @@ EditPage.prototype.getContainer = function () {
                 SLIDERS.HorizontalSliderBehavior.prototype.onValueChanged.call(this, container);
                 page.windowCopy.tint = this.data.value;
                 page.windowCopy.updatePreview();
-                trace("Slider value is:" + page.controls.tint.behavior.data.value + "\n")
             }},
         }),
     };});
@@ -235,14 +234,9 @@ EditPage.prototype.getContainer = function () {
         skin: cancelButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                trace("Cancel does nothing right now.\n");
-                trace("Slider value starts as:" + page.controls.tint.behavior.data.value + "\n");// = page.window.tint;
                 page.controls.tint.behavior.data.value = page.window.tint;
                 page.controls.tint.behavior.onValueChanged();
                 page.controls.tint.behavior.onLayoutChanged(page.controls.tint);
-                trace("Slider value changes to:" + page.controls.tint.behavior.data.value + "\n");
-                trace("page.window.tint is" + page.window.tint + "\n");
-                trace("page.windowCOPY.tint is" + page.windowCopy.tint + "\n");
             }}
         }),
         contents: [
