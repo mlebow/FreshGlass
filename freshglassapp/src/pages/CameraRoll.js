@@ -1,6 +1,7 @@
 // KPR Script file
 var NavBar = require('lib/NavBar');
 var SLIDERS = require('controls/sliders');
+var Window = require('lib/Window');
 
 var CameraRoll = function (window, previousPage, switchPages) {
 	this.window = window;
@@ -69,6 +70,10 @@ CameraRoll.prototype.getContainer = function () {
         	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             	onTap: { value: function (button) {
                 	trace("Insert\n");
+                	var previewScaledHeight = Window.PREVIEW_HEIGHT * 0.1; //default scale to 10%
+                	var pic = new Picture({height: previewScaledHeight}, imageBase + imageURLs[curImage]);
+                	var scale = Math.min(0.1, pic.scale.x / Window.PREVIEW_WIDTH);
+                	page.window.addImage(imageBase + imageURLs[curImage], scale, 0, 0);
                 	
             	}}
         	}),
