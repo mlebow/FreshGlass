@@ -212,7 +212,9 @@ EditPage.prototype.getContainer = function () {
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                 trace("Apply button does nothing for now.\n");
-                this.window = this.windowCopy;
+                trace(page.window.tint + "\n");
+                page.window.updateFrom(page.windowCopy);
+                trace(page.window.tint + "\n");
                 //This function still needs to send a message to the device
             }}
         }),
