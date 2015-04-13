@@ -82,6 +82,7 @@ CameraRoll.prototype.getContainer = function () {
                 	var pic = new Picture({height: previewScaledHeight}, imageBase + imageURLs[curImage]);
                 	var scale = Math.min(0.1, pic.scale.x / Window.PREVIEW_WIDTH);
                 	page.window.addImage(imageBase + imageURLs[curImage], scale, 0, 0);
+                	page.switchPages(page.previousPage);
                 	
             	}}
         	}),
