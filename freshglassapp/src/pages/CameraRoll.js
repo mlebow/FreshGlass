@@ -77,17 +77,16 @@ CameraRoll.prototype.getContainer = function () {
         	skin: new Skin({fill: darkBlue}),
         	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             	onTap: { value: function (button) {
-                	trace("Insert\n");
-                	var previewScaledHeight = Window.PREVIEW_HEIGHT * 0.1; //default scale to 10%
-                	var pic = new Picture({height: previewScaledHeight}, imageBase + imageURLs[curImage]);
-                	var scale = Math.min(0.1, pic.scale.x / Window.PREVIEW_WIDTH);
+                	var scale = 0.1;
                 	var url = imageBase + imageURLs[curImage];
-                	var height = pic.scale.x * scale;
-                	var width = pic.scale.y * scale;
+                	var height = Window.PREVIEW_HEIGHT * scale;
+                	var width = Window.PREVIEW_WIDTH * scale;
                 	var startX = 0;
                 	var startY = 0;
                 	//page.window.addImage(imageBase + imageURLs[curImage], scale, 0, 0);
-                	page.window.addImage(url, startX, startY, height, width)
+                	trace(url + " " + startX + " " + startY + " " + height + " " + width + "\n");
+                	page.previousPage.windowCopy.addImage(url, startX, startY, height, width);
+                	//page.previousPage.windowCopy.updatePreview()
                 	page.switchPages(page.previousPage);
                 	
             	}}
