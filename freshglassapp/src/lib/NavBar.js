@@ -7,6 +7,8 @@ var BUTTONS = require('controls/buttons');
 
 var backSkin = new Skin({fill:"transparent"});
 var navBarSkin = new Skin({fill:"white"});
+var navBarSkinWithBorders = new Skin({fill:"white", borders:{bottom:2}, stroke:"gray"  });
+
 
 var navBarHeight = 35;
 
@@ -27,7 +29,6 @@ var BackButtonTemplate = BUTTONS.Button.template(function($){ return {
 	})
 };});
 
-
 var WindowNameTemplate = Label.template(function($) { return {
 	left: 0, right: 0, bottom: 0, height: navBarHeight, string: $.name, style: windowNameStyle
 };});
@@ -38,14 +39,17 @@ var WindowNameTemplate2 = Label.template(function($) { return {
 
 var NavBar = Line.template(function($) {
 	var buttonTemp = null;
+	var navSkin = navBarSkin;
 	var spaceTemplate = new WindowNameTemplate2({name: ""});;
 	if ($.back) {
 		buttonTemp = new BackButtonTemplate({page: $.page});
 	} if ($.home) {
 		spaceTemplate = null;
+	} if ($.borders) {
+		navSkin = navBarSkinWithBorders;
 	}
 	return {
-		left:0, right:0, top:0, height: navBarHeight, skin: navBarSkin,
+		left:0, right:0, top:0, height: navBarHeight, skin: navSkin,
 		contents: [
 			buttonTemp,
 			new WindowNameTemplate({name: $.name }),
