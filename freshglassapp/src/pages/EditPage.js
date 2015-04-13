@@ -32,6 +32,10 @@ var applyButtonSkin = new Skin({fill: "white", borders:{right:2, left:2, bottom:
 var cancelButtonSkin = new Skin({fill: "white", borders:{right:2, bottom: 2, top:2}, stroke:"black"});
 var clearButtonSkin = new Skin({fill: "white", borders:{right:2, left:2, bottom: 2}, stroke:"black"});
 
+var applyIcon = new Picture({url: './images/applyicon.png'});
+
+trace(applyIcon.url);
+
 var imagesSkin = new Skin({fill: blue, borders:{bottom:4, right:2}, stroke: "black"});
 var controlSkin = new Skin({fill: green, borders:{bottom:4}, stroke:"black"});
 
