@@ -212,7 +212,7 @@ EditPage.prototype.getContainer = function () {
         skin: applyButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                trace("Apply button does nothing for now.");
+                trace("Apply button does nothing for now.\n");
                 this.window = this.windowCopy;
                 //This function still needs to send a message to the device
             }}
@@ -231,7 +231,7 @@ EditPage.prototype.getContainer = function () {
         skin: cancelButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                trace("Cancel does nothing right now.");
+                trace("Cancel does nothing right now.\n");
             }}
         }),
         contents: [
@@ -249,7 +249,7 @@ EditPage.prototype.getContainer = function () {
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                 //this.window.tint = 0;
-                this.window.images = []
+                this.window.images = [];
                 this.window.controls = null;
             }}
         }),
