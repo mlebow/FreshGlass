@@ -53,9 +53,7 @@ CameraRoll.prototype.getContainer = function () {
         	]
     	}
     });
-    //var imageTemplate = Picture.template(function($) { return {url: '', }});
-    //var image = new imageTemplate({height:200, aspect:"fit"});
-    var image = new Picture({left:0, top:0, right: 0, bottom: 0}, "https://michaelhobo.com/camera_roll/hi.png");
+    var image = new Picture({left:0, top:0, right: 0, bottom: 0}, '');
 	var imageContainer = Column.template(function($) {return {top: 10, left: 10, right: 10, bottom: 10, contents: [image]}});
 	var picker = new Line({top:0, left:0, right:0, height:300, 
 		contents: [
@@ -71,6 +69,7 @@ CameraRoll.prototype.getContainer = function () {
         	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             	onTap: { value: function (button) {
                 	trace("Insert\n");
+                	
             	}}
         	}),
         	contents: [
