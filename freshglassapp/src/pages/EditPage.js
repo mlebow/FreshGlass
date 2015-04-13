@@ -132,12 +132,12 @@ EditPage.prototype.getContainer = function () {
         left: 0, right: 0, top: 0, bottom: 0,
         behavior: Object.create(SLIDERS.HorizontalSliderBehavior.prototype, {
             onCreate: { value : function(container) {
-                this.data = {min:0, max:1, value: page.window.tint}; 
+                this.data = {min:0, max:1, value: page.window.tint};
             }},
-            onValueChanged: { value: function(container){           
+            onValueChanged: { value: function(container) {
                 SLIDERS.HorizontalSliderBehavior.prototype.onValueChanged.call(this, container);
                 page.windowCopy.tint = this.data.value;
-            }},     
+            }},
         }),
     };});
 
@@ -191,7 +191,7 @@ EditPage.prototype.getContainer = function () {
                 string: "Control"
             })
         ]
-    };}); 
+    };});
 
     page.controls.tint = new TintSlider();
     page.controls.images = new AddImageButton(); //TODO: change!
@@ -266,11 +266,6 @@ EditPage.prototype.getContainer = function () {
     page.tabContainers.images = new ImagesTab();
     page.tabContainers.control = new ControlTab();
 
-    trace("PREPAREING TO ADD MAIN EDIT PAGE COLUMN\n");
-    trace(page.window.renderPreview() + "\n");
-    if (page.window.renderPreview() === null) {
-        trace("UH OHHHHHH\n");
-    }
     var rootColumn = new Column({
         top: 0, left: 0, bottom: 0, right: 0,
         skin: tintContainerSkin,
