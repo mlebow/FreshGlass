@@ -17,6 +17,16 @@ var StatusPage = function (window, previousPage, switchPages) {
     this.window.statusPage = this;
 };
 
+StatusPage.prototype.onNavigatedTo = function () {
+    // if we already rendered the kinoma structure for this page, make sure that we
+    // still have the window preview here, because it may have been removed to get
+    // put on another page
+    if (this.container) {
+        this.windowPreviewContainer.empty();
+        this.windowPreviewContainer.add(this.window.renderPreview());
+    }
+};
+
 /**
  * Return the kinoma Container which will be added to the application when this
  * page becomes active.
@@ -110,16 +120,10 @@ StatusPage.prototype.getContainer = function () {
     return this.container; // TODO: implement
 };
 
-StatusPage.prototype.rerenderWindowPreview = function() {
-    this.windowPreviewContainer.empty();
-    this.windowPreviewContainer.add(this.window.renderPreview());
-};
-
 StatusPage.prototype.updateContainerWithData = function() {
     if (this.container !== null) {
         this.temperatureLabel.string = this.window.temperature.toString().substring( 0, 4 ) + " F";
         this.brightnessLabel.string = "Sunshine: " + (Math.floor(this.window.brightness * 100)).toString().substring( 0, 4 ) + "%";
-        this.rerenderWindowPreview();
     }
 };
 

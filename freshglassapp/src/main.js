@@ -14,6 +14,9 @@ var switchPages = function(nextPage) {
             application.remove(currentPage.getContainer());
         }
         currentPage = nextPage;
+        if (nextPage.onNavigatedTo) {
+            nextPage.onNavigatedTo();
+        }
         application.add(nextPage.getContainer());
     }
 };
@@ -32,7 +35,7 @@ var ApplicationBehavior = Behavior.template({
     onQuit: function(application) {
         application.forget("freshglassdevice");
     },
-})
+});
 Handler.bind("/discover", Object.create(Behavior.prototype, {
     onInvoke: { value: function(handler, message) {
         var discovery = JSON.parse(message.requestText);
@@ -71,15 +74,15 @@ Handler.bind("/forget", Object.create(Behavior.prototype, {
 Handler.bind("/pollDevice", Behavior({
     onInvoke: function(handler, message){
         var device = devices[index];
-        var message = device.createMessage("update", { uuid: device.uuid}); 
-        handler.invoke(message, Message.JSON);   
+        var message = device.createMessage("update", { uuid: device.uuid});
+        handler.invoke(message, Message.JSON);
     },
     onComplete: function(handler, message, json){
         //Update the window information
         mainPage.windows[index].temperature = json.temperature;
         mainPage.windows[index].brightness = json.brightness;
         mainPage.statusPages[index].updateContainerWithData();
-        index+=1; 
+        index += 1;
         
         //to pollDevice for each launched device
         if (index == (devices.length)){
