@@ -38,7 +38,7 @@ CameraRoll.prototype.getContainer = function () {
     	}
     	return {
         	width: 50, top: 0, bottom: 0,
-        	skin: new Skin({fill: "white"}),
+        	skin: new Skin({fill: "#dddddd"}),
         	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             	onTap: { value: function (button) {
                 	trace("switch " + $.direction);
@@ -89,7 +89,7 @@ CameraRoll.prototype.getContainer = function () {
         	contents: [
             	new Label({
                 	left: 0, right: 0, bottom: 0, top: 0,
-                	style: new Style({color: "white"}),
+                	style: new Style({color: "#dddddd", font: "Helvetica Neue"}),
                 	string: "Insert",
             	})
         	]
@@ -102,7 +102,7 @@ CameraRoll.prototype.getContainer = function () {
 	});	
     var rootColumn = new Column({
         top: 0, left: 0, bottom: 0, right: 0,
-        skin: new Skin({fill: "white"}),
+        skin: new Skin({fill: "#dddddd"}),
         behavior: Object.create(Behavior.template, {
             onCreate: { value: function (container) {
                 trace("created");
