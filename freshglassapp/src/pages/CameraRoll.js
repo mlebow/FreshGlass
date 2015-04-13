@@ -9,6 +9,14 @@ var CameraRoll = function (window, previousPage, switchPages) {
     this.container = null;
 };
 
+var red = "#DB4C3F";
+var blue = "#4682EA";
+var yellow = "#FDBA35";
+var green = "#67AF4B";
+var purple = "#AF6DC5";
+var darkBlue = "#43489B";
+
+
 /**
  * Return the kinoma Container which will be added to the application when this
  * page becomes active.
@@ -29,7 +37,7 @@ CameraRoll.prototype.getContainer = function () {
     	}
     	return {
         	width: 50, top: 0, bottom: 0,
-        	skin: new Skin({fill: "green"}),
+        	skin: new Skin({fill: "white"}),
         	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             	onTap: { value: function (button) {
                 	trace("switch " + $.direction);
@@ -47,7 +55,7 @@ CameraRoll.prototype.getContainer = function () {
         	contents: [
             	new Label({
                 	left: 0, right: 0, bottom: 0, top: 0,
-                	style: new Style({color: "white"}),
+                	style: new Style({color: "black"}),
                 	string: arrow,
             	})
         	]
@@ -66,8 +74,8 @@ CameraRoll.prototype.getContainer = function () {
 	});
 	var insertButton = BUTTONS.Button.template(function ($) { 
     	return {
-        	left:0, right:0, top: 0, bottom: 0,
-        	skin: new Skin({fill: "green"}),
+        	left:100, right:100, top: 0, bottom: 0,
+        	skin: new Skin({fill: darkBlue}),
         	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             	onTap: { value: function (button) {
                 	trace("Insert\n");
@@ -89,7 +97,7 @@ CameraRoll.prototype.getContainer = function () {
 	});	
     var rootColumn = new Column({
         top: 0, left: 0, bottom: 0, right: 0,
-        skin: new Skin({fill: "purple"}),
+        skin: new Skin({fill: "white"}),
         behavior: Object.create(Behavior.template, {
             onCreate: { value: function (container) {
                 trace("created");

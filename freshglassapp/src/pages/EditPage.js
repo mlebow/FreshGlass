@@ -34,7 +34,7 @@ var red = "#DB4C3F";
 var blue = "#4682EA";
 var yellow = "#FDBA35";
 var green = "#67AF4B";
-var purple = "AF6DC5";
+var purple = "#AF6DC5";
 var darkBlue = "#43489B";
 
 var applyButtonSkin = new Skin({fill: green, stroke:"black"});
