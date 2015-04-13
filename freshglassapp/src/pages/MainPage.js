@@ -36,7 +36,7 @@ var MainPage = function (switchPages) {
 var buttonSkin = new Skin({fill: "#80FFFFFF", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"});
 var rootSkin = new Skin({fill: "#dddddd"}); //root container's color
 var labelStyle = new Style({ color: 'black', font: "30px Georgia", horizontal: 'center', vertical: 'middle', });
-var presetsButtonSkin = new Skin({fill: "green", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"});
+var presetsButtonSkin = new Skin({fill: green, borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"});
 
 /**
  * Return the kinoma Container which will be added to the application when this
