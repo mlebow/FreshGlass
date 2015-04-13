@@ -75,17 +75,19 @@ Handler.bind("/pollDevice", Behavior({
     },
     onComplete: function(handler, message, json){
         //Update the window information
-        mainPage.windows[index].temperature = json.temperature;
-        mainPage.windows[index].brightness = json.brightness;
-        mainPage.statusPages[index].updateContainerWithData();
-        index += 1;
+        if (json) {
+        	mainPage.windows[index].temperature = json.temperature;
+        	mainPage.windows[index].brightness = json.brightness;
+        	mainPage.statusPages[index].updateContainerWithData();
+        	index += 1;
         
-        //to pollDevice for each launched device
-        if (index == (devices.length)){
-            index = 0;//reset index to 0
-            handler.invoke(new Message("/delay"));
-        } else{
-            handler.invoke(new Message("/pollDevice"));
+        	//to pollDevice for each launched device
+        	if (index == (devices.length)){
+        	    index = 0;//reset index to 0
+        	    handler.invoke(new Message("/delay"));
+        	} else{
+        	    handler.invoke(new Message("/pollDevice"));
+        	}
         }
     }
 }));
