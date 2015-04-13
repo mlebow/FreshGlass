@@ -6,7 +6,6 @@ var NavBar = require("lib/NavBar");
 
 var StatusPage = require("pages/StatusPage");
 
-
 var red = "#DB4C3F";
 var blue = "#4682EA";
 var yellow = "#FDBA35";
