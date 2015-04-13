@@ -17,6 +17,16 @@ var StatusPage = function (window, previousPage, switchPages) {
     this.window.statusPage = this;
 };
 
+var red = "#DB4C3F";
+var blue = "#4682EA";
+var yellow = "#FDBA35";
+var green = "#67AF4B";
+var purple = "AF6DC5";
+var darkBlue = "#43489B";
+
+var sunIcon = new Picture({width: 150, height: 150, left: 165, url: "https://ce12b193d2f7d75eb0d1-a678cc8f4f890e88f71fe9818106b11e.ssl.cf1.rackcdn.com/vault/img/2012/08/09/5023fe9fc29e061d3f000005/medium_sun-big.png"});
+var thermometer = new Picture({width: 140, height: 140, right: 165, url: "http://images.clipartpanda.com/heat-clipart-medical_red_thermometer_2.png"});
+
 StatusPage.prototype.onNavigatedTo = function () {
     // if we already rendered the kinoma structure for this page, make sure that we
     // still have the window preview here, because it may have been removed to get
@@ -36,7 +46,7 @@ StatusPage.prototype.getContainer = function () {
     var page = this;
 
     // TODO: replace this with Michael's general header bar template
-    var headerBar = new NavBar({ name: page.window.name, back: true, home: false, page: page });
+    var headerBar = new NavBar({ name: page.window.name, back: true, home: false, borders: true, page: page });
 
     this.temperatureLabel = new Label({
         left: 0, right: 0, height: 100,
@@ -46,18 +56,19 @@ StatusPage.prototype.getContainer = function () {
 
     this.brightnessLabel = new Label({
         left: 0, right: 0, height: 100,
-        style: new Style({color: "black", font: "25px Georgia"}),
-        string: "Sunshine: " + (Math.floor(page.window.brightness * 100)) + "%"
+        style: new Style({color: "black", font: "35px Georgia"}),
+        string: "" + (Math.floor(page.window.brightness * 100)) + "%"
     });
-
+        
     var statusLine = new Line({
         left: 0, right: 0, height: 100,
         contents: [page.temperatureLabel, page.brightnessLabel]
+
     });
 
     var EditButton = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top:0, bottom: 0,
-        skin: new Skin({fill: "#3E1255", borders:{left:2, right:1, top:2, bottom:2}, stroke:"black"}),
+        skin: new Skin({fill: red, borders:{left:2, right:1, top:2, bottom:2}, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                  var editPage = new EditPage($.window, page, page.switchPages);
@@ -75,7 +86,7 @@ StatusPage.prototype.getContainer = function () {
 
     var SavePresetButton = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top:0, bottom: 0,
-        skin: new Skin({fill: "#3E1255", borders:{left:1, right:2, top:2, bottom:2}, stroke:"black"}),
+        skin: new Skin({fill: blue, borders:{left:1, right:2, top:2, bottom:2}, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                 trace("This does nothing right now.");
@@ -93,16 +104,26 @@ StatusPage.prototype.getContainer = function () {
     page.windowPreviewContainer = new Container({
         left: 0, right: 0, top: 0, bottom: 0,
         contents: [
-            page.window.renderPreview()
+            page.window.renderPreview(),
         ]
     });
-
+    
+    var statusContainer = new Container({
+        left: 0, right: 0, top: 0, bottom: 0,
+        contents: [
+           sunIcon,
+           thermometer,
+           statusLine,
+        ]
+    });    
+    
+    
     var rootColumn = new Column({
         top: 0, left: 0, bottom: 0, right: 0,
-        skin: new Skin({fill: "#C2BAC6"}),
+        skin: new Skin({fill: "white"}),
         contents: [
             headerBar,
-            statusLine,
+			statusContainer,
             page.windowPreviewContainer,
             new Line({
                 left: 0, right: 0, height: 35,
