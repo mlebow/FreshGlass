@@ -17,6 +17,8 @@ var Window = function (name) {
     this.preview = null; // kinoma container for window preview that will be used on multiple pages
 };
 Window.HEX_TINT = "94895f"; // the hex code for the color that the window gets tinted
+Window.PREVIEW_WIDTH = 200;
+Window.PREVIEW_HEIGHT = 200;
 
 /**
  * Return a hex code of the form "#AARRGGBB" where RRGGBB is Window.HEX_TINT and
@@ -27,6 +29,22 @@ Window.prototype.getTintHexCode = function () {
     var hexString = (alpha + 0x10000).toString(16);
     var hex = hexString.substring(hexString.length - 2, hexString.length).toUpperCase();
     return "#" + hex + Window.HEX_TINT;
+};
+
+/**
+ * Add an image to the window.
+ * @param {string} url   the http:// url for the image source
+ * @param {float} scale  between 0 and 1, the scale of the image
+ * @param {int} x        the x position, in pixels
+ * @param {int} y        the y position, in pixels
+ */
+Window.prototype.addImage = function (url, scale, x, y) {
+    this.images.push({
+        url: url,
+        scale: scale,
+        x: x,
+        y: x
+    });
 };
 
 /**
@@ -96,7 +114,7 @@ Window.prototype.renderPreview = function () {
 
     var window = this;
     var preview = new Container({
-        height: 200, width: 200, bottom: 50,
+        height: Window.PREVIEW_HEIGHT, width: Window.PREVIEW_WIDTH, bottom: 50,
         skin: new Skin({
             fill: window.getTintHexCode(),
             borders: {left:3, right:3, top:3, bottom:3},
