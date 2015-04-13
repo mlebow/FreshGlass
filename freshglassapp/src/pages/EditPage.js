@@ -33,6 +33,10 @@ var applyButtonSkin = new Skin({fill: "white", borders:{right:2, left:2, bottom:
 var cancelButtonSkin = new Skin({fill: "white", borders:{right:2, bottom: 2, top:2}, stroke:"black"});
 var clearButtonSkin = new Skin({fill: "white", borders:{right:2, left:2, bottom: 2}, stroke:"black"});
 
+var applyIcon = new Picture({url: './images/applyicon.png'});
+
+trace(applyIcon.url);
+
 var imagesSkin = new Skin({fill: blue, borders:{bottom:4, right:2}, stroke: "black"});
 var controlSkin = new Skin({fill: green, borders:{bottom:4}, stroke:"black"});
 
@@ -99,19 +103,6 @@ EditPage.prototype.activateTab = function (tab) {
 		this.controlContainer.skin = controlContainerSkin;
 		
     }
-
-};
-
-/**
- * Updates the kinoma window preview on this page to be the window preview of
- * the current window of this page. This is useful when you're just changed the
- * this.window as a result of clicking apply/clear.
- */
-EditPage.prototype.refreshWindowPreview = function() {
-    if (this.windowPreviewContainer) {
-        this.windowPreviewContainer.empty();
-        this.windowPreviewContainer.add(this.window.renderPreview());
-    }
 };
 
 /**
@@ -122,7 +113,7 @@ EditPage.prototype.getContainer = function () {
     if (this.container) { return this.container; }
     var page = this;
 
-    var headerBar = new NavBar({ name: page.window.name, back: true, home: false, page: page });
+    var headerBar = new NavBar({ name: page.window.name, back: true, home: false, borders: false, page: page });
 
     var TintTab = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top: 0, bottom: 0,
@@ -150,6 +141,7 @@ EditPage.prototype.getContainer = function () {
             onValueChanged: { value: function(container) {
                 SLIDERS.HorizontalSliderBehavior.prototype.onValueChanged.call(this, container);
                 page.windowCopy.tint = this.data.value;
+                page.windowCopy.updatePreview();
             }},
         }),
     };});
@@ -170,7 +162,7 @@ EditPage.prototype.getContainer = function () {
             })
         ]
     };});
-    
+
     var AddImageButton = BUTTONS.Button.template(function ($) { return {
         left: 5, width: 150, top: 5, bottom: 5,
         skin: addImageSkin,
@@ -223,9 +215,8 @@ EditPage.prototype.getContainer = function () {
         skin: applyButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                page.window = page.windowCopy;
+                page.window.updateFrom(page.windowCopy);
                 page.window.updatePreview();
-                page.refreshWindowPreview();
             }}
         }),
         contents: [
@@ -281,7 +272,7 @@ EditPage.prototype.getContainer = function () {
     page.windowPreviewContainer = new Container({
         left: 0, right: 0, top: 0, bottom: 0,
         contents: [
-            page.window.renderPreview(),
+            page.windowCopy.renderPreview(),
         ]
     });
 

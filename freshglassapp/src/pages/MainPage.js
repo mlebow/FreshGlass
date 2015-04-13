@@ -6,6 +6,14 @@ var NavBar = require("lib/NavBar");
 
 var StatusPage = require("pages/StatusPage");
 
+
+var red = "#DB4C3F";
+var blue = "#4682EA";
+var yellow = "#FDBA35";
+var green = "#67AF4B";
+var purple = "AF6DC5";
+var darkBlue = "#43489B";
+
 var MainPage = function (switchPages) {
     this.switchPages = switchPages;
     this.container = null;
@@ -79,7 +87,7 @@ MainPage.prototype.getContainer = function () {
         contents: []
     };});    
 
-    var navBar = new NavBar({name:"Fresh Glass", back: false, home: true, page: page});
+    var navBar = new NavBar({name:"Fresh Glass", back: false, home: true, borders: true, page: page});
 
     var rootContainer = new Column({
         top: 0, left: 0, right: 0, bottom: 0,

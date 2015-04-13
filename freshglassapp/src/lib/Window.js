@@ -47,6 +47,12 @@ Window.prototype.clone = function () {
     return clone;
 };
 
+Window.prototype.updateFrom = function (window) {
+    this.tint = window.tint;
+    this.images = window.images;
+    this.controls = window.controls;
+};
+
 /**
  * Return a string representation of this window to send to the device.
  * TODO: implement

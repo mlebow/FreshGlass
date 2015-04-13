@@ -16,9 +16,9 @@ exports.configure = function (config) {
                 valueLabel : "Temperature",
                 valueID : "temperature",
                 dataType: "float",
+                minValue: 0.0,  	//Why is this here twice?
+                maxValue: 100.0,	//Why is this here twice?
                 minValue: 0.0,
-                maxValue: 100.0,
-                minValue: 32.0,
                 maxValue: 110.0,
                 value: 32.0,
                 defaultControl: PinsSimulators.SLIDER

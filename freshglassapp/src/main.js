@@ -44,11 +44,8 @@ Handler.bind("/discover", Object.create(Behavior.prototype, {
             var device = new Device(discovery);
             devicesTable[url] = devices.length;
             devices.push(device);
-            trace("device's url: " +  device.url + " id:" + device.id + ", uuid: " + device.uuid +"\n\n");
+            //trace("device's url: " +  device.url + " id:" + device.id + ", uuid: " + device.uuid +"\n\n");
             handler.invoke(new Message("/delay"));
-        }
-        else if (url in devicesTable){
-            trace("discover same device?...\n");
         }
 
     },},
@@ -60,7 +57,7 @@ Handler.bind("/forget", Object.create(Behavior.prototype, {
         var discovery = JSON.parse(message.requestText);
         var uuid = discovery.uuid;
         if (uuid in devicesTable) {
-            trace("forgetting...\n");
+            //trace("forgetting...\n");
             var index = devicesTable[uuid];
             var device = devices[index];
             delete devicesTable[uuid];
