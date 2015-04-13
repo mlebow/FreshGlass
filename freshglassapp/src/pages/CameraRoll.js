@@ -81,7 +81,13 @@ CameraRoll.prototype.getContainer = function () {
                 	var previewScaledHeight = Window.PREVIEW_HEIGHT * 0.1; //default scale to 10%
                 	var pic = new Picture({height: previewScaledHeight}, imageBase + imageURLs[curImage]);
                 	var scale = Math.min(0.1, pic.scale.x / Window.PREVIEW_WIDTH);
-                	page.window.addImage(imageBase + imageURLs[curImage], scale, 0, 0);
+                	var url = imageBase + imageURLs[curImage];
+                	var height = pic.scale.x * scale;
+                	var width = pic.scale.y * scale;
+                	var startX = 0;
+                	var startY = 0;
+                	//page.window.addImage(imageBase + imageURLs[curImage], scale, 0, 0);
+                	page.window.addImage(url, startX, startY, height, width)
                 	page.switchPages(page.previousPage);
                 	
             	}}
@@ -119,7 +125,6 @@ CameraRoll.prototype.getContainer = function () {
             		count += 1;
             	}
             	image.url = imageBase + imageURLs[0];
-            	trace(imageBase + imageURLs[0]);
             }},
         }),
         contents: [
