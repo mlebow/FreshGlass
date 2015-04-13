@@ -21,7 +21,7 @@ var red = "#DB4C3F";
 var blue = "#4682EA";
 var yellow = "#FDBA35";
 var green = "#67AF4B";
-var purple = "AF6DC5";
+var purple = "#AF6DC5";
 var darkBlue = "#43489B";
 
 var sunURL = mergeURI(application.url, "images/sunpicture.png");
@@ -111,7 +111,7 @@ StatusPage.prototype.getContainer = function () {
     });
 
     var statusContainer = new Container({
-        left: 0, right: 0, height: 100,
+        top: 5, left: 0, right: 0, height: 100,
         contents: [
            this.sunIcon,
            this.thermometer,
@@ -121,7 +121,7 @@ StatusPage.prototype.getContainer = function () {
 
     var rootColumn = new Column({
         top: 0, left: 0, bottom: 0, right: 0,
-        skin: new Skin({fill: "white"}),
+        skin: new Skin({fill: "#dddddd"}),
         contents: [
             navBar,
 			statusContainer,
@@ -145,7 +145,7 @@ StatusPage.prototype.getContainer = function () {
 StatusPage.prototype.updateContainerWithData = function() {
     if (this.container !== null) {
         this.temperatureLabel.string = this.window.temperature.toString().substring( 0, 4 ) + " F";
-        this.brightnessLabel.string = "Sunshine: " + (Math.floor(this.window.brightness * 100)).toString().substring( 0, 4 ) + "%";
+        this.brightnessLabel.string = (Math.floor(this.window.brightness * 100)).toString().substring( 0, 4 ) + "%";
     }
 };
 

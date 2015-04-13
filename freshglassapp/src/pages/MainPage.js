@@ -33,7 +33,7 @@ var MainPage = function (switchPages) {
 
 //Make color changes here
 var buttonSkin = new Skin({fill: "#80FFFFFF", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"});
-var rootSkin = new Skin({fill: "#C2BAC6"}); //root container's color
+var rootSkin = new Skin({fill: "#dddddd"}); //root container's color
 var labelStyle = new Style({ color: 'black', font: "30px Georgia", horizontal: 'center', vertical: 'middle', });
 
 /**
@@ -78,8 +78,8 @@ MainPage.prototype.getContainer = function () {
 		        var label = new Label( { left: 0, right: 0, top: 0, bottom: 0}, undefined, labelStyle, string );
 		        var layer = new Layer( { width:button.height, height:size.height, opacity:0.9 });
 		        layer.add( label );
-		        layer.origin = { x:115, y:30 };//hard coded the origin, no idea what it means... but it works, kinda
-		        layer.rotation = -90;
+		        layer.origin = { x:95, y:15 };//hard coded the origin, no idea what it means... but it works, kinda
+		        layer.rotation = 90;
 		        button.add(layer);
             }},
         }),

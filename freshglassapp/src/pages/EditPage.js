@@ -34,7 +34,7 @@ var red = "#DB4C3F";
 var blue = "#4682EA";
 var yellow = "#FDBA35";
 var green = "#67AF4B";
-var purple = "AF6DC5";
+var purple = "#AF6DC5";
 var darkBlue = "#43489B";
 
 var applyButtonSkin = new Skin({fill: green, stroke:"black"});
@@ -53,8 +53,8 @@ var imagesContainerSkin = new Skin({fill: "#dddddd"});
 var controlContainerSkin = new Skin({fill: "#dddddd"});
 
 var tintSelectedSkin = new Skin({fill: blue, borders:{right:4, top:4}, stroke:"black"});
-var imagesSelectedSkin = new Skin({fill: green, borders:{left:4, right:4, top:4}, stroke:"black"});
-var controlSelectedSkin = new Skin({fill: red, borders:{left:4, top:4}, stroke:"black"});
+var imagesSelectedSkin = new Skin({fill: green, borders:{left:2, right:4, top:4}, stroke:"black"});
+var controlSelectedSkin = new Skin({fill: red, borders:{left:2, top:4}, stroke:"black"});
 
 var unselectedTintSkin = new Skin({fill: blue, borders:{bottom:4, top: 2, right: 2}, stroke:"black"});
 var unselectedImagesSkin = new Skin({fill: green, borders:{bottom:4, top: 2, right: 2}, stroke:"black"});
@@ -67,8 +67,7 @@ var tintRightBorderSkin = new Skin({fill: blue, borders:{right:2, bottom: 4, top
 var imagesRightBorderSkin = new Skin({fill: green, borders:{right:2, bottom: 4, top: 2}, stroke:"black"});
 var controlRightBorderSkin = new Skin({fill: red, borders:{right:2, bottom: 4, top: 2}, stroke:"black"});
 
-
-var addImageSkin = new Skin({fill: darkBlue, borders:{left:1, right:1, top:1, bottom: 1}, stroke:"black"});
+var addImageSkin = new Skin({fill: darkBlue});
 
     
 EditPage.prototype.activateTab = function (tab) {
@@ -166,7 +165,7 @@ EditPage.prototype.getContainer = function () {
     };});
 
     var AddImageButton = BUTTONS.Button.template(function ($) { return {
-        left: 5, width: 150, top: 5, bottom: 5,
+        left: 10, width: 150, top: 10, bottom: 5,
         skin: addImageSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -178,7 +177,7 @@ EditPage.prototype.getContainer = function () {
             new Label({
                 left: 0, right: 0, bottom: 0, top: 0,
                 style: new Style({color: "white", font: "Lucinda Grande"}),
-                string: "Add Image"
+                string: "Add Image",
             })
         ]
     };});
@@ -236,7 +235,9 @@ EditPage.prototype.getContainer = function () {
         skin: cancelButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                trace("Cancel does nothing right now.\n");
+                page.controls.tint.behavior.data.value = page.window.tint;
+                page.controls.tint.behavior.onValueChanged();
+                page.controls.tint.behavior.onLayoutChanged(page.controls.tint);
             }}
         }),
         contents: [
@@ -253,9 +254,12 @@ EditPage.prototype.getContainer = function () {
         skin: clearButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                //this.window.tint = 0;
-                this.window.images = [];
-                this.window.controls = null;
+                page.controls.tint.behavior.data.value = 0;
+                page.windowCopy.tint = 0;
+                page.windowCopy.images = [];
+                page.windowCopy.controls = null;
+                page.controls.tint.behavior.onValueChanged();
+                page.controls.tint.behavior.onLayoutChanged(page.controls.tint);
             }}
         }),
         contents: [
