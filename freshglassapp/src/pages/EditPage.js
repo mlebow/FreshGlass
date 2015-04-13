@@ -44,27 +44,27 @@ var red = "#DB4C3F";
 var blue = "#4682EA";
 var yellow = "#FDBA35";
 var green = "#67AF4B";
-var purple = "AF6DC5";
+var purple = "#AF6DC5";
 var darkBlue = "#43489B";
 
-var tintContainerSkin = new Skin({fill: red});
-var imagesContainerSkin = new Skin({fill: blue});
-var controlContainerSkin = new Skin({fill: green});
+var tintContainerSkin = new Skin({fill: blue});
+var imagesContainerSkin = new Skin({fill: green});
+var controlContainerSkin = new Skin({fill: red});
 
-var tintSelectedSkin = new Skin({fill: red, borders:{right:4, top:4}, stroke:"black"});
-var imagesSelectedSkin = new Skin({fill: blue, borders:{left:4, right:4, top:4}, stroke:"black"});
-var controlSelectedSkin = new Skin({fill: green, borders:{left:4, top:4}, stroke:"black"});
+var tintSelectedSkin = new Skin({fill: blue, borders:{right:4, top:4}, stroke:"black"});
+var imagesSelectedSkin = new Skin({fill: green, borders:{left:4, right:4, top:4}, stroke:"black"});
+var controlSelectedSkin = new Skin({fill: red, borders:{left:4, top:4}, stroke:"black"});
 
-var unselectedTintSkin = new Skin({fill: red, borders:{bottom:4, top: 2, right: 2}, stroke:"black"});
-var unselectedImagesSkin = new Skin({fill: blue, borders:{bottom:4, top: 2, right: 2}, stroke:"black"});
-var unselectedControlSkin = new Skin({fill: green, borders:{bottom:4, top: 2}, stroke:"black"});
+var unselectedTintSkin = new Skin({fill: blue, borders:{bottom:4, top: 2, right: 2}, stroke:"black"});
+var unselectedImagesSkin = new Skin({fill: green, borders:{bottom:4, top: 2, right: 2}, stroke:"black"});
+var unselectedControlSkin = new Skin({fill: red, borders:{bottom:4, top: 2}, stroke:"black"});
 
 var unselectedStyle = new Style({color: "white", font: "20px Lucinda Grande"});
 var selectedStyle = new Style({color: "white", font: "bold 28px Lucinda Grande"});
 
-var tintRightBorderSkin = new Skin({fill: red, borders:{right:2, bottom: 4, top: 2}, stroke:"black"});
-var imagesRightBorderSkin = new Skin({fill: blue, borders:{right:2, bottom: 4, top: 2}, stroke:"black"});
-var controlRightBorderSkin = new Skin({fill: green, borders:{right:2, bottom: 4, top: 2}, stroke:"black"});
+var tintRightBorderSkin = new Skin({fill: blue, borders:{right:2, bottom: 4, top: 2}, stroke:"black"});
+var imagesRightBorderSkin = new Skin({fill: green, borders:{right:2, bottom: 4, top: 2}, stroke:"black"});
+var controlRightBorderSkin = new Skin({fill: red, borders:{right:2, bottom: 4, top: 2}, stroke:"black"});
 
 
 var addImageSkin = new Skin({fill: darkBlue, borders:{left:1, right:1, top:1, bottom: 1}, stroke:"black"});
