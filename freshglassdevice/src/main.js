@@ -6,6 +6,12 @@ var currTemp = -1;
 var currBrightness = -1;
 var titleStyle = new Style( { font: "bold 20px", color:"green" } );
 
+//Globals that should be changed
+var tint = -1;
+var images = []
+var controls = null;
+
+
 var ApplicationBehavior = Behavior.template({
     onLaunch: function(application) {
         application.shared = true;
@@ -70,7 +76,7 @@ var MainContainer = Container.template(function($) { return {
         Label($, {
             left: 0, right: 0,
             style: new Style({ color: 'green', font: '15px Helvetica', horizontal: 'null', vertical: 'null', }),
-            string: "Window Device"
+            string: "Fresh Glass Window"
         }),
     ],
 };});
@@ -110,10 +116,10 @@ BrightnessContainer.behaviors[0] = Behavior.template({
 });
 
 TempContainer.behaviors[0] = Behavior.template({
-    onTemperatureValueChanged: function(content, result) {
-        content.string = "Temperature: " + result.toString().substring( 0, 4 ) + " F";
-        currTemp = result;
-    },
+	onTemperatureValueChanged: function(content, result) {
+		content.string = "Temperature: " + result.toString().substring( 0, 4 ) + " °F";
+		currTemp = result;
+	},
 });
 
 // This is where communication with the iPhone App Begins
@@ -128,7 +134,8 @@ var ApplicationBehavior = Behavior.template({
 
 // Handle Messages from the Phone
 var windowPreviewContainer = new Line({
-    left: 0, right: 0, bottom: 0, top: 0, contents: []
+    left: 0, right: 0, bottom: 0, top: 0, contents: [],
+    skin: new Skin({fill: "white"})
 });
 
 // Send the phone updates about the sensor data
