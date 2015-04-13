@@ -11,7 +11,7 @@ var Window = function (name) {
     this.images = [
         // {url: "...", top: 0, left: 0, width: 10, height: 10}
     ];
-    this.controls = null; // TODO: implement this!
+    this.controls = []; // TODO: implement this!
     this.statusPage = null;
     // NOTE: size is hardcoded (v2.0 feature)
     this.preview = null; // kinoma container for window preview that will be used on multiple pages
@@ -40,6 +40,17 @@ Window.prototype.getTintHexCode = function () {
  */
 Window.prototype.addImage = function (url, x, y, height, width) {
     this.images.push({
+        url: url,
+        x: x,
+        y: y,
+        height: height,
+        width: width
+    });
+    this.updatePreview();
+};
+
+Window.prototype.addControl = function (url, x, y, height, width) {
+    this.controls.push({
         url: url,
         x: x,
         y: y,
@@ -123,6 +134,15 @@ Window.prototype.updatePreviewImages = function() {
             width: window.images[i].width,
             top: window.images[i].y,
             left: window.images[i].x
+        }));
+    }
+    for (var i = 0; i < window.controls.length; i++) {
+        this.preview.add(new Picture({
+            url: window.controls[i].url,
+            height: window.controls[i].height,
+            width: window.controls[i].width,
+            top: window.controls[i].y,
+            left: window.controls[i].x
         }));
     }
 };
