@@ -144,7 +144,7 @@ Handler.bind("/update", Behavior({
         var serializedWindows = JSON.parse(parseQuery(message.query).windowsJSON);
         windowPreviewContainer.empty();
         for (var i = 0; i < serializedWindows.length; i++) {
-            var newWindow = Window.deserialize(serializedWindows[0]);
+            var newWindow = Window.deserialize(serializedWindows[i]);
             windowPreviewContainer.add(new Container({
                 left: 0, right: 0, top: 0, bottom: 0,
                 contents: [
