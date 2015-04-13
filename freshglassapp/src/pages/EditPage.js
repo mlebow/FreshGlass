@@ -34,7 +34,7 @@ var red = "#DB4C3F";
 var blue = "#4682EA";
 var yellow = "#FDBA35";
 var green = "#67AF4B";
-var purple = "AF6DC5";
+var purple = "#AF6DC5";
 var darkBlue = "#43489B";
 
 var applyButtonSkin = new Skin({fill: green, stroke:"black"});
@@ -206,7 +206,7 @@ EditPage.prototype.getContainer = function () {
     page.controls.control = new Container(); //TODO: change!
 
     page.controlContainer = new Container({
-        left: 0, right: 0, height: 70,
+        left: 0, right: 0, height: 50,
         skin: tintContainerSkin,
         contents: [
             page.controls.tint
@@ -271,7 +271,6 @@ EditPage.prototype.getContainer = function () {
             })
         ]
     };});
-    
 
     page.tabContainers.tint = new TintTab();
     page.tabContainers.images = new ImagesTab();
@@ -290,7 +289,7 @@ EditPage.prototype.getContainer = function () {
         contents: [
             navBar,
             new Line({
-                left: 0, right: 0, height: 45, bottom: 0,
+                left: 0, right: 0, height: 45,
                 contents: [
                     page.tabContainers.tint,
                     page.tabContainers.images,
