@@ -214,7 +214,7 @@ EditPage.prototype.getContainer = function () {
     });
 
     var ApplyButton = BUTTONS.Button.template(function ($) { return {
-        left: 10, right: 5, bottom: 10, height: 35,
+        left: 10, right: 5, top: 0, height: 35,
         skin: applyButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -232,7 +232,7 @@ EditPage.prototype.getContainer = function () {
     };});
 
     var CancelButton = BUTTONS.Button.template(function ($) { return {
-        left: 5, right: 10, bottom: 10, height: 35,
+        left: 5, right: 10, top: 0, height: 35,
         skin: cancelButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -249,7 +249,7 @@ EditPage.prototype.getContainer = function () {
     };});
 
     var ClearButton = BUTTONS.Button.template(function ($) { return {
-        left: 10, right: 10, bottom: 10, height: 35,
+        left: 10, right: 10, top: 0, height: 35,
         skin: clearButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -285,7 +285,7 @@ EditPage.prototype.getContainer = function () {
         contents: [
             navBar,
             new Line({
-                left: 0, right: 0, height: 35,
+                left: 0, right: 0, height: 45, bottom: 0,
                 contents: [
                     page.tabContainers.tint,
                     page.tabContainers.images,
@@ -295,14 +295,14 @@ EditPage.prototype.getContainer = function () {
             page.controlContainer,
             page.windowPreviewContainer,
             new Line({
-                left: 0, right: 0, height: 35, bottom: 10,
+                left: 0, right: 0, height: 45,
                 contents: [
                     new ApplyButton(),
                     new CancelButton()
                 ]
             }),
             new Line({
-                left: 0, right: 0, height: 35,
+                left: 0, right: 0, height: 45,
                 contents: [
                     new ClearButton()
                 ]
