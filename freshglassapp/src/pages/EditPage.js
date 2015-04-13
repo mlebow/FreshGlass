@@ -67,8 +67,7 @@ var tintRightBorderSkin = new Skin({fill: blue, borders:{right:2, bottom: 4, top
 var imagesRightBorderSkin = new Skin({fill: green, borders:{right:2, bottom: 4, top: 2}, stroke:"black"});
 var controlRightBorderSkin = new Skin({fill: red, borders:{right:2, bottom: 4, top: 2}, stroke:"black"});
 
-
-var addImageSkin = new Skin({fill: darkBlue, borders:{left:1, right:1, top:1, bottom: 1}, stroke:"black"});
+var addImageSkin = new Skin({fill: darkBlue});
 
     
 EditPage.prototype.activateTab = function (tab) {
