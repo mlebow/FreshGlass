@@ -20,8 +20,7 @@ StatusPage.prototype.getContainer = function () {
     if (this.container) { return this.container; }
     var page = this;
 
-    // TODO: replace this with Michael's general header bar template
-    var headerBar = new NavBar({ name: page.window.name, back: true, page: page });
+    var navBar = new NavBar({ name: page.window.name, back: true, page: page });
 
     var temperatureLabel = new Label({
         left: 0, right: 0, height: 100,
@@ -74,7 +73,7 @@ StatusPage.prototype.getContainer = function () {
         top: 0, left: 0, bottom: 0, right: 0,
         skin: new Skin({fill: "#774A8E"}),
         contents: [
-            headerBar,
+            navBar,
             new Line({
                 left: 0, right: 0, height: 100,
                 contents: [temperatureLabel, brightnessLabel]

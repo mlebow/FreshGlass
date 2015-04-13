@@ -23,7 +23,7 @@ deviceURL = "";
 
 Handler.bind("/discover", Behavior({
 	onInvoke: function(handler, message){
-		deviceURL = JSON.parse(message.requestText).url;	
+		deviceURL = JSON.parse(message.requestText).url;
 		application.invoke(new Message("/pollDevice"));
 	},
 }));
