@@ -127,7 +127,7 @@ StatusPage.prototype.getContainer = function () {
 			statusContainer,
             page.windowPreviewContainer,
             new Line({
-                left: 0, right: 0, height: 10,
+                left: 0, right: 0, height: 45,
                 contents: [
                     new EditButton({
                         window: page.window
