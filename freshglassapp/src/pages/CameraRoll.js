@@ -63,7 +63,16 @@ CameraRoll.prototype.getContainer = function () {
     	}
     });
     var image = new Picture({left:0, top:0, right: 0, bottom: 0}, '');
-	var imageContainer = Column.template(function($) {return {top: 10, left: 10, right: 10, bottom: 10, contents: [image]}});
+	var imageContainer = Column.template(function($) {return {
+		top: 10, left: 10, right: 10, bottom: 10, contents: [image], 
+		behavior: new Behavior( {
+			onTouchMoved: {
+				value: function() {
+					trace("touch moved");
+				}
+			}
+		})
+	}});
 	var picker = new Line({top:0, left:0, right:0, height:300, 
 		contents: [
 			new arrowTemplate({direction: "left"}),
@@ -120,6 +129,9 @@ CameraRoll.prototype.getContainer = function () {
             	}
             	image.url = imageBase + imageURLs[0];
             	trace(imageBase + imageURLs[0]);
+            }},
+            onTouchMoved: { value: function() {
+            	trace("touched rootColumn");
             }},
         }),
         contents: [
