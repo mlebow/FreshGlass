@@ -14,6 +14,9 @@ var switchPages = function(nextPage) {
             application.remove(currentPage.getContainer());
         }
         currentPage = nextPage;
+        if (nextPage.onNavigatedTo) {
+            nextPage.onNavigatedTo();
+        }
         application.add(nextPage.getContainer());
     }
 };

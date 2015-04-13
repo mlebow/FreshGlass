@@ -65,11 +65,11 @@ Window.prototype.updatePreview = function () {
     }
     var window = this;
 
-    this.preview.skin = new Skin({
-        fill: window.getTintHexCode(),
-        borders: {left:3, right:3, top:3, bottom:3},
-        stroke:"black"
-    });
+    // this.preview.skin = new Skin({
+    //     fill: window.getTintHexCode(),
+    //     borders: {left:3, right:3, top:3, bottom:3},
+    //     stroke:"black"
+    // });
     trace("updatePreview done\n");
 };
 
@@ -78,6 +78,9 @@ Window.prototype.updatePreview = function () {
  */
 Window.prototype.renderPreview = function () {
     if (this.preview !== null) {
+        if (this.preview.container) {
+            this.preview.container.remove(this.preview);
+        }
         return this.preview;
     }
 

@@ -17,6 +17,16 @@ var StatusPage = function (window, previousPage, switchPages) {
     this.window.statusPage = this;
 };
 
+StatusPage.prototype.onNavigatedTo = function () {
+    // if we already rendered the kinoma structure for this page, make sure that we
+    // still have the window preview here, because it may have been removed to get
+    // put on another page
+    if (this.container) {
+        this.windowPreviewContainer.empty();
+        this.windowPreviewContainer.add(this.window.renderPreview());
+    }
+};
+
 /**
  * Return the kinoma Container which will be added to the application when this
  * page becomes active.
