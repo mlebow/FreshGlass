@@ -145,7 +145,7 @@ StatusPage.prototype.getContainer = function () {
 StatusPage.prototype.updateContainerWithData = function() {
     if (this.container !== null) {
         this.temperatureLabel.string = this.window.temperature.toString().substring( 0, 4 ) + " F";
-        this.brightnessLabel.string = "Sunshine: " + (Math.floor(this.window.brightness * 100)).toString().substring( 0, 4 ) + "%";
+        this.brightnessLabel.string = (Math.floor(this.window.brightness * 100)).toString().substring( 0, 4 ) + "%";
     }
 };
 
