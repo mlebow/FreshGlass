@@ -82,15 +82,20 @@ CameraRoll.prototype.getContainer = function () {
 	});
 	var insertButton = BUTTONS.Button.template(function ($) { 
     	return {
-        	left:100, right:100, top: 0, bottom: 0,
+        	top: 0, bottom: 0, width: 200, height: 40,
         	skin: new Skin({fill: darkBlue}),
         	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             	onTap: { value: function (button) {
-                	trace("Insert\n");
-                	var previewScaledHeight = Window.PREVIEW_HEIGHT * 0.1; //default scale to 10%
-                	var pic = new Picture({height: previewScaledHeight}, imageBase + imageURLs[curImage]);
-                	var scale = Math.min(0.1, pic.scale.x / Window.PREVIEW_WIDTH);
-                	page.window.addImage(imageBase + imageURLs[curImage], scale, 0, 0);
+                	var scale = 0.1;
+                	var url = imageBase + imageURLs[curImage];
+                	var height = Window.PREVIEW_HEIGHT * scale;
+                	var width = Window.PREVIEW_WIDTH * scale;
+                	var startX = 0;
+                	var startY = 0;
+                	//page.window.addImage(imageBase + imageURLs[curImage], scale, 0, 0);
+                	trace(url + " " + startX + " " + startY + " " + height + " " + width + "\n");
+                	page.previousPage.windowCopy.addImage(url, startX, startY, height, width);
+                	//page.previousPage.windowCopy.updatePreview()
                 	page.switchPages(page.previousPage);
                 	
             	}}
@@ -104,7 +109,7 @@ CameraRoll.prototype.getContainer = function () {
         	]
     	}
     });
-	var insert = new Line({top:0, left:0, right:0, height:50, 
+	var insert = new Line({top:0, height:50, 
 		contents: [
 			new insertButton(),
 		]
@@ -128,7 +133,6 @@ CameraRoll.prototype.getContainer = function () {
             		count += 1;
             	}
             	image.url = imageBase + imageURLs[0];
-            	trace(imageBase + imageURLs[0]);
             }},
             onTouchMoved: { value: function() {
             	trace("touched rootColumn");

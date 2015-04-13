@@ -51,7 +51,7 @@ MainPage.prototype.getContainer = function () {
             onTap: { value: function (button) {
                  var statusPage = $.statusPage;// new StatusPage($.window, page, page.switchPages);
                  page.switchPages(statusPage);
-            }},   
+            }},
         }),
         contents: [
             new Label({

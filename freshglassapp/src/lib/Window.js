@@ -9,7 +9,7 @@ var Window = function (name) {
     this.temperature = null; // will be set eventually to degress fahrenheit
     this.brightness = null; // will be set between 0 (no sun) to 1 (max sun we can detect)
     this.images = [
-        // {url: "...", top: 0, left: 0, scale: 0.5}
+        // {url: "...", top: 0, left: 0, width: 10, height: 10}
     ];
     this.controls = null; // TODO: implement this!
     this.statusPage = null;
@@ -38,13 +38,15 @@ Window.prototype.getTintHexCode = function () {
  * @param {int} x        the x position, in pixels
  * @param {int} y        the y position, in pixels
  */
-Window.prototype.addImage = function (url, scale, x, y) {
+Window.prototype.addImage = function (url, x, y, height, width) {
     this.images.push({
         url: url,
-        scale: scale,
         x: x,
-        y: x
+        y: y,
+        height: height,
+        width: width
     });
+    this.updatePreview();
 };
 
 /**
@@ -99,6 +101,30 @@ Window.prototype.updatePreview = function () {
         borders: {left:3, right:3, top:3, bottom:3},
         stroke:"black"
     });
+    this.updatePreviewImages();
+};
+
+Window.prototype.updatePreviewImages = function() {
+    if (this.preview === null) {
+        this.renderPreview();
+    }
+    var window = this;
+    this.preview.empty();
+
+    this.preview.add(new Container({
+        top: 3, bottom: 3, left: 3, right: 3, // for borders
+        skin: new Skin({fill: window.getTintHexCode()}),
+    }));
+
+    for (var i = 0; i < window.images.length; i++) {
+        this.preview.add(new Picture({
+            url: window.images[i].url,
+            height: window.images[i].height,
+            width: window.images[i].width,
+            top: window.images[i].y,
+            left: window.images[i].x
+        }));
+    }
 };
 
 /**
@@ -113,22 +139,18 @@ Window.prototype.renderPreview = function () {
     }
 
     var window = this;
+
     var preview = new Container({
         height: Window.PREVIEW_HEIGHT, width: Window.PREVIEW_WIDTH,
         skin: new Skin({
-            fill: window.getTintHexCode(),
             borders: {left:3, right:3, top:3, bottom:3},
             stroke:"black"
         }),
-        contents: [
-            new Label({
-                top: 0, bottom: 0, left: 0, right: 0,
-                style: new Style({color: "black"}),
-                string: "This is a window preview."
-            })
-        ]
+        contents: []
     });
     this.preview = preview;
+
+    this.updatePreviewImages();
     return preview;
 };
 
