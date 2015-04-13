@@ -114,7 +114,7 @@ Window.prototype.renderPreview = function () {
 
     var window = this;
     var preview = new Container({
-        height: Window.PREVIEW_HEIGHT, width: Window.PREVIEW_WIDTH, bottom: 50,
+        height: Window.PREVIEW_HEIGHT, width: Window.PREVIEW_WIDTH,
         skin: new Skin({
             fill: window.getTintHexCode(),
             borders: {left:3, right:3, top:3, bottom:3},
