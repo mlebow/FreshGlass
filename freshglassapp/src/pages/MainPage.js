@@ -33,7 +33,7 @@ var MainPage = function (switchPages) {
 
 //Make color changes here
 var buttonSkin = new Skin({fill: "#80FFFFFF", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"});
-var rootSkin = new Skin({fill: "#C2BAC6"}); //root container's color
+var rootSkin = new Skin({fill: "#dddddd"}); //root container's color
 var labelStyle = new Style({ color: 'black', font: "30px Georgia", horizontal: 'center', vertical: 'middle', });
 
 /**

@@ -121,7 +121,7 @@ StatusPage.prototype.getContainer = function () {
 
     var rootColumn = new Column({
         top: 0, left: 0, bottom: 0, right: 0,
-        skin: new Skin({fill: "white"}),
+        skin: new Skin({fill: "#dddddd"}),
         contents: [
             navBar,
 			statusContainer,
