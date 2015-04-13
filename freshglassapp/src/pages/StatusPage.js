@@ -21,7 +21,7 @@ var red = "#DB4C3F";
 var blue = "#4682EA";
 var yellow = "#FDBA35";
 var green = "#67AF4B";
-var purple = "AF6DC5";
+var purple = "#AF6DC5";
 var darkBlue = "#43489B";
 
 var sunURL = mergeURI(application.url, "images/sunpicture.png");
@@ -127,7 +127,7 @@ StatusPage.prototype.getContainer = function () {
 			statusContainer,
             page.windowPreviewContainer,
             new Line({
-                left: 0, right: 0, height: 45,
+                left: 0, right: 0, height: 10,
                 contents: [
                     new EditButton({
                         window: page.window
@@ -145,7 +145,7 @@ StatusPage.prototype.getContainer = function () {
 StatusPage.prototype.updateContainerWithData = function() {
     if (this.container !== null) {
         this.temperatureLabel.string = this.window.temperature.toString().substring( 0, 4 ) + " F";
-        this.brightnessLabel.string = "Sunshine: " + (Math.floor(this.window.brightness * 100)).toString().substring( 0, 4 ) + "%";
+        this.brightnessLabel.string = (Math.floor(this.window.brightness * 100)).toString().substring( 0, 4 ) + "%";
     }
 };
 
