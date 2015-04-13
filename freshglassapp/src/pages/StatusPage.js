@@ -15,10 +15,6 @@ var StatusPage = function (window, previousPage, switchPages) {
 
     this.windowPreviewContainer = null; // kinoma container for window preview
     this.window.statusPage = this;
-    
-    this.sunIcon = new Picture({width: 150, height: 150, left: 165, url: sunURL});
-	this.thermometer = new Picture({width: 140, height: 140, right: 165, url: thermURL});
-    
 };
 
 var red = "#DB4C3F";
@@ -51,20 +47,23 @@ StatusPage.prototype.getContainer = function () {
 
     var navBar = new NavBar( {name: page.window.name, back: true, home: false, borders: true, page: page });
 
+    this.sunIcon = new Picture({width: 100, height: 100, left: 185, url: sunURL});
+    this.thermometer = new Picture({width: 100, height: 100, right: 185, url: thermURL});
+
     this.temperatureLabel = new Label({
-        left: 0, right: 0, height: 100,
+        left: 0, right: 0, top: 0, bottom: 0,
         style: new Style({color: "black", font: "25px Helvetica Neue"}),
         string: page.window.temperature + " F"
     });
 
     this.brightnessLabel = new Label({
-        left: 0, right: 0, height: 100,
-        style: new Style({color: "black", font: "35px Helvetica Neue"}),
+        left: 0, right: 0, top: 0, bottom: 0,
+        style: new Style({color: "black", font: "25px Helvetica Neue"}),
         string: (Math.floor(page.window.brightness * 100)) + "%"
     });
-        
+
     var statusLine = new Line({
-        left: 0, right: 0, height: 100,
+        left: 0, right: 0, height: 50,
         contents: [page.temperatureLabel, page.brightnessLabel]
 
     });
@@ -112,7 +111,7 @@ StatusPage.prototype.getContainer = function () {
     });
 
     var statusContainer = new Container({
-        left: 0, right: 0, top: 0, bottom: 0,
+        left: 0, right: 0, height: 100,
         contents: [
            this.sunIcon,
            this.thermometer,
@@ -128,7 +127,7 @@ StatusPage.prototype.getContainer = function () {
 			statusContainer,
             page.windowPreviewContainer,
             new Line({
-                left: 0, right: 0, height: 35,
+                left: 0, right: 0, height: 45,
                 contents: [
                     new EditButton({
                         window: page.window
