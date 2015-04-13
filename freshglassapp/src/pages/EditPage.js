@@ -27,6 +27,11 @@ var EditPage = function (window, previousPage, switchPages) {
         images: null,
         control: null
     };
+    this.directional = {
+    	tint: null, 
+    	images: null, 
+    	control: null
+    }
 
     this.windowCopy = this.window.clone();
 };
@@ -46,7 +51,7 @@ var applyuri = mergeURI(application.url, "images/applyicon.png");
 var applyIcon = new Picture({url: applyuri});
 
 var controluri = mergeURI(application.url, "images/controlbutton.png");
-var controlIcon = new Picture({right: 10, left: 200, width: 50, height:50, url: controluri});
+var controlwithlabeluri = mergeURI(application.url, "images/controlbuttonwithlabel.png");
 
 var imagesSkin = new Skin({fill: blue, borders:{bottom:4, right:2}, stroke: "black"});
 var controlSkin = new Skin({fill: green, borders:{bottom:4}, stroke:"black"});
@@ -86,7 +91,9 @@ EditPage.prototype.activateTab = function (tab) {
 	this.tabContainers["tint"].first.style = unselectedStyle;
 
     this.controlContainer.remove(this.controls[this.currentTab]);
+    
     this.currentTab = tab;
+    
     this.controlContainer.add(this.controls[this.currentTab]);
     
     if (this.currentTab == "tint") {
@@ -205,9 +212,9 @@ EditPage.prototype.getContainer = function () {
         ]
     };});
     
-        
+      
      var controlButton = BUTTONS.Button.template(function ($) { return {
-        left: 5, right: 10, top: 20, height: 35,
+        left: 0, right: 0, top: 0, height: 80,
         skin: controlContainerSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -217,16 +224,10 @@ EditPage.prototype.getContainer = function () {
             }}
         }),
         contents: [
-            new Label({
-                left: 0, right: 0, bottom: 0, top: 0,
-                style: controlLabelStyle,
-                string: "Click to add tint control:"
-            }), 
-			new Picture({right: 10, left: 200, width: 50, height:50, url: controluri})
+        	new Picture({right: 160, left: 5, width: 100, height:70, url: controlwithlabeluri}),
         ]
     };});
     
-
     page.controls.tint = new TintSlider();
     page.controls.images = new AddImageButton(page); //TODO: change!
     page.controls.control = new controlButton(); //TODO: change!
@@ -239,6 +240,8 @@ EditPage.prototype.getContainer = function () {
             page.controls.tint
         ],
     });
+    
+
 
     var ApplyButton = BUTTONS.Button.template(function ($) { return {
         left: 10, right: 5, top: 0, height: 35,
@@ -278,7 +281,6 @@ EditPage.prototype.getContainer = function () {
     };});
 
     
-
     var ClearButton = BUTTONS.Button.template(function ($) { return {
         left: 10, right: 10, top: 0, height: 35,
         skin: clearButtonSkin,
