@@ -24,8 +24,8 @@ var green = "#67AF4B";
 var purple = "AF6DC5";
 var darkBlue = "#43489B";
 
-var sunIcon = new Picture({width: 150, height: 150, left: 165, url: "https://ce12b193d2f7d75eb0d1-a678cc8f4f890e88f71fe9818106b11e.ssl.cf1.rackcdn.com/vault/img/2012/08/09/5023fe9fc29e061d3f000005/medium_sun-big.png"});
-var thermometer = new Picture({width: 140, height: 140, right: 165, url: "http://images.clipartpanda.com/heat-clipart-medical_red_thermometer_2.png"});
+var sunIcon = new Picture({width: 125, height: 125, left: 165, url: "https://ce12b193d2f7d75eb0d1-a678cc8f4f890e88f71fe9818106b11e.ssl.cf1.rackcdn.com/vault/img/2012/08/09/5023fe9fc29e061d3f000005/medium_sun-big.png"});
+var thermometer = new Picture({width: 130, height: 130, right: 165, url: "http://images.clipartpanda.com/heat-clipart-medical_red_thermometer_2.png"});
 
 StatusPage.prototype.onNavigatedTo = function () {
     // if we already rendered the kinoma structure for this page, make sure that we
