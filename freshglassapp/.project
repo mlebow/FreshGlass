@@ -14,4 +14,11 @@
 	<natures>
 		<nature>com.marvell.kinoma.kpr.application</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/images/sunpicture.png</name>
+			<type>1</type>
+			<location>E:/sunpicture.png</location>
+		</link>
+	</linkedResources>
 </projectDescription>
