@@ -57,7 +57,7 @@ StatusPage.prototype.getContainer = function () {
     this.brightnessLabel = new Label({
         left: 0, right: 0, height: 100,
         style: new Style({color: "black", font: "35px Georgia"}),
-        string: "" + (Math.floor(page.window.brightness * 100)) + "%"
+        string: (Math.floor(page.window.brightness * 100)) + "%"
     });
         
     var statusLine = new Line({
