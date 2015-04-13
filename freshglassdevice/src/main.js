@@ -4,6 +4,12 @@ var currTemp = -1;
 var currBrightness = -1; 
 var titleStyle = new Style( { font: "bold 20px", color:"green" } );
 
+//Globals that should be changed
+var tint = -1;
+var images = []
+var controls = null;
+
+
 var ApplicationBehavior = Behavior.template({
 	onLaunch: function(application) {
 		application.shared = true;
@@ -66,7 +72,7 @@ var MainContainer = Container.template(function($) { return {
 	left: 0, right: 0, top: 0, height:30, skin: new Skin({ fill: 'white',}), 
 	contents: [
 		Label($, { left: 0, right: 0, 
-		style: new Style({ color: 'green', font: '15px Helvetica', horizontal: 'null', vertical: 'null', }), string: "Window Device"  }),
+		style: new Style({ color: 'green', font: '15px Helvetica', horizontal: 'null', vertical: 'null', }), string: "Fresh Glass Window"  }),
 
 	], 
 }});
@@ -102,7 +108,7 @@ BrightnessContainer.behaviors[0] = Behavior.template({
 
 TempContainer.behaviors[0] = Behavior.template({
 	onTemperatureValueChanged: function(content, result) {
-		content.string = "Temperature: " + result.toString().substring( 0, 4 ) + " F";
+		content.string = "Temperature: " + result.toString().substring( 0, 4 ) + " °F";
 		currTemp = result;
 	},
 })
@@ -125,7 +131,10 @@ var ApplicationBehavior = Behavior.template({
 //Send the phone updates about the sensor data
 Handler.bind("/update", Behavior({
 	onInvoke: function(handler, message){
-		message.responseText = JSON.stringify( { temperature: currTemp, brightness: currBrightness } );
+		tint = json.tint;
+        trace("Tint is:" + tint + "\n");
+        var askForData = device.createMessage("askForPreviewData");
+        message.responseText = JSON.stringify( { temperature: currTemp, brightness: currBrightness } );
 		message.status = 200;
 	}
 }));
