@@ -66,7 +66,7 @@ var MainContainer = Container.template(function($) { return {
 	left: 0, right: 0, top: 0, height:30, skin: new Skin({ fill: 'white',}), 
 	contents: [
 		Label($, { left: 0, right: 0, 
-		style: new Style({ color: 'green', font: 'bold 20px Helvetica', horizontal: 'null', vertical: 'null', }), string: 'Window Status', }),
+		style: new Style({ color: 'green', font: '15px Helvetica', horizontal: 'null', vertical: 'null', }), string: 'uuid: ' + application.uuid,  }),
 
 	], 
 }});
