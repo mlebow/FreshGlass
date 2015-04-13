@@ -104,6 +104,8 @@ Window.prototype.updatePreview = function () {
     this.updatePreviewImages();
 };
 
+Window.prototype.moveImage = function() {}; //Todo: make things move, and needs delete too. probably add method of ID to the list...
+
 Window.prototype.updatePreviewImages = function() {
     if (this.preview === null) {
         this.renderPreview();
