@@ -9,7 +9,7 @@ var PresetsPage = function (window, previousPage, switchPages) {
     this.previousPage = previousPage;
     this.switchPages = switchPages;
     this.container = null;
-    //this.presets = [];
+    this.presets = [];
     //this.windowCopy = this.window.clone();
 
 };
@@ -36,7 +36,7 @@ var presetWidth = 100;
 var presetHeight = 100;
 
 //Globals
-var valentineURL = "./images/valentinePreset.png";
+var valentineURL = mergeURI(application.url, "./images/valentinePreset.png");
 var preview = null;
 
 /**
@@ -67,7 +67,7 @@ PresetsPage.prototype.getContainer = function () {
             }}
         }),
         contents: [
-            new Picture({left:0, right:0, top:0, bottom: 0,url:valentineURL,}), 
+            new Picture({left:0, right:0, top:0, bottom: 0,url: valentineURL,}), 
             new Label({
                     left: 0, right: 0, top:155, height:15,
                     style: new Style({color: "black", font:"10px"}),
