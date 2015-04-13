@@ -63,7 +63,7 @@ MainPage.prototype.getContainer = function () {
     };});
     
     var VerticalWindowButton = BUTTONS.Button.template(function($) { return {
-        left: 250, right: 20, height: 200, top: 10, 
+        left: 250, right: 20, height: 200, top: 10,
         skin: buttonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -72,19 +72,19 @@ MainPage.prototype.getContainer = function () {
             }},
             
             onDisplaying: {value: function(button) {
-            	//trace("onDisplaying\n");
-            	var string = $.string;
-		        var size = labelStyle.measure(string);
-		        var label = new Label( { left: 0, right: 0, top: 0, bottom: 0}, undefined, labelStyle, string );
-		        var layer = new Layer( { width:button.height, height:size.height, opacity:0.9 });
-		        layer.add( label );
-		        layer.origin = { x:95, y:15 };//hard coded the origin, no idea what it means... but it works, kinda
-		        layer.rotation = 90;
-		        button.add(layer);
+                //trace("onDisplaying\n");
+                var string = $.string;
+                var size = labelStyle.measure(string);
+                var label = new Label( { left: 0, right: 0, top: 0, bottom: 0}, undefined, labelStyle, string );
+                var layer = new Layer( { width:button.height, height:size.height, opacity:0.9 });
+                layer.add( label );
+                layer.origin = { x:95, y:15 };//hard coded the origin, no idea what it means... but it works, kinda
+                layer.rotation = 90;
+                button.add(layer);
             }},
         }),
         contents: []
-    };});    
+    };});
 
     var navBar = new NavBar({name:"Fresh Glass", back: false, home: true, borders: true, page: page});
 
@@ -92,24 +92,23 @@ MainPage.prototype.getContainer = function () {
         top: 0, left: 0, right: 0, bottom: 0,
         skin: rootSkin,
         contents: [
-            navBar, 
-
+            navBar,
         ]
     });
 
     for (var i=0; i < this.windows.length; i++) {
-        if (i % 2 == 0){
-	        rootContainer.add(new HorizontalWindowButton({
-	            window: this.windows[i],
-	            string: this.windows[i].name,
+        if (i % 2 === 0){
+            rootContainer.add(new HorizontalWindowButton({
+                window: this.windows[i],
+                string: this.windows[i].name,
                 statusPage: this.statusPages[i],
-	        }));
+            }));
         } else {
-	        rootContainer.add(new VerticalWindowButton({
-	            window: this.windows[i],
-	            string: this.windows[i].name,
+            rootContainer.add(new VerticalWindowButton({
+                window: this.windows[i],
+                string: this.windows[i].name,
                 statusPage: this.statusPages[i],
-        }));        
+        }));
         
         }
     }

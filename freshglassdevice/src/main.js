@@ -1,6 +1,6 @@
 //@program
 
-// var Window = require("../../freshglassapp/src/lib/Window");
+var Window = require("../../freshglassapp/src/lib/Window");
 
 var currTemp = -1;
 var currBrightness = -1;
@@ -17,13 +17,13 @@ var ApplicationBehavior = Behavior.template({
 
 Handler.bind("/gotBrightnessResult", Object.create(Behavior.prototype, {
     onInvoke: { value: function( handler, message ){
-                var result = message.requestObject;  
+                var result = message.requestObject;
                 application.distribute( "onBrightnessValueChanged", result );
             }}
 }));
 Handler.bind("/gotTemperatureResult", Object.create(Behavior.prototype, {
     onInvoke: { value: function( handler, message ){
-                var result = message.requestObject;  
+                var result = message.requestObject;
                 application.distribute( "onTemperatureValueChanged", result );
             }}
 }));
@@ -65,32 +65,39 @@ application.invoke( new MessageWithObject( "pins:/temperatureSensor/read?" +
 } ) ) );
 
 var MainContainer = Container.template(function($) { return {
-    left: 0, right: 0, top: 0, height:30, skin: new Skin({ fill: 'white',}), 
+    left: 0, right: 0, height:30, skin: new Skin({ fill: 'white',}),
     contents: [
-        Label($, { left: 0, right: 0, 
-        style: new Style({ color: 'green', font: '15px Helvetica', horizontal: 'null', vertical: 'null', }), string: "Window Device"  }),
-
+        Label($, {
+            left: 0, right: 0,
+            style: new Style({ color: 'green', font: '15px Helvetica', horizontal: 'null', vertical: 'null', }),
+            string: "Window Device"
+        }),
     ],
 };});
 
 var BrightnessContainer = Container.template(function($) { return {
-    left: 0, right: 0, top: 30, height:20, skin: new Skin({ fill: 'white',}), 
+    left: 0, right: 0, height:20, skin: new Skin({ fill: 'white',}),
     contents: [
-        Label($, { left: 0, right: 0, 
-        style: new Style({ color: 'orange', font: '15px Helvetica', horizontal: 'null', vertical: 'null', }), behavior: Object.create((BrightnessContainer.behaviors[0]).prototype), string: '- - -', }),
-
-    ], 
-};});
-
-var TempContainer = Container.template(function($) { return {
-    left: 0, right: 0, top:50, height:20, skin: new Skin({ fill: 'white',}), 
-    contents: [
-        Label($, { left: 0, right: 0, 
-        style: new Style({ color: 'red', font: '15px', horizontal: 'null', vertical: 'null', }), behavior: Object.create((TempContainer.behaviors[0]).prototype), string: '- - -', }),
-
+        Label($, {
+            left: 0, right: 0,
+            style: new Style({ color: 'orange', font: '15px Helvetica', horizontal: 'null', vertical: 'null', }),
+            behavior: Object.create((BrightnessContainer.behaviors[0]).prototype),
+            string: '- - -',
+        }),
     ],
 };});
 
+var TempContainer = Container.template(function($) { return {
+    left: 0, right: 0, height:20, skin: new Skin({ fill: 'white',}),
+    contents: [
+        Label($, {
+            left: 0, right: 0,
+            style: new Style({ color: 'red', font: '15px', horizontal: 'null', vertical: 'null', }),
+            behavior: Object.create((TempContainer.behaviors[0]).prototype),
+            string: '- - -',
+        }),
+    ],
+};});
 
 BrightnessContainer.behaviors = new Array(1);
 TempContainer.behaviors = new Array(1);
@@ -109,8 +116,7 @@ TempContainer.behaviors[0] = Behavior.template({
     },
 });
 
-
-//This is where communication with the iPhone App Begins
+// This is where communication with the iPhone App Begins
 var ApplicationBehavior = Behavior.template({
     onLaunch: function(application) {
         application.shared = true;
@@ -120,17 +126,38 @@ var ApplicationBehavior = Behavior.template({
     },
 });
 
-//Handle Messages from the Phone
+// Handle Messages from the Phone
+var windowPreviewContainer = new Line({
+    left: 0, right: 0, bottom: 0, top: 0, contents: []
+});
 
-//Send the phone updates about the sensor data
+// Send the phone updates about the sensor data
 Handler.bind("/update", Behavior({
-    onInvoke: function(handler, message){
+    onInvoke: function(handler, message) {
+        var serializedWindows = JSON.parse(parseQuery(message.query).windowsJSON);
+        windowPreviewContainer.empty();
+        for (var i = 0; i < serializedWindows.length; i++) {
+            var newWindow = Window.deserialize(serializedWindows[0]);
+            windowPreviewContainer.add(new Container({
+                left: 0, right: 0, top: 0, bottom: 0,
+                contents: [
+                    newWindow.renderPreview(Window.PREVIEW_HEIGHT / 2, Window.PREVIEW_WIDTH / 2)
+                ]
+            }));
+        }
         message.responseText = JSON.stringify( { temperature: currTemp, brightness: currBrightness } );
         message.status = 200;
     }
 }));
 
-application.add(new MainContainer());
-application.add(new BrightnessContainer());
-application.add(new TempContainer());
+application.add(new Column({
+    top: 0, left: 0, bottom: 0, right: 0,
+    contents: [
+        new MainContainer(),
+        new BrightnessContainer(),
+        new TempContainer(),
+        windowPreviewContainer
+    ]
+}));
+
 application.behavior = new ApplicationBehavior();

@@ -86,7 +86,7 @@ Window.prototype.serialize = function () {
     return JSON.stringify({
         name: this.name,
         tint: this.tint,
-        image: this.images,
+        images: this.images,
         controls: this.controls // WARNING: this assumes whatever we store in controls is valid JSON
     });
 };
@@ -97,7 +97,7 @@ Window.prototype.serialize = function () {
  */
 Window.deserialize = function (data) {
     var obj = JSON.parse(data);
-    var window = new Window(name);
+    var window = new Window(obj.name);
     window.tint = obj.tint;
     window.images = obj.images;
     window.controls = obj.controls;
@@ -147,7 +147,9 @@ Window.prototype.updatePreviewImages = function() {
 /**
  * @return {Container} a kinoma Container object representing the preview of the window.
  */
-Window.prototype.renderPreview = function () {
+Window.prototype.renderPreview = function (height, width) {
+    height = height || Window.PREVIEW_HEIGHT;
+    width = width || Window.PREVIEW_WIDTH;
     if (this.preview !== null) {
         if (this.preview.container) {
             this.preview.container.remove(this.preview);
@@ -158,7 +160,7 @@ Window.prototype.renderPreview = function () {
     var window = this;
 
     var preview = new Container({
-        height: Window.PREVIEW_HEIGHT, width: Window.PREVIEW_WIDTH,
+        height: height, width: width,
         skin: new Skin({
             borders: {left:3, right:3, top:3, bottom:3},
             stroke:"black"
