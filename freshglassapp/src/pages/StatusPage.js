@@ -15,6 +15,10 @@ var StatusPage = function (window, previousPage, switchPages) {
 
     this.windowPreviewContainer = null; // kinoma container for window preview
     this.window.statusPage = this;
+    
+    this.sunIcon = new Picture({width: 150, height: 150, left: 165, url: sunURL});
+	this.thermometer = new Picture({width: 140, height: 140, right: 165, url: thermURL});
+    
 };
 
 var red = "#DB4C3F";
@@ -26,9 +30,6 @@ var darkBlue = "#43489B";
 
 var sunURL = mergeURI(application.url, "images/sunpicture.png");
 var thermURL = mergeURI(application.url, "images/thermometer.png");
-
-var sunIcon = new Picture({width: 150, height: 150, left: 165, url: sunURL});
-var thermometer = new Picture({width: 140, height: 140, right: 165, url: thermURL});
 
 StatusPage.prototype.onNavigatedTo = function () {
     // if we already rendered the kinoma structure for this page, make sure that we
@@ -114,8 +115,8 @@ StatusPage.prototype.getContainer = function () {
     var statusContainer = new Container({
         left: 0, right: 0, top: 0, bottom: 0,
         contents: [
-           sunIcon,
-           thermometer,
+           this.sunIcon,
+           this.thermometer,
            statusLine,
         ]
     });
