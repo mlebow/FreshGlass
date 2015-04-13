@@ -81,10 +81,27 @@ Window.prototype.updateFrom = function (window) {
 
 /**
  * Return a string representation of this window to send to the device.
- * TODO: implement
  */
 Window.prototype.serialize = function () {
-    return JSON.stringify({});
+    return JSON.stringify({
+        name: this.name,
+        tint: this.tint,
+        image: this.images,
+        controls: this.controls // WARNING: this assumes whatever we store in controls is valid JSON
+    });
+};
+
+/**
+ * Given a string representation of a window as returned from Window.prototype.serialize,
+ * return an actual copy of the window it represents.
+ */
+Window.deserialize = function (data) {
+    var obj = JSON.parse(data);
+    var window = new Window(name);
+    window.tint = obj.tint;
+    window.images = obj.images;
+    window.controls = obj.controls;
+    return window;
 };
 
 /**
