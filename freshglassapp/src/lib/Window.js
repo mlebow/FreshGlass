@@ -59,18 +59,16 @@ Window.prototype.serialize = function () {
  * Changes the window preview kinoma container, does not return anything.
  */
 Window.prototype.updatePreview = function () {
-    trace("updatePreview called\n");
     if (this.preview === null) {
         this.renderPreview(); // will set this.preview as the correct container
     }
     var window = this;
 
-    // this.preview.skin = new Skin({
-    //     fill: window.getTintHexCode(),
-    //     borders: {left:3, right:3, top:3, bottom:3},
-    //     stroke:"black"
-    // });
-    trace("updatePreview done\n");
+    this.preview.skin = new Skin({
+        fill: window.getTintHexCode(),
+        borders: {left:3, right:3, top:3, bottom:3},
+        stroke:"black"
+    });
 };
 
 /**
