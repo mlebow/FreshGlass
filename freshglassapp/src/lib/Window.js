@@ -153,15 +153,7 @@ Window.prototype.updatePreviewImages = function() {
             left: window.images[i].x
         }));
     }
-    for (var i = 0; i < window.controls.length; i++) {
-        this.preview.add(new Picture({
-            url: window.controls[i].url,
-            height: window.controls[i].height,
-            width: window.controls[i].width,
-            top: window.controls[i].y,
-            left: window.controls[i].x
-        }));
-    }
+    
 };
 
 /**
