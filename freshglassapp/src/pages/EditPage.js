@@ -110,7 +110,7 @@ EditPage.prototype.getContainer = function () {
     if (this.container) { return this.container; }
     var page = this;
 
-    var headerBar = new NavBar({ name: page.window.name, back: true, page: page });
+    var headerBar = new NavBar({ name: page.window.name, back: true, home: false, page: page });
 
     var TintTab = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top: 0, bottom: 0,

@@ -26,7 +26,7 @@ StatusPage.prototype.getContainer = function () {
     var page = this;
 
     // TODO: replace this with Michael's general header bar template
-    var headerBar = new NavBar({ name: page.window.name, back: true, page: page });
+    var headerBar = new NavBar({ name: page.window.name, back: true, home: false, page: page });
 
     this.temperatureLabel = new Label({
         left: 0, right: 0, height: 100,

@@ -11,6 +11,8 @@ var navBarSkin = new Skin({fill:"white"});
 var navBarHeight = 35;
 
 var windowNameStyle = new Style({font:"bold 25px", color:"black"});
+var windowNameStyle = new Style({font:"bold 25px", color:"black"});
+
 var backStyle = new Style({font:"15", color:"black"});
 
 var BackButtonTemplate = BUTTONS.Button.template(function($){ return {
@@ -25,20 +27,29 @@ var BackButtonTemplate = BUTTONS.Button.template(function($){ return {
 	})
 };});
 
+
 var WindowNameTemplate = Label.template(function($) { return {
 	left: 0, right: 0, bottom: 0, height: navBarHeight, string: $.name, style: windowNameStyle
 };});
 
+var WindowNameTemplate2 = Label.template(function($) { return {
+	left: -150, right: 0, bottom: 0, height: navBarHeight, string: $.name, style: windowNameStyle
+};});
+
 var NavBar = Line.template(function($) {
 	var buttonTemp = null;
+	var spaceTemplate = new WindowNameTemplate2({name: ""});;
 	if ($.back) {
 		buttonTemp = new BackButtonTemplate({page: $.page});
+	} if ($.home) {
+		spaceTemplate = null;
 	}
 	return {
 		left:0, right:0, top:0, height: navBarHeight, skin: navBarSkin,
 		contents: [
 			buttonTemp,
 			new WindowNameTemplate({name: $.name }),
+			spaceTemplate,
 		]
 	};
 });

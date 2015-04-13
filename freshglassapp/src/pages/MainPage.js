@@ -79,7 +79,7 @@ MainPage.prototype.getContainer = function () {
         contents: []
     };});    
 
-    var navBar = new NavBar({name:"Fresh Glass", back: false, page: page});
+    var navBar = new NavBar({name:"Fresh Glass", back: false, home: true, page: page});
 
     var rootContainer = new Column({
         top: 0, left: 0, right: 0, bottom: 0,
