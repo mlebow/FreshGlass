@@ -46,6 +46,7 @@ Window.prototype.addImage = function (url, x, y, height, width) {
         height: height,
         width: width
     });
+    this.updatePreview();
 };
 
 /**
