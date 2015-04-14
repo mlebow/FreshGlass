@@ -36,7 +36,7 @@ var MainPage = function (switchPages) {
 var buttonSkin = new Skin({fill: "#80FFFFFF", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"});
 var rootSkin = new Skin({fill: "#dddddd"}); //root container's color
 var labelStyle = new Style({ color: 'black', font: "30px Georgia", horizontal: 'center', vertical: 'middle', });
-var presetsButtonSkin = new Skin({fill: green, borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"});
+var presetsButtonSkin = new Skin({fill: green, stroke:"black"});
 
 /**
  * Return the kinoma Container which will be added to the application when this
@@ -66,7 +66,7 @@ MainPage.prototype.getContainer = function () {
     };});
     
     var VerticalWindowButton = BUTTONS.Button.template(function($) { return {
-        left: 250, right: 20, height: 200, top: 10,
+        left: 250, right: 25, height: 200, top: 10,
         skin: buttonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -90,7 +90,7 @@ MainPage.prototype.getContainer = function () {
     };});
 
     var PresetsButton = BUTTONS.Button.template(function ($) { return {
-         left: 0, right: 0, top:0, bottom: 0,
+         left: 10, right: 10, top: 10, bottom: 10,
          skin: presetsButtonSkin,
          behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
              onTap: { value: function (button) {

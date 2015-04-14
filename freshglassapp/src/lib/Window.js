@@ -161,8 +161,9 @@ Window.prototype.updatePreviewImages = function() {
             url: window.images[i].url,
             height: window.images[i].height,
             width: window.images[i].width,
-            top: window.images[i].y,
-            left: window.images[i].x
+            top: window.images[i].y + 3,//to not touch the top border
+            left: window.images[i].x, 
+            opacity:.5, 
         }));
     }
 };
