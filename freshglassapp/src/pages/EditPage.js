@@ -218,7 +218,7 @@ EditPage.prototype.getContainer = function () {
         skin: controlContainerSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-				trace("control button pressed - ADD CONTROLS")
+				trace("control button pressed - ADD CONTROLS\n")
                 page.windowCopy.addImage(controluri, 130, 130, 25, 25);				
 	
             }}

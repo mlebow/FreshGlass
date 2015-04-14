@@ -118,7 +118,7 @@ PresetsPage.prototype.getContainer = function () {
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                 //apply the image to the window;
-                    var scale = 0.5;
+                    var scale = .9;
                     var url = valentineURL;
                     var height = Window.PREVIEW_HEIGHT * scale;
                     var width = Window.PREVIEW_WIDTH * scale;
