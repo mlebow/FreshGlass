@@ -194,6 +194,7 @@ EditPage.prototype.getContainer = function () {
             onTap: { value: function (button) {
                 var cameraRoll = new CameraRoll($.window, page, page.switchPages);
                 page.switchPages(cameraRoll);
+                page.windowCopy.clearImages = false;
             }}
         }),
         contents: [
@@ -224,22 +225,32 @@ EditPage.prototype.getContainer = function () {
     };});   
       
      var controlButton = BUTTONS.Button.template(function ($) { return {
-        left: 25, right: 0, top: 10, height: 80,
+        left: 15, right: 0, top: 0, height: 80,
         skin: controlContainerSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-            	if (page.windowCopy.control.added == false){
+            	if (page.controlID != null){}
+                else{
+                    page.controlID = page.windowCopy.addImage(controluri, 130, 130, 25, 25);
+                    trace(page.controlID + "\n");
+                }
+                /*
+                if (page.windowCopy.control.added == false){
+                    page.windowCopy.control.added = true;
+                }
+                if (page.windowCopy.control.added == false){
 	                page.windowCopy.addControl(controluri, 130, 130, 25, 25);	
 	                page.windowCopy.control.added = true;	
                 	page.lastAction = "control";
             	}
+                */
             }}
         }),
         contents: [
         	new Picture({right: 0, left: 0, width: 100, height:50, url: controlwithlabeluri}),
         ]
     };});
-    
+    /*
     var leftButton = BUTTONS.Button.template(function ($) { return {
         left: 230, right: 70, top: 15, height: 15,
         skin: tran,
@@ -311,9 +322,18 @@ EditPage.prototype.getContainer = function () {
         	new Picture({right: 0, left: 0, width: 10, height:10, url: downuri}),
         ]
     };});  
-          
+    */  
     page.controls.tint = new TintSlider();
     page.controls.images = new AddImageButton(page); //TODO: change!
+    page.controls.control = new controlButton(); //TODO: change!
+
+    page.controlContainer = new Container({
+        left: 0, right: 0, height: 50,
+        skin: tintContainerSkin,
+        contents: [
+            page.controls.tint
+        ],
+    });
 
     var ApplyButton = BUTTONS.Button.template(function ($) { return {
         left: 10, right: 5, top: 0, height: 35,
@@ -344,7 +364,9 @@ EditPage.prototype.getContainer = function () {
 	                page.controls.tint.behavior.onValueChanged();
 	                page.controls.tint.behavior.onLayoutChanged(page.controls.tint);
 	            } else if (page.lastAction == "control"){                
-                	page.windowCopy.control.added = false;
+                	page.windowCopy.images = [];
+                    page.windowCopy.clearImages = true;
+                    //page.windowCopy.control.added = false;
 				} else if (page.lastAction == "images"){
 				    page.windowCopy.images.pop(page.windowCopy.images.length - 1);
 				}
@@ -368,9 +390,11 @@ EditPage.prototype.getContainer = function () {
                 page.controls.tint.behavior.data.value = 0;
                 page.windowCopy.tint = 0;
                 page.windowCopy.images = [];
-                page.windowCopy.control.added = false;
+                page.windowCopy.controls = null;
+                //page.windowCopy.control.added = false;
                 page.controls.tint.behavior.onValueChanged();
                 page.controls.tint.behavior.onLayoutChanged(page.controls.tint);
+                page.controlID = null;
 
             }}
         }),
@@ -387,6 +411,7 @@ EditPage.prototype.getContainer = function () {
     page.tabContainers.images = new ImagesTab();
     page.tabContainers.control = new ControlTab();
     
+    /*
     page.controlContainer = new Container({
         left: 0, right: 0, height: 50,
         skin: tintContainerSkin,
@@ -416,7 +441,7 @@ EditPage.prototype.getContainer = function () {
     });
     
     page.controls.control = directionalControl; //TODO: change!    
-    
+    */
     page.windowPreviewContainer = new Container({
         left: 0, right: 0, top: 0, bottom: 0,
         contents: [

@@ -11,6 +11,9 @@ var Window = function (name) {
     this.images = [
         // {url: "...", top: 0, left: 0, width: 10, height: 10}
     ];
+    this.clearImages = false;
+    this.controls = null;
+    /*
     this.control = {
     	added: false, 
         url: null,
@@ -18,7 +21,8 @@ var Window = function (name) {
         y: null,
         height: null, 
         width: null,
-    };        
+    };
+    */
     // TODO: implement this!
     this.statusPage = null;
     // NOTE: size is hardcoded (v2.0 feature)
@@ -63,6 +67,7 @@ Window.prototype.addImage = function (url, x, y, height, width) {
     return newID;
 };
 
+/*//for v2.0
 Window.prototype.addControl = function (url, x, y, height, width) {
 	this.control.added = true,
     this.control.x = x,
@@ -73,6 +78,7 @@ Window.prototype.addControl = function (url, x, y, height, width) {
     
     this.updatePreview();
 };
+*/
 
 /**
  * Return the image of this window specified by the given id, or null if no
@@ -185,6 +191,7 @@ Window.prototype.updatePreviewImages = function() {
             opacity:.5, 
         }));
     }
+    /*
     if (this.control.added == true){
 	    this.preview.add(new Picture({
 	        url: window.control.url,
@@ -193,7 +200,11 @@ Window.prototype.updatePreviewImages = function() {
 	        top: window.control.y,
 	        left: window.control.x  
 		}))    
-    } 
+    }
+    */
+    if(this.clearImages){
+        this.preview.empty();
+    }
 
 };
 
