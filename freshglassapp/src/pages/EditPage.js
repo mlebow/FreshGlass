@@ -165,7 +165,7 @@ EditPage.prototype.getContainer = function () {
                 SLIDERS.HorizontalSliderBehavior.prototype.onValueChanged.call(this, container);
                 page.windowCopy.tint = this.data.value;
                 page.windowCopy.updatePreview();
-                this.lastAction = "tint";
+                page.lastAction = "tint";
             }},
         }),
     };});
