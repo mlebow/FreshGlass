@@ -8,6 +8,9 @@ var EditPage = function (window, previousPage, switchPages) {
     this.window = window;
     this.previousPage = previousPage;
     this.switchPages = switchPages;
+    
+    this.lastAction = "";
+    
     this.container = null;
     this.windowPreviewContainer = null;
     this.currentTab = "tint";
@@ -162,6 +165,7 @@ EditPage.prototype.getContainer = function () {
                 SLIDERS.HorizontalSliderBehavior.prototype.onValueChanged.call(this, container);
                 page.windowCopy.tint = this.data.value;
                 page.windowCopy.updatePreview();
+                this.lastAction = "tint";
             }},
         }),
     };});
@@ -190,6 +194,7 @@ EditPage.prototype.getContainer = function () {
             onTap: { value: function (button) {
                 var cameraRoll = new CameraRoll($.window, page, page.switchPages);
                 page.switchPages(cameraRoll);
+                page.windowCopy.clearImages = false;
             }}
         }),
         contents: [
@@ -227,8 +232,8 @@ EditPage.prototype.getContainer = function () {
             	if (page.windowCopy.control.added == false){
 	                page.windowCopy.addControl(controluri, 130, 130, 25, 25);	
 	                page.windowCopy.control.added = true;	
+                	page.lastAction = "control";
             	}
-
             }}
         }),
         contents: [
@@ -244,7 +249,7 @@ EditPage.prototype.getContainer = function () {
                 if (page.currentTab == "control"){            
 	                if (page.windowCopy.control.added == true){
 	                    page.windowCopy.control.x -= 5;	
-		                page.windowCopy.updatePreview();
+		                page.windowCopy.updatePreview();			                
 	                }	
 	            }			
             }}
@@ -334,12 +339,16 @@ EditPage.prototype.getContainer = function () {
         skin: cancelButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-            	if (page.currentTab == "tint"){
+            	trace(page.lastAction)
+            	if (page.lastAction == "tint"){
 	                page.controls.tint.behavior.data.value = page.window.tint;
 	                page.controls.tint.behavior.onValueChanged();
 	                page.controls.tint.behavior.onLayoutChanged(page.controls.tint);
-	            } else if (page.currentTab == "control"){                
+	            } else if (page.lastAction == "control"){                
                 	page.windowCopy.control.added = false;
+				} else if (page.lastAction == "images"){
+				    page.windowCopy.images = [];
+				    page.windowCopy.clearImages = true;
 				}
 				page.windowCopy.updatePreview();
             }}

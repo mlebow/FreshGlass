@@ -88,6 +88,7 @@ CameraRoll.prototype.getContainer = function () {
                 	page.previousPage.windowCopy.addImage(url, startX, startY, height, width);
                 	//page.previousPage.windowCopy.updatePreview()
                 	page.switchPages(page.previousPage);
+                	page.previousPage.lastAction = "images";
                 	
             	}}
         	}),
