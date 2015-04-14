@@ -11,7 +11,6 @@ var Window = function (name) {
     this.images = [
         // {url: "...", top: 0, left: 0, width: 10, height: 10}
     ];
-    this.clearImages = false;
     this.control = {
     	added: false, 
         url: null,
@@ -195,9 +194,6 @@ Window.prototype.updatePreviewImages = function() {
 	        left: window.control.x  
 		}))    
     } 
-    if (this.clearImages){
-    	this.preview.empty()
-    }
 
 };
 

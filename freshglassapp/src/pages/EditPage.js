@@ -194,7 +194,6 @@ EditPage.prototype.getContainer = function () {
             onTap: { value: function (button) {
                 var cameraRoll = new CameraRoll($.window, page, page.switchPages);
                 page.switchPages(cameraRoll);
-                page.windowCopy.clearImages = false;
             }}
         }),
         contents: [
@@ -347,8 +346,7 @@ EditPage.prototype.getContainer = function () {
 	            } else if (page.lastAction == "control"){                
                 	page.windowCopy.control.added = false;
 				} else if (page.lastAction == "images"){
-				    page.windowCopy.images = [];
-				    page.windowCopy.clearImages = true;
+				    page.windowCopy.images.pop(page.windowCopy.images.length - 1);
 				}
 				page.windowCopy.updatePreview();
             }}
