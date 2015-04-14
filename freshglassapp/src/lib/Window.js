@@ -11,7 +11,15 @@ var Window = function (name) {
     this.images = [
         // {url: "...", top: 0, left: 0, width: 10, height: 10}
     ];
-    this.controls = null; // TODO: implement this!
+    this.control = {
+    	added: false, 
+        url: null,
+        x: null,
+        y: null,
+        height: null, 
+        width: null,
+    };        
+    // TODO: implement this!
     this.statusPage = null;
     // NOTE: size is hardcoded (v2.0 feature)
     this.preview = null; // kinoma container for window preview that will be used on multiple pages
@@ -53,6 +61,17 @@ Window.prototype.addImage = function (url, x, y, height, width) {
     this.updatePreview();
     Window.currentImageId++;
     return newID;
+};
+
+Window.prototype.addControl = function (url, x, y, height, width) {
+	this.control.added = true,
+    this.control.x = x,
+    this.control.url = url,
+	this.control.y = y,
+    this.control.height = height,
+    this.control.width = width,
+    
+    this.updatePreview();
 };
 
 /**
@@ -163,8 +182,20 @@ Window.prototype.updatePreviewImages = function() {
             width: window.images[i].width,
             top: window.images[i].y,
             left: window.images[i].x
-        }));
+        }))
     }
+    if (this.control.added == true){
+	    this.preview.add(new Picture({
+	        url: window.control.url,
+	        height: window.control.height,
+	        width: window.control.width,
+	        top: window.control.y,
+	        left: window.control.x  
+		}))    
+    
+    } 
+
+    
 };
 
 /**
