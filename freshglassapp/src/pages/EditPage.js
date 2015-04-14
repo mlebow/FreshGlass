@@ -225,7 +225,7 @@ EditPage.prototype.getContainer = function () {
     };});   
       
      var controlButton = BUTTONS.Button.template(function ($) { return {
-        left: 15, right: 0, top: 0, height: 80,
+        left: 15, right: 0, top: 10, height: 80,
         skin: controlContainerSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -247,7 +247,7 @@ EditPage.prototype.getContainer = function () {
             }}
         }),
         contents: [
-        	new Picture({right: 0, left: 0, width: 100, height:50, url: controlwithlabeluri}),
+        	new Picture({left: 0, top:0, width: 100, height:50, url: controlwithlabeluri}),
         ]
     };});
     /*
