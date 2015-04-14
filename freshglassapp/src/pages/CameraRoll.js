@@ -42,14 +42,16 @@ CameraRoll.prototype.getContainer = function () {
         	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             	onTap: { value: function (button) {
                 	trace("switch " + $.direction);
-                	if ($.direction == "left") {
-                		curImage -= 1;
-                		if (curImage < 0) curImage = numImages - 1;
-                		image.url = imageBase + imageURLs[curImage];
-                	} else if ($.direction == "right") {
-                		curImage += 1;
-                		if (curImage >= numImages) curImage = 0;
-                		image.url = imageBase + imageURLs[curImage];
+                	if (numImages != 0) {
+                		if ($.direction == "left") {
+                			curImage -= 1;
+                			if (curImage < 0) curImage = numImages - 1;
+                			image.url = imageBase + imageURLs[curImage];
+                		} else if ($.direction == "right") {
+                			curImage += 1;
+                			if (curImage >= numImages) curImage = 0;
+                			image.url = imageBase + imageURLs[curImage];
+                		}
                 	}
             	}}
         	}),
@@ -62,31 +64,41 @@ CameraRoll.prototype.getContainer = function () {
         	]
     	}
     });
-    var image = new Picture({left:0, top:0, right: 0, bottom: 0}, '');
-	var imageContainer = Column.template(function($) {return {
+    var image = new Picture({left:0, top:0, right: 0, bottom: 0, 
+    	behavior: Object.create(Container.prototype, {
+			//onTouchMoved: { value: function(content, id, x, y, ticks){
+			//	trace("touch moved " + x + "," + y + "\n");
+			//}},
+			onTouchEnded: { value: function(content) {
+				trace("touch ended\n");
+			}},
+		}),
+	}, '');
+    var imageContainer = new Column({
 		top: 10, left: 10, right: 10, bottom: 10, contents: [image], 
-		behavior: new Behavior( {
-			onTouchMoved: {
-				value: function() {
-					trace("touch moved");
-				}
-			}
-		})
-	}});
+		behavior: Object.create(Container.prototype, {
+			//onTouchMoved: { value: function(content, id, x, y, ticks){
+			//	trace("touch moved " + x + "," + y + "\n");
+			//}},
+			onTouchEnded: { value: function(content) {
+				trace("touch ended\n");
+			}},
+		}),
+	});
 	var picker = new Line({top:0, left:0, right:0, height:300, 
 		contents: [
 			new arrowTemplate({direction: "left"}),
-			new imageContainer(),
+			imageContainer,
 			new arrowTemplate({direction: "right"}),
 		]
 	});
-	var insertButton = BUTTONS.Button.template(function ($) { 
+	var insertButton = BUTTONS.Button.template(function ($) {
     	return {
         	top: 0, bottom: 0, width: 200, height: 40,
         	skin: new Skin({fill: darkBlue}),
         	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             	onTap: { value: function (button) {
-                	var scale = 0.1;
+                	var scale = 0.2;
                 	var url = imageBase + imageURLs[curImage];
                 	var height = Window.PREVIEW_HEIGHT * scale;
                 	var width = Window.PREVIEW_WIDTH * scale;
