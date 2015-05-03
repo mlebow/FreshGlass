@@ -6,18 +6,36 @@ var PinsSimulators = require('PinsSimulators');
 exports.configure = function (config) {
     this.pinsSimulator = shell.delegate("addSimulatorPart", {
         header: {
-            label: "Temperature",
+            label: "Window Temperatures",
             name: "in Fahrenheit",
             iconVariant:PinsSimulators.SENSOR_SLIDER
         },
         axes: [
             new PinsSimulators.AnalogInputAxisDescription({
                 ioType: "input",
-                valueLabel : "Temperature",
-                valueID : "temperature",
+                valueLabel : "Window 1's Temperature",
+                valueID : "temperature1",
                 dataType: "float",
-                minValue: 0.0,  	//Why is this here twice?
-                maxValue: 100.0,	//Why is this here twice?
+                minValue: 0.0,
+                maxValue: 110.0,
+                value: 50.0,
+                defaultControl: PinsSimulators.SLIDER
+            }),
+            new PinsSimulators.AnalogInputAxisDescription({
+                ioType: "input",
+                valueLabel : "Window 2's Temperature",
+                valueID : "temperature2",
+                dataType: "float",
+                minValue: 0.0,
+                maxValue: 110.0,
+                value: 50.0,
+                defaultControl: PinsSimulators.SLIDER
+            }),
+            new PinsSimulators.AnalogInputAxisDescription({
+                ioType: "input",
+                valueLabel : "Window 3's Temperature",
+                valueID : "temperature3",
+                dataType: "float",
                 minValue: 0.0,
                 maxValue: 110.0,
                 value: 50.0,
@@ -29,7 +47,7 @@ exports.configure = function (config) {
 
 var read = exports.read = function() {
 	var axes = this.pinsSimulator.delegate("getValue");
-	return axes.temperature;
+	return axes;
 }
 
 exports.write = function () {};
@@ -39,5 +57,8 @@ exports.close = function () {
 };
 
 exports.pins = {
-    temperature: { type: "A2D" }
+    temperature1: { type: "A2D" }, 
+    temperature2: { type: "A2D" }, 
+    temperature3: { type: "A2D" }, 
+
 };

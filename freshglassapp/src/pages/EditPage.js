@@ -55,6 +55,7 @@ var darkBlue = "#43489B";
 var applyButtonSkin = new Skin({fill: green, stroke:"black"});
 var cancelButtonSkin = new Skin({fill: orange, stroke:"black"});
 var clearButtonSkin = new Skin({fill: red, stroke:"black"});
+var undoButtonSkin = new Skin({fill: "white", stroke:"black"});
 
 var tran = new Skin({fill: "white"});
 
@@ -240,95 +241,13 @@ EditPage.prototype.getContainer = function () {
                     //trace(page.controlID + "\n");
                     page.windowCopy.clearImages = false;
                 }
-                /*
-                if (page.windowCopy.control.added == false){
-                    page.windowCopy.control.added = true;
-                }
-                if (page.windowCopy.control.added == false){
-	                page.windowCopy.addControl(controluri, 130, 130, 25, 25);	
-	                page.windowCopy.control.added = true;	
-                	page.lastAction = "control";
-            	}
-                */
             }}
         }),
         contents: [
         	new Picture({left: 0, top:0, width: 100, height:50, url: controlwithlabeluri}),
         ]
     };});
-    /*
-    var leftButton = BUTTONS.Button.template(function ($) { return {
-        left: 230, right: 70, top: 15, height: 15,
-        skin: tran,
-        behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
-            onTap: { value: function (button) {
-                if (page.currentTab == "control"){            
-	                if (page.windowCopy.control.added == true){
-	                    page.windowCopy.control.x -= 5;	
-		                page.windowCopy.updatePreview();			                
-	                }	
-	            }			
-            }}
-        }),
-        contents: [
-        	new Picture({right: 0, left: 0, width: 10, height:10, url: lefturi}),
-        ]
-    };});
-    
-    var rightButton = BUTTONS.Button.template(function ($) { return {
-        left: 260, right: 40, top: 15, height: 15,
-        skin: tran,
-        behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
-            onTap: { value: function (button) {
-                if (page.currentTab == "control"){            
-	                if (page.windowCopy.control.added == true){
-	                    page.windowCopy.control.x += 5;	
-		                page.windowCopy.updatePreview();
-	                }	
-	            }			
-            }}
-        }),
-        contents: [
-        	new Picture({right: 0, left: 0, width: 10, height:10, url: righturi}),
-        ]
-    };});    
-    
-    var upButton = BUTTONS.Button.template(function ($) { return {
-        left: 240, right: 50, top: 0, height: 15,
-        skin: tran,
-        behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
-            onTap: { value: function (button) {
-                if (page.currentTab == "control"){
-	                if (page.windowCopy.control.added == true){
-	                    page.windowCopy.control.y -= 5;	
-		                page.windowCopy.updatePreview();
-	                }	
-	           }
-            }}
-        }),
-        contents: [
-        	new Picture({right: 0, left: 0, width: 10, height:10, url: upuri}),
-        ]
-    };});
-    
-    var downButton = BUTTONS.Button.template(function ($) { return {
-        left: 240, right: 50, top: 30, height: 15,
-        skin: tran,
-        behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
-            onTap: { value: function (button) {
-                if (page.currentTab == "control"){
-	                if (page.windowCopy.control.added == true){
-	                    page.windowCopy.control.y += 5;	
-		                page.windowCopy.updatePreview();
-	                }	
-	             }		
-            }}
-        }),
-        contents: [
-        	new Picture({right: 0, left: 0, width: 10, height:10, url: downuri}),
-        ]
-    };});  
-    */  
+
     page.controls.tint = new TintSlider();
     page.controls.images = new AddImageButton(page); //TODO: change!
     page.controls.control = new controlButton(); //TODO: change!
@@ -389,7 +308,7 @@ EditPage.prototype.getContainer = function () {
     };});
 
     var ClearButton = BUTTONS.Button.template(function ($) { return {
-        left: 10, right: 10, top: 0, height: 35,
+        left: 10, right: 10, top: 0, height: 25,
         skin: clearButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -413,41 +332,38 @@ EditPage.prototype.getContainer = function () {
         ]
     };});
 
+    var UndoButton = BUTTONS.Button.template(function ($) { return {
+        left: 10, right: 10, top: 0, height: 35,
+        skin: undoButtonSkin,
+        behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
+            onTap: { value: function (button) {
+                trace(page.lastAction)
+                if (page.lastAction == "tint"){
+                    page.controls.tint.behavior.data.value = page.window.tint;
+                    page.controls.tint.behavior.onValueChanged();
+                    page.controls.tint.behavior.onLayoutChanged(page.controls.tint);
+                } else if (page.lastAction == "control"){                
+                    page.windowCopy.images = [];
+                    page.windowCopy.clearImages = true;
+                    //page.windowCopy.control.added = false;
+                } else if (page.lastAction == "images"){
+                    page.windowCopy.images.pop(page.windowCopy.images.length - 1);
+                }
+                page.windowCopy.updatePreview();
+            }}
+        }),
+        contents: [
+            new Label({
+                left: 0, right: 0, bottom: 0, top: 0,
+                style: new Style({color: "grey", font: "Helvetica Neue", size: 18}),
+                string: "Undo"
+            })
+        ]
+    };});
     page.tabContainers.tint = new TintTab();
     page.tabContainers.images = new ImagesTab();
     page.tabContainers.control = new ControlTab();
-    
-    /*
-    page.controlContainer = new Container({
-        left: 0, right: 0, height: 50,
-        skin: tintContainerSkin,
-        contents: [
-            page.controls.tint
-        ],
-    });    
-    
-    var directionalImages = new Container({
-        left: 0, right: 0, height: 50,
-        skin: tintContainerSkin,
-        contents: [
-            new upButton(),
-        ],
-    });
-            
-    var directionalControl = new Container({
-        left: 0, right: 0, bottom: 0, top: 0, height: 60,
-        skin: tintContainerSkin,
-        contents: [
-        	new controlButton(),
-        	new upButton(),
-        	new downButton(),
-        	new leftButton(),
-        	new rightButton(),
-		]
-    });
-    
-    page.controls.control = directionalControl; //TODO: change!    
-    */
+
     page.windowPreviewContainer = new Container({
         left: 0, right: 0, top: 0, bottom: 0,
         contents: [
@@ -474,14 +390,7 @@ EditPage.prototype.getContainer = function () {
             new Line({
                 left: 0, right: 0, height: 45,
                 contents: [
-                    new ApplyButton(),
-                    new CancelButton()
-                ]
-            }),
-            new Line({
-                left: 0, right: 0, height: 45,
-                contents: [
-                    new ClearButton()
+                    new UndoButton(),                
                 ]
             }),
            navBar,
