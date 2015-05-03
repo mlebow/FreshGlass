@@ -20,7 +20,7 @@ exports.configure = function (config) {
                 maxValue: 100.0,	//Why is this here twice?
                 minValue: 0.0,
                 maxValue: 110.0,
-                value: 32.0,
+                value: 50.0,
                 defaultControl: PinsSimulators.SLIDER
             }),
         ]

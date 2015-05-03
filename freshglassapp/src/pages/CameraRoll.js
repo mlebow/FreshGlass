@@ -79,7 +79,7 @@ CameraRoll.prototype.getContainer = function () {
         	skin: new Skin({fill: darkBlue}),
         	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             	onTap: { value: function (button) {
-                	var scale = 0.5;
+                	var scale = 0.4;
                 	var url = imageBase + imageURLs[curImage];
                 	var height = Window.PREVIEW_HEIGHT * scale;
                 	var width = Window.PREVIEW_WIDTH * scale;

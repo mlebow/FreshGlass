@@ -47,12 +47,13 @@ var EditPage = function (window, switchPages) {
 var red = "#DB4C3F";
 var blue = "#4682EA";
 var yellow = "#FDBA35";
+var orange = "#FF7F00";
 var green = "#67AF4B";
 var purple = "#AF6DC5";
 var darkBlue = "#43489B";
 
 var applyButtonSkin = new Skin({fill: green, stroke:"black"});
-var cancelButtonSkin = new Skin({fill: blue, stroke:"black"});
+var cancelButtonSkin = new Skin({fill: orange, stroke:"black"});
 var clearButtonSkin = new Skin({fill: red, stroke:"black"});
 
 var tran = new Skin({fill: "white"});
@@ -236,6 +237,8 @@ EditPage.prototype.getContainer = function () {
             	if (page.controlID != null){}
                 else{
                     page.controlID = page.windowCopy.addImage(controluri, 130, 130, 25, 25);
+                    //trace(page.controlID + "\n");
+                    page.windowCopy.clearImages = false;
                 }
                 /*
                 if (page.windowCopy.control.added == false){
