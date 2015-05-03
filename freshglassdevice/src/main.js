@@ -156,7 +156,7 @@ var windowPreviewContainer = new Line({
 Handler.bind("/update", Behavior({
     onInvoke: function(handler, message) {
         var serializedWindows = JSON.parse(parseQuery(message.query).windowsJSON);
-        windowPreviewContainer.empty();
+        //windowPreviewContainer.empty();
         for (var i = 0; i < serializedWindows.length; i++) {
             var newWindow = Window.deserialize(serializedWindows[i]);
             windowPreviewContainer.add(new Container({
