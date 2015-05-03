@@ -1,3 +1,4 @@
+
 // KPR Script file
 var NavBar = require('lib/NavBar');
 var SLIDERS = require('controls/sliders');

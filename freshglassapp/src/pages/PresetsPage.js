@@ -226,3 +226,4 @@ PresetsPage.prototype.updateWindowWithPreset = function() {
 }
 
 module.exports = PresetsPage;
+

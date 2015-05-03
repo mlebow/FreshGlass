@@ -1,3 +1,4 @@
+
 //@module
 var THEME = require('themes/flat/theme'); // required for BUTTONS to work???
 var BUTTONS = require("controls/buttons");
@@ -96,7 +97,7 @@ MainPage.prototype.getContainer = function () {
         contents: []
     };});
 
-    var PresetsButton = BUTTONS.Button.template(function ($) { return {
+/*    var PresetsButton = BUTTONS.Button.template(function ($) { return {
          left: 10, right: 10, top: 10, bottom: 10,
          skin: presetsButtonSkin,
          behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
@@ -112,6 +113,7 @@ MainPage.prototype.getContainer = function () {
              })
          ]
      };});    
+*/    
 
     var navBar = new NavBar({selected: this.windows[0].name, edit: false, status: false, presets: false, home: true, borders: true, page: page});
 
@@ -142,10 +144,10 @@ MainPage.prototype.getContainer = function () {
     }
 
 
-    rootContainer.add(new PresetsButton({
+/*    rootContainer.add(new PresetsButton({
         window: this.windows[2], //hardcode 
     }));
-
+*/
     rootContainer.add(navBar);
 
     this.container = rootContainer;
@@ -153,3 +155,4 @@ MainPage.prototype.getContainer = function () {
 };
 
 module.exports = MainPage;
+

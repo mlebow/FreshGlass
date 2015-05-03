@@ -36,7 +36,7 @@ var grayPresetsURL = mergeURI(application.url, "images/grayPresets.png");
 var bluePresetsURL = mergeURI(application.url, "images/bluePresets.png");
 
 var grayHomeButtonTemplate = BUTTONS.Button.template(function($){ return {
-	left:10, bottom:0, width:60, height:navBarHeight, skin: backSkin,
+	left:15, bottom:0, width:60, height:navBarHeight, skin: backSkin,
 	contents: [
 		 new Picture({width:100, height:40, url: grayHomeURL})
 	],
@@ -199,3 +199,4 @@ var NavBar = Line.template(function($) {
 });
 
 module.exports = NavBar;
+
