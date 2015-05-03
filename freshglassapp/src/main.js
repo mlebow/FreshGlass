@@ -6,6 +6,14 @@ var SLIDERS = require('controls/sliders');
 // var nextPage = new EditPage(currentWindow, currentPage, switchPages);
 
 var MainPage = require("pages/MainPage");
+
+var windowSelector = require("lib/windowSelector");
+
+var MainPage = require("pages/MainPage");
+var EditPage = require("pages/EditPage");
+var StatusPage = require("pages/StatusPage");
+var PresetsPage = require("pages/PresetsPage");
+
 var currentPage = null; // global
 
 var switchPages = function(nextPage) {
@@ -17,12 +25,27 @@ var switchPages = function(nextPage) {
         if (nextPage.onNavigatedTo == "function") {
             nextPage.onNavigatedTo();
         }
+
         application.add(nextPage.getContainer());
     }
 };
 
 //Globals
 var mainPage = new MainPage(switchPages);
+
+
+var editPage1 = new EditPage(mainPage.windows[0], mainPage.switchPages);
+var statusPage1 = new StatusPage(mainPage.windows[0], mainPage.switchPages);
+var presetsPage1 = new PresetsPage(mainPage.windows[0], mainPage.switchPages);
+
+var editPage2 = new EditPage(mainPage.windows[1], mainPage.switchPages);
+var statusPage2 = new StatusPage(mainPage.windows[1], mainPage.switchPages);
+var presetsPage2 = new PresetsPage(mainPage.windows[1], mainPage.switchPages);
+
+var editPage3 = new EditPage(mainPage.windows[2], mainPage.switchPages);
+var statusPage3 = new StatusPage(mainPage.windows[2], mainPage.switchPages);
+var presetsPage3 = new PresetsPage(mainPage.windows[2], mainPage.switchPages);
+
 var index = 0;//keeps track of which device we are polling for 
 var devices = []; //array of devices
 var devicesTable = {}; //key: device's url (unique to each device) value: index of Device in devices array 
@@ -131,3 +154,4 @@ Device.prototype = Object.create(Object.prototype, {
 application.behavior = new ApplicationBehavior();
 
 switchPages(mainPage);
+

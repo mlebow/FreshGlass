@@ -19,22 +19,27 @@ var MainPage = function (switchPages) {
     this.container = null;
     this.previousPage = null;
 
+    this.name = "main";
+
     this.windows = [
         new Window("Window 1"),
         new Window("Window 2"),
-        new Window("Window 3")
+        new Window("Window 3"),
     ];
-
+    
     this.statusPages = [
-        new StatusPage(this.windows[0], this, this.switchPages),
-        new StatusPage(this.windows[1], this, this.switchPages),
-        new StatusPage(this.windows[2], this, this.switchPages),
-    ];
+    	statusPage1,
+    	statusPage2,
+    	statusPage3,
+    ]
+
 };
 
 //Make color changes here
 var buttonSkin = new Skin({fill: "#80FFFFFF", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"});
-var rootSkin = new Skin({fill: "#dddddd"}); //root container's color
+
+var rootSkin = new Skin({fill: "white"}); //root container's color
+
 var labelStyle = new Style({ color: 'black', font: "30px Georgia", horizontal: 'center', vertical: 'middle', });
 var presetsButtonSkin = new Skin({fill: green, stroke:"black"});
 
@@ -52,8 +57,11 @@ MainPage.prototype.getContainer = function () {
         skin: buttonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                 var statusPage = $.statusPage;// new StatusPage($.window, page, page.switchPages);
-                 page.switchPages(statusPage);
+            	  if ($.number == 1){          	  
+            	  	page.switchPages(statusPage1);
+            	  } else {
+            	    page.switchPages(statusPage3);
+            	  }
             }},
         }),
         contents: [
@@ -70,8 +78,7 @@ MainPage.prototype.getContainer = function () {
         skin: buttonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                 var statusPage = $.statusPage;// new StatusPage($.window, page, page.switchPages);
-                 page.switchPages(statusPage);
+                 page.switchPages(statusPage2);
             }},
             
             onDisplaying: {value: function(button) {
@@ -94,8 +101,7 @@ MainPage.prototype.getContainer = function () {
          skin: presetsButtonSkin,
          behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
              onTap: { value: function (button) {
-                  var presetsPage = new PresetsPage($.window, page, page.switchPages);
-                  page.switchPages(presetsPage);
+                  page.switchPages(presetsPage1);
              }}
          }),
          contents: [
@@ -107,13 +113,13 @@ MainPage.prototype.getContainer = function () {
          ]
      };});    
 
-    var navBar = new NavBar({name:"Fresh Glass", back: false, home: true, borders: true, page: page});
+    var navBar = new NavBar({selected: this.windows[0].name, edit: false, status: false, presets: false, home: true, borders: true, page: page});
 
     var rootContainer = new Column({
         top: 0, left: 0, right: 0, bottom: 0,
         skin: rootSkin,
         contents: [
-            navBar,
+
         ]
     });
 
@@ -122,21 +128,25 @@ MainPage.prototype.getContainer = function () {
             rootContainer.add(new HorizontalWindowButton({
                 window: this.windows[i],
                 string: this.windows[i].name,
-                statusPage: this.statusPages[i],
+                number: i+1,
             }));
         } else {
             rootContainer.add(new VerticalWindowButton({
                 window: this.windows[i],
                 string: this.windows[i].name,
                 statusPage: this.statusPages[i],
+                number: i+1,
         }));
         
         }
     }
 
+
     rootContainer.add(new PresetsButton({
         window: this.windows[2], //hardcode 
     }));
+
+    rootContainer.add(navBar);
 
     this.container = rootContainer;
     return this.container; // TODO: implement

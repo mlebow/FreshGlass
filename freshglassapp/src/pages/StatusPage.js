@@ -9,10 +9,24 @@ var NavBar = require("lib/NavBar");
 var StatusPage = function (window, previousPage, switchPages) {
     this.window = window;
     this.previousPage = previousPage;
+}
+
+var WindowSelector = require("lib/WindowSelector");
+
+var EditPage = require("pages/EditPage");
+var NavBar = require("lib/NavBar");
+
+var StatusPage = function (window, switchPages) {
+    this.window = window;
+    //this.previousPage = previousPage;
+
     this.switchPages = switchPages;
     this.container = null;
     this.temperatureLabel = null;
     this.brightnessLabel = null;
+
+    this.name = "status";
+
 
     this.windowPreviewContainer = null; // kinoma container for window preview
     this.window.statusPage = this;
@@ -46,19 +60,20 @@ StatusPage.prototype.getContainer = function () {
     if (this.container) { return this.container; }
     var page = this;
 
-    var navBar = new NavBar( {name: page.window.name, back: true, home: false, borders: true, page: page });
+    var navBar = new NavBar( {selected: page.window.name, status: true, edit: false, presets: false, home: false, borders: true, page: page,});
+    var windowSelector = new WindowSelector({status:true, presets: false, edit: false, page: page, name: page.window.name});
 
-    this.sunIcon = new Picture({width: 100, height: 100, left: 185, url: sunURL});
-    this.thermometer = new Picture({width: 100, height: 100, right: 185, url: thermURL});
+    this.sunIcon = new Picture({width: 75, height: 75, left: 175, url: sunURL});
+    this.thermometer = new Picture({width: 75, height: 75, right: 175, url: thermURL});
 
     this.temperatureLabel = new Label({
-        left: 0, right: 0, top: 0, bottom: 0,
+        left: 40, right: 0, top: 0, bottom: 0,
         style: new Style({color: "black", font: "25px Helvetica Neue"}),
         string: page.window.temperature + " F"
     });
 
     this.brightnessLabel = new Label({
-        left: 0, right: 0, top: 0, bottom: 0,
+        left: 0, right: 40, top: 0, bottom: 0,
         style: new Style({color: "black", font: "25px Helvetica Neue"}),
         string: (Math.floor(page.window.brightness * 100)) + "%"
     });
@@ -69,7 +84,7 @@ StatusPage.prototype.getContainer = function () {
 
     });
 
-    var EditButton = BUTTONS.Button.template(function ($) { return {
+/*    var EditButton = BUTTONS.Button.template(function ($) { return {
         left: 10, right: 5, bottom: 10, height: 35,
         skin: new Skin({fill: red, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
@@ -86,6 +101,8 @@ StatusPage.prototype.getContainer = function () {
             })
         ]
     };});
+   */
+
 
     var SavePresetButton = BUTTONS.Button.template(function ($) { return {
         left: 5, right: 10, bottom: 10, height: 35,
@@ -122,20 +139,18 @@ StatusPage.prototype.getContainer = function () {
 
     var rootColumn = new Column({
         top: 0, left: 0, bottom: 0, right: 0,
-        skin: new Skin({fill: "#dddddd"}),
+        skin: new Skin({fill: "white"}),
         contents: [
-            navBar,
+       		windowSelector,
 			statusContainer,
             page.windowPreviewContainer,
             new Line({
                 left: 0, right: 0, height: 45,
                 contents: [
-                    new EditButton({
-                        window: page.window
-                    }),
                     new SavePresetButton()
                 ]
             }),
+           navBar,
         ]
     });
 

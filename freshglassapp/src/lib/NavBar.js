@@ -6,15 +6,14 @@ THEME.buttonSkin = new Skin({fill: "#00FFFFFF", borders:{left: 2, right:2, botto
 var BUTTONS = require('controls/buttons');
 
 var backSkin = new Skin({ fill:"transparent" });
-var navBarSkin = new Skin({fill:"white"});
-var navBarSkinWithBorders = new Skin({fill:"white", borders: {bottom: 1}, stroke:"gray" });
+var navBarSkin = new Skin({fill:"white", borders: {top: 1}, stroke:"gray",});
 
 var navBarHeight = 45;
 
 var windowNameStyle = new Style({font:"Helvetica Neue", size: 22, color: "black"});
 var backStyle = new Style({font: "bold Helvetica Neue", size: 16, color:"black"});
 
-var BackButtonTemplate = BUTTONS.Button.template(function($){ return {
+/*var BackButtonTemplate = BUTTONS.Button.template(function($){ return {
 	left:0, bottom:0, width:60, height:navBarHeight, skin: backSkin,
 	contents: [
 		new Label({left: 0, right: 0, height: navBarHeight, string: "< Back", style: backStyle})
@@ -22,8 +21,137 @@ var BackButtonTemplate = BUTTONS.Button.template(function($){ return {
 	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
 		onTap: { value: function(content) {
 			$.page.switchPages($.page.previousPage);
+
+*/
+var grayHomeURL = mergeURI(application.url, "images/grayHome.png");
+var blueHomeURL = mergeURI(application.url, "images/blueHome.png");
+
+var grayStatusURL = mergeURI(application.url, "images/grayStatus.png");
+var blueStatusURL = mergeURI(application.url, "images/blueStatus.png");
+
+var grayEditURL = mergeURI(application.url, "images/grayEdit.png");
+var blueEditURL = mergeURI(application.url, "images/blueEdit.png");
+
+var grayPresetsURL = mergeURI(application.url, "images/grayPresets.png");
+var bluePresetsURL = mergeURI(application.url, "images/bluePresets.png");
+
+var grayHomeButtonTemplate = BUTTONS.Button.template(function($){ return {
+	left:10, bottom:0, width:60, height:navBarHeight, skin: backSkin,
+	contents: [
+		 new Picture({width:100, height:40, url: grayHomeURL})
+	],
+	
+	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
+		onTap: { value: function(content) {
+			$.page.switchPages(mainPage);
 		}}
 	})
+};});
+
+var blueHomeButtonTemplate = BUTTONS.Button.template(function($){ return {
+	left:15, bottom:0, width:60, height:navBarHeight, skin: backSkin,
+	contents: [
+		 new Picture({width:40, height:40, url: blueHomeURL})
+	],
+	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
+		onTap: { value: function(content) {
+			trace($.selected);
+		}}
+	})
+};});
+
+var grayStatusButtonTemplate = BUTTONS.Button.template(function($){ return {
+	left:15, bottom:0, width:60, height:navBarHeight, skin: backSkin,
+	contents: [
+		 new Picture({width:40, height:40, url: grayStatusURL})
+
+	],
+	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
+		onTap: { value: function(content) {
+			if ($.selected == "Window 2"){
+				$.page.switchPages(statusPage2);
+			} if ($.selected == "Window 3"){
+				$.page.switchPages(statusPage3);
+			} else {
+				$.page.switchPages(statusPage1);
+			}	
+		}}
+	})
+};});
+
+
+var blueStatusButtonTemplate = BUTTONS.Button.template(function($){ return {
+	left:15, bottom:0, width:60, height:navBarHeight, skin: backSkin,
+	contents: [
+		 new Picture({width:40, height:40, url: blueStatusURL})
+	],
+	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
+		onTap: { value: function(content) {
+			trace($.selected);
+		}}
+	})	
+};});
+
+var grayEditButtonTemplate = BUTTONS.Button.template(function($){ return {
+	left:15, bottom:0, width:60, height:navBarHeight, skin: backSkin,
+	contents: [
+		 new Picture({width:40, height:40, url: grayEditURL})
+
+	],
+	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
+		onTap: { value: function(content) {
+			if ($.selected == "Window 2"){
+				$.page.switchPages(editPage2);
+			} if ($.selected == "Window 3"){
+				$.page.switchPages(editPage3);
+			} else {
+				$.page.switchPages(editPage1);
+			}		
+		}}
+	})
+};});
+
+var blueEditButtonTemplate = BUTTONS.Button.template(function($){ return {
+	left:15, bottom:0, width:60, height:navBarHeight, skin: backSkin,
+	contents: [
+		 new Picture({width:40, height:40, url: blueEditURL})
+	],
+	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
+		onTap: { value: function(content) {
+			trace($.selected);
+		}}
+	})	
+};})
+
+var grayPresetsButtonTemplate = BUTTONS.Button.template(function($){ return {
+	left:15, bottom:0, width:60, height:navBarHeight, skin: backSkin,
+	contents: [
+		 new Picture({width:40, height:40, url: grayPresetsURL})
+
+	],
+	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
+		onTap: { value: function(content) {
+			if ($.selected == "Window 2"){
+				$.page.switchPages(presetsPage2);
+			} if ($.selected == "Window 3"){
+				$.page.switchPages(presetsPage3);
+			} else {
+				$.page.switchPages(presetsPage1);
+			}		
+		}}
+	})
+};});
+
+var bluePresetsButtonTemplate = BUTTONS.Button.template(function($){ return {
+	left:15, bottom:0, width:60, height:navBarHeight, skin: backSkin,
+	contents: [
+		 new Picture({width:40, height:40, url: bluePresetsURL})
+	],
+	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
+		onTap: { value: function(content) {
+			trace($.selected);
+		}}
+	})	
 };});
 
 var WindowNameTemplate = Label.template(function($) { return {
@@ -37,20 +165,35 @@ var WindowNameTemplate2 = Label.template(function($) { return {
 var NavBar = Line.template(function($) {
 	var buttonTemp = null;
 	var navSkin = navBarSkin;
+	
 	var spaceTemplate = new WindowNameTemplate2({name: ""});;
-	if ($.back) {
-		buttonTemp = new BackButtonTemplate({page: $.page});
-	} if ($.home) {
-		spaceTemplate = null;
-	} if ($.borders) {
-		navSkin = navBarSkinWithBorders;
+			
+	if ($.home) {
+		homeButton = new blueHomeButtonTemplate({page: $.page, selected: $.selected});
+	} else {
+		homeButton = new grayHomeButtonTemplate({page: $.page, selected: $.selected});
+	}	if ($.edit) {
+		editButton = new blueEditButtonTemplate({page: $.page, selected: $.selected});
+	} else {
+		editButton = new grayEditButtonTemplate({page: $.page, selected: $.selected});
 	}
+	if ($.status) {
+		statusButton = new blueStatusButtonTemplate({page: $.page, selected: $.selected});
+	} else {
+		statusButton = new grayStatusButtonTemplate({page: $.page, selected: $.selected});
+	}	if ($.presets) {
+		presetButton = new bluePresetsButtonTemplate({page: $.page, selected: $.selected});
+	} else {
+		presetButton = new grayPresetsButtonTemplate({page: $.page, selected: $.selected});
+	}	
+	
 	return {
-		left:0, right:0, top:0, height: navBarHeight, skin: navSkin,
+		left:0, right:0, height: navBarHeight, skin: navSkin,
 		contents: [
-			buttonTemp,
-			new WindowNameTemplate({name: $.name }),
-			spaceTemplate,
+			homeButton, 
+			statusButton,
+			editButton,
+			presetButton,
 		]
 	};
 });

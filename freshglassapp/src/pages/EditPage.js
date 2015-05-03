@@ -1,12 +1,16 @@
 //@module
 var NavBar = require("lib/NavBar");
+var WindowSelector = require("lib/WindowSelector");
+
 var CameraRoll = require("pages/CameraRoll");
 var SLIDERS = require('controls/sliders');
 var Window = require('lib/Window');
 
-var EditPage = function (window, previousPage, switchPages) {
+var EditPage = function (window, switchPages) {
     this.window = window;
-    this.previousPage = previousPage;
+    
+    this.name = "edit";
+    //this.previousPage = previousPage;
     this.switchPages = switchPages;
     
     this.lastAction = "";
@@ -51,7 +55,7 @@ var applyButtonSkin = new Skin({fill: green, stroke:"black"});
 var cancelButtonSkin = new Skin({fill: blue, stroke:"black"});
 var clearButtonSkin = new Skin({fill: red, stroke:"black"});
 
-var tran = new Skin({fill: "#00FFFFFF"});
+var tran = new Skin({fill: "white"});
 
 var controluri = mergeURI(application.url, "images/controlbutton.png");
 var controlwithlabeluri = mergeURI(application.url, "images/controlbuttonwithlabel.png");
@@ -61,32 +65,31 @@ var righturi = mergeURI(application.url, "images/rightbutton.png");
 var upuri = mergeURI(application.url, "images/upbutton.png");
 var downuri = mergeURI(application.url, "images/downbutton.png");
 
-var imagesSkin = new Skin({fill: blue, borders:{bottom:4, right:2}, stroke: "black"});
-var controlSkin = new Skin({fill: green, borders:{bottom:4}, stroke:"black"});
+var imagesSkin = new Skin({fill: blue, borders:{bottom:2, right:1}, stroke: "gray"});
+var controlSkin = new Skin({fill: green, borders:{bottom:2}, stroke:"gray"});
 
-var tintContainerSkin = new Skin({fill: "#dddddd"});
-var imagesContainerSkin = new Skin({fill: "#dddddd"});
-var controlContainerSkin = new Skin({fill: "#dddddd"});
+var tintContainerSkin = new Skin({fill: "white"});
+var imagesContainerSkin = new Skin({fill: "white"});
+var controlContainerSkin = new Skin({fill: "white"});
 
-var tintSelectedSkin = new Skin({fill: blue, borders:{right:4, top:4}, stroke:"black"});
-var imagesSelectedSkin = new Skin({fill: green, borders:{left:2, right:4, top:4}, stroke:"black"});
-var controlSelectedSkin = new Skin({fill: red, borders:{left:2, top:4}, stroke:"black"});
+var tintSelectedSkin = new Skin({fill: "white", borders:{right:2, top:2}, stroke:"gray"});
+var imagesSelectedSkin = new Skin({fill: "white", borders:{left:1, right:2, top:2}, stroke:"gray"});
+var controlSelectedSkin = new Skin({fill: "white", borders:{left:1, top:2}, stroke:"gray"});
 
-var unselectedTintSkin = new Skin({fill: blue, borders:{bottom:4, top: 2, right: 2}, stroke:"black"});
-var unselectedImagesSkin = new Skin({fill: green, borders:{bottom:4, top: 2, right: 2}, stroke:"black"});
-var unselectedControlSkin = new Skin({fill: red, borders:{bottom:4, top: 2}, stroke:"black"});
+var unselectedTintSkin = new Skin({fill: "white", borders:{bottom:2, top: 1, right: 1}, stroke:"gray"});
+var unselectedImagesSkin = new Skin({fill: "white", borders:{bottom:2, top: 1, right: 1}, stroke:"gray"});
+var unselectedControlSkin = new Skin({fill: "white", borders:{bottom:2, top: 1}, stroke:"gray"});
 
-var unselectedStyle = new Style({color: "white", font: "20px Lucinda Grande"});
-var controlLabelStyle = new Style({color: "black", font: "14px Lucinda Grande"});
+var unselectedStyle = new Style({color: "gray", font: "20px Lucinda Grande"});
+var controlLabelStyle = new Style({color: "gray", font: "14px Lucinda Grande"});
 
-var selectedStyle = new Style({color: "white", font: "bold 28px Lucinda Grande"});
+var selectedStyle = new Style({color: blue, font: "bold 28px Lucinda Grande"});
 
-var tintRightBorderSkin = new Skin({fill: blue, borders:{right:2, bottom: 4, top: 2}, stroke:"black"});
-var imagesRightBorderSkin = new Skin({fill: green, borders:{right:2, bottom: 4, top: 2}, stroke:"black"});
-var controlRightBorderSkin = new Skin({fill: red, borders:{right:2, bottom: 4, top: 2}, stroke:"black"});
+var tintRightBorderSkin = new Skin({fill: "white", borders:{right:1, bottom: 2, top: 1}, stroke:"gray"});
+var imagesRightBorderSkin = new Skin({fill: "white", borders:{right:1, bottom: 2, top: 1}, stroke:"gray"});
+var controlRightBorderSkin = new Skin({fill: "white", borders:{right:1, bottom: 2, top: 1}, stroke:"gray"});
 
-var addImageSkin = new Skin({fill: darkBlue});
-
+var addImageSkin = new Skin({fill: "gray"});
 
     
 EditPage.prototype.activateTab = function (tab) {
@@ -136,7 +139,8 @@ EditPage.prototype.getContainer = function () {
     if (this.container) { return this.container; }
     var page = this;
 
-    var navBar = new NavBar({ name: page.window.name, back: true, home: false, borders: false, page: page });
+    var navBar = new NavBar({ selected: page.window.name, edit: true, presets: false, status: false, home: false, borders: false, page: page });
+	var windowSelector = new WindowSelector({edit: true, presets: false, status: false, page: page, name: page.window.name });
 
     var TintTab = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top: 0, bottom: 0,
@@ -232,7 +236,6 @@ EditPage.prototype.getContainer = function () {
             	if (page.controlID != null){}
                 else{
                     page.controlID = page.windowCopy.addImage(controluri, 130, 130, 25, 25);
-                    trace(page.controlID + "\n");
                 }
                 /*
                 if (page.windowCopy.control.added == false){
@@ -453,7 +456,7 @@ EditPage.prototype.getContainer = function () {
         top: 0, left: 0, bottom: 0, right: 0,
         skin: tintContainerSkin,
         contents: [
-            navBar,
+        	windowSelector,
             new Line({
                 left: 0, right: 0, height: 45,
                 contents: [
@@ -478,6 +481,7 @@ EditPage.prototype.getContainer = function () {
                     new ClearButton()
                 ]
             }),
+           navBar,
         ]
     });
 

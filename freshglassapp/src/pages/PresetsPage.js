@@ -10,6 +10,26 @@ var PresetsPage = function (window, previousPage, switchPages) {
     this.switchPages = switchPages;
     this.container = null;
     this.presets = [];
+}    
+
+var WindowSelector = require("lib/WindowSelector");
+var Window = require('lib/Window');
+
+var PresetsPage = function (window, switchPages) {
+    this.window = window;
+
+    if (this.window.name == "Window 1"){
+	    this.previousPage = statusPage1;
+    } if (this.window.name == "Window 2"){
+	    this.previousPage = statusPage2;
+    } if (this.window.name == "Window 3"){
+	    this.previousPage = statusPage3;
+    }
+    
+    this.switchPages = switchPages;
+    this.container = null;
+    this.presets = [];
+    this.name = "presets";
     //this.windowCopy = this.window.clone();
 
 };
@@ -22,7 +42,7 @@ var purple = "#AF6DC5";
 var darkBlue = "#43489B";
 var lightGray = "#fafafa";
 
-var rootSkin = new Skin({fill: "#dddddd"}); 
+var rootSkin = new Skin({fill: "white"}); 
 
 var applyButtonSkin = new Skin({fill: green, stroke:"black"});
 var cancelButtonSkin = new Skin({fill: blue, stroke:"black"});
@@ -47,7 +67,9 @@ PresetsPage.prototype.getContainer = function () {
     if (this.container) { return this.container; }
     var page = this;
 
-    var navBar = new NavBar({ name: "Presets", back: true, home: false, borders: true, page: page });
+    var navBar = new NavBar({ name: "Presets", presets: true, edit: false, status: false, home: false, borders: true, page: page, selected: page.window.name });
+    var windowSelector = new WindowSelector({status:false, presets:true, edit: false, page: page, name: page.window.name});
+
  
     //need to make a preset constructor for v2. 
     //hard code for hi fi prototypeversion with picture & label
@@ -176,7 +198,7 @@ PresetsPage.prototype.getContainer = function () {
         top: 0, left: 0, bottom: 0, right: 0,
         skin: rootSkin,
         contents: [
-            navBar,
+        windowSelector,
             new Container({
                 name:"presetsLand", top: 0, left: 0, bottom: 0, right: 0, 
                 skin: rootSkin,
@@ -187,7 +209,9 @@ PresetsPage.prototype.getContainer = function () {
                         new AddPresetButton(), ],
                     })
                 ],
-        })
+
+        }),
+        navBar
         ],
     });
     this.container = rootColumn;
