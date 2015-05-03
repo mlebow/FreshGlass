@@ -4,6 +4,7 @@ var THEME = require('themes/flat/theme'); // required for BUTTONS to work???
 var BUTTONS = require("controls/buttons");
 var Window = require("lib/Window");
 var NavBar = require("lib/NavBar");
+var TitleBar = require("lib/TitleBar");
 
 var StatusPage = require("pages/StatusPage");
 var PresetsPage = require("pages/PresetsPage");
@@ -29,10 +30,10 @@ var MainPage = function (switchPages) {
     ];
     
     this.statusPages = [
-    	statusPage1,
-    	statusPage2,
-    	statusPage3,
-    ]
+        new StatusPage(this.windows[0], this, this.switchPages),
+        new StatusPage(this.windows[1], this, this.switchPages),
+        new StatusPage(this.windows[2], this, this.switchPages),
+    ];
 
 };
 
@@ -52,7 +53,6 @@ MainPage.prototype.getContainer = function () {
     if (this.container) { return this.container; }
     var page = this;
 	
-	//changed to top, bottom to 20 after adding the presets button at the bottom of the screen
     var HorizontalWindowButton = BUTTONS.Button.template(function($) { return {
         left: 50, right: 50, top: 20, bottom: 20,
         skin: buttonSkin,
@@ -114,14 +114,14 @@ MainPage.prototype.getContainer = function () {
          ]
      };});    
 */    
-
+    var titleBar = new TitleBar({name:"Fresh Glass", back: false, home: true, borders: true, page: page});
     var navBar = new NavBar({selected: this.windows[0].name, edit: false, status: false, presets: false, home: true, borders: true, page: page});
 
     var rootContainer = new Column({
         top: 0, left: 0, right: 0, bottom: 0,
         skin: rootSkin,
-        contents: [
-
+        contents: [ 
+            titleBar,
         ]
     });
 

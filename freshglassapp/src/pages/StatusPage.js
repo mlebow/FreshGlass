@@ -161,8 +161,10 @@ StatusPage.prototype.getContainer = function () {
 
 StatusPage.prototype.updateContainerWithData = function() {
     if (this.container !== null) {
-        this.temperatureLabel.string = this.window.temperature.toString().substring( 0, 4 ) + " F";
-        this.brightnessLabel.string = (Math.floor(this.window.brightness * 100)).toString().substring( 0, 4 ) + "%";
+        this.temperatureLabel.string = this.window.temperature + "\u00B0 F";
+        this.brightnessLabel.string = this.window.brightness + "%";
+        //this.temperatureLabel.string = this.window.temperature.toString().substring( 0, 4 ) + " F";
+        //this.brightnessLabel.string = (Math.floor(this.window.brightness * 100)).toString().substring( 0, 4 ) + "%";
     }
 };
 

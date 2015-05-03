@@ -2,14 +2,14 @@
 
 var Window = require("../../freshglassapp/src/lib/Window");
 
-var currTemp = -1;
-var currBrightness = -1;
+var currTemps = [-1, -1, -1];
+var currBrightness = [-1, -1, -1];
 var titleStyle = new Style( { font: "bold 20px", color:"green" } );
 
 //Globals that should be changed
-var tint = -1;
-var images = []
-var controls = null;
+var tints = [-1, -1, -1];
+var imagesList = [[],[],[]];
+var controls = [null, null, null];
 
 
 var ApplicationBehavior = Behavior.template({
@@ -43,13 +43,19 @@ application.invoke( new MessageWithObject( "pins:configure", {
     brightnessSensor: {
         require: "brightness",
         pins: {
-            brightness: { pin: 52 }
+            brightness1: { pin: 50 }, 
+            brightness2: { pin: 51 }, 
+            brightness3: { pin: 52 } 
+      
         }
     },
     temperatureSensor: {
         require: "temperature",
         pins: {
-            temperature: { pin: 48 }
+            temperature1: { pin: 47 },
+            temperature2: { pin: 48 },
+            temperature3: { pin: 49 }
+            
         }
     },
 }));
@@ -76,7 +82,7 @@ var MainContainer = Container.template(function($) { return {
         Label($, {
             left: 0, right: 0,
             style: new Style({ color: 'green', font: '15px Helvetica', horizontal: 'null', vertical: 'null', }),
-            string: "Fresh Glass Window"
+            string: "Fresh Glass Window Hub"
         }),
     ],
 };});
@@ -110,15 +116,23 @@ TempContainer.behaviors = new Array(1);
 
 BrightnessContainer.behaviors[0] = Behavior.template({
     onBrightnessValueChanged: function(content, result) {
-        content.string = "Brightness: " + (result*100).toString().substring( 0, 4 ) + " %";
-        currBrightness = result;
+        currBrightness[0] = (result.brightness1*100).toString().substring( 0, 4 );
+        currBrightness[1] = (result.brightness2*100).toString().substring( 0, 4 );
+        currBrightness[2] = (result.brightness3*100).toString().substring( 0, 4 );
+        content.string = "Brightness Levels: " + currBrightness[0] + " %, " + 
+                         currBrightness[1] + " %, " + currBrightness[2]  +  " %, "
     },
 });
 
 TempContainer.behaviors[0] = Behavior.template({
 	onTemperatureValueChanged: function(content, result) {
-		content.string = "Temperature: " + result.toString().substring( 0, 4 ) + " °F";
-		currTemp = result;
+		currTemps[0] = result.temperature1.toString().substring( 0, 4 );
+		currTemps[1] = result.temperature2.toString().substring( 0, 4 );
+	    currTemps[2] = result.temperature3.toString().substring( 0, 4 );
+		content.string = "Temperature Levels: " + 
+			currTemps[0] + " °F, " + 
+	        currTemps[1] + " °F, " + 
+			currTemps[2]+ " °F";
 	},
 });
 
@@ -148,11 +162,17 @@ Handler.bind("/update", Behavior({
             windowPreviewContainer.add(new Container({
                 left: 0, right: 0, top: 0, bottom: 0,
                 contents: [
-                    newWindow.renderPreview(Window.PREVIEW_HEIGHT / 2, Window.PREVIEW_WIDTH / 2)
+                    //change device preview dimension ratio here
+                    newWindow.renderPreview(Window.PREVIEW_HEIGHT*.5, Window.PREVIEW_WIDTH*.33)
+                    //change device preview dimension ratio here
                 ]
             }));
         }
-        message.responseText = JSON.stringify( { temperature: currTemp, brightness: currBrightness } );
+        message.responseText = JSON.stringify( { 
+            temperature1: currTemps[0], brightness1: currBrightness[0], 
+            temperature2: currTemps[1], brightness2: currBrightness[1], 
+            temperature3: currTemps[2], brightness3: currBrightness[2]
+ } );
         message.status = 200;
     }
 }));

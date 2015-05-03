@@ -47,9 +47,8 @@ var editPage3 = new EditPage(mainPage.windows[2], mainPage.switchPages);
 var statusPage3 = new StatusPage(mainPage.windows[2], mainPage.switchPages);
 var presetsPage3 = new PresetsPage(mainPage.windows[2], mainPage.switchPages);
 
-var index = 0;//keeps track of which device we are polling for 
-var devices = []; //array of devices
-var devicesTable = {}; //key: device's url (unique to each device) value: index of Device in devices array 
+var device = null;
+var deviceURL = "";
 
 var ApplicationBehavior = Behavior.template({
     onDisplayed: function(application) {
@@ -61,62 +60,48 @@ var ApplicationBehavior = Behavior.template({
 });
 Handler.bind("/discover", Object.create(Behavior.prototype, {
     onInvoke: { value: function(handler, message) {
+        trace("discover\n");
         var discovery = JSON.parse(message.requestText);
-        var url = discovery.url;
-        if (!(url in devicesTable)){
-            var device = new Device(discovery);
-            devicesTable[url] = devices.length;
-            devices.push(device);
-            //trace("device's url: " +  device.url + " id:" + device.id + ", uuid: " + device.uuid +"\n\n");
-            handler.invoke(new Message("/delay"));
-        }
-
+        deviceURL = discovery.url;
+        device = new Device(discovery);
+        handler.invoke(new Message("/pollDevice"));
     },},
 }));
 
 Handler.bind("/forget", Object.create(Behavior.prototype, {
     onInvoke: { value: function(handler, message) {
-       //trace("\n/forget\n");
-        var discovery = JSON.parse(message.requestText);
-        var uuid = discovery.uuid;
-        if (uuid in devicesTable) {
-            //trace("forgetting...\n");
-            var index = devicesTable[uuid];
-            var device = devices[index];
-            delete devicesTable[uuid];
-            devices.splice(index, 1);
-        }
-    },
-    },
+       trace("\n/forget\n");
+       device = null;
+       deviceURL = "";
+   }},
 }));
 
 //Live polling of the device
 Handler.bind("/pollDevice", Behavior({
     onInvoke: function(handler, message){
-        var device = devices[index];
         var windowsJSON = [];
         for (var i = 0; i < mainPage.windows.length; i++) {
             windowsJSON.push(mainPage.windows[i].serialize());
         }
-        var deviceMessage = device.createMessage("update", { uuid: device.uuid, windowsJSON: JSON.stringify(windowsJSON)});
-        handler.invoke(deviceMessage, Message.JSON);
+        var message = device.createMessage("update", {windowsJSON: JSON.stringify(windowsJSON)});
+        handler.invoke(message, Message.JSON);
     },
     onComplete: function(handler, message, json){
-        //Update the window information
-        if (json) {
-            mainPage.windows[index].temperature = json.temperature;
-            mainPage.windows[index].brightness = json.brightness;
-            mainPage.statusPages[index].updateContainerWithData();
-            index += 1;
+        //Update each window's information as needed
+        //TO DO: need to update the sprite thing here
+        mainPage.windows[0].temperature = json.temperature1;
+        mainPage.windows[0].brightness = json.brightness1;
+        mainPage.statusPages[0].updateContainerWithData();//why does this break? 
         
-            //to pollDevice for each launched device
-            if (index == (devices.length)) {
-                index = 0;//reset index to 0
-                handler.invoke(new Message("/delay"));
-            } else{
-                handler.invoke(new Message("/pollDevice"));
-            }
-        }
+        mainPage.windows[1].temperature = json.temperature2;
+        mainPage.windows[1].brightness = json.brightness2;
+        mainPage.statusPages[1].updateContainerWithData();   
+             
+        mainPage.windows[2].temperature = json.temperature3;
+        mainPage.windows[2].brightness = json.brightness3;
+        mainPage.statusPages[2].updateContainerWithData();
+        
+        handler.invoke(new Message("/delay"));
     }
 }));
 

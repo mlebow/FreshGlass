@@ -29,8 +29,8 @@ var Window = function (name) {
     this.preview = null; // kinoma container for window preview that will be used on multiple pages
 };
 Window.HEX_TINT = "94895f"; // the hex code for the color that the window gets tinted
-Window.PREVIEW_WIDTH = 200;
-Window.PREVIEW_HEIGHT = 200;
+Window.PREVIEW_WIDTH = 315; //changing to full screen? 
+Window.PREVIEW_HEIGHT = 240;
 Window.currentImageId = 0;
 
 /**
@@ -163,7 +163,7 @@ Window.prototype.updatePreview = function () {
 
     this.preview.skin = new Skin({
         fill: window.getTintHexCode(),
-        borders: {left:3, right:3, top:3, bottom:3},
+        borders: {left:3, right:3, top:3, bottom:3,},
         stroke:"black"
     });
     this.updatePreviewImages();
