@@ -1,6 +1,6 @@
 //@program
 
-var Window = require("../../freshglassapp/src/lib/Window");
+var Window = require("lib/Window");
 
 var currTemp = -1;
 var currBrightness = -1;
