@@ -5,13 +5,15 @@ THEME.buttonSkin = new Skin({fill: "#00FFFFFF", borders:{left: 2, right:2, botto
 
 var BUTTONS = require('controls/buttons');
 
+var blue = "#4682EA";
+
 var backSkin = new Skin({ fill:"transparent" });
 var navBarSkin = new Skin({fill:"white"});
 var navBarSkinWithBorders = new Skin({fill:"white", borders: {bottom: 1}, stroke:"gray" });
 
-var navBarHeight = 45;
+var navBarHeight = 35;
 
-var windowNameStyle = new Style({font:"Helvetica Neue", size: 22, color: "black"});
+var windowNameStyle = new Style({font:"Helvetica Neue", size: 22, color:blue});
 var backStyle = new Style({font: "bold Helvetica Neue", size: 16, color:"black"});
 
 var BackButtonTemplate = BUTTONS.Button.template(function($){ return {

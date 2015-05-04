@@ -55,7 +55,7 @@ var darkBlue = "#43489B";
 var applyButtonSkin = new Skin({fill: green, stroke:"black"});
 var cancelButtonSkin = new Skin({fill: orange, stroke:"black"});
 var clearButtonSkin = new Skin({fill: red, stroke:"black"});
-var undoButtonSkin = new Skin({fill: "white", stroke:"black"});
+var undoButtonSkin = new Skin({fill:blue , stroke:"white"});
 
 var tran = new Skin({fill: "white"});
 
@@ -85,13 +85,13 @@ var unselectedControlSkin = new Skin({fill: "white", borders:{bottom:2, top: 1},
 var unselectedStyle = new Style({color: "gray", font: "20px Lucinda Grande"});
 var controlLabelStyle = new Style({color: "gray", font: "14px Lucinda Grande"});
 
-var selectedStyle = new Style({color: blue, font: "bold 28px Lucinda Grande"});
+var selectedStyle = new Style({color: blue, font: "bold 20px Lucinda Grande"});
 
 var tintRightBorderSkin = new Skin({fill: "white", borders:{right:1, bottom: 2, top: 1}, stroke:"gray"});
 var imagesRightBorderSkin = new Skin({fill: "white", borders:{right:1, bottom: 2, top: 1}, stroke:"gray"});
 var controlRightBorderSkin = new Skin({fill: "white", borders:{right:1, bottom: 2, top: 1}, stroke:"gray"});
 
-var addImageSkin = new Skin({fill: "gray"});
+var addImageSkin = new Skin({fill:blue});
 
     
 EditPage.prototype.activateTab = function (tab) {
@@ -333,7 +333,7 @@ EditPage.prototype.getContainer = function () {
     };});
 
     var UndoButton = BUTTONS.Button.template(function ($) { return {
-        left: 10, right: 10, top: 0, height: 35,
+        left: 200, right: 10, top: 10, bottom: 10, //height: 35,
         skin: undoButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -355,7 +355,7 @@ EditPage.prototype.getContainer = function () {
         contents: [
             new Label({
                 left: 0, right: 0, bottom: 0, top: 0,
-                style: new Style({color: "grey", font: "Helvetica Neue", size: 18}),
+                style: new Style({color: "white", size: 18, font: "Helvetica Neue"}),
                 string: "Undo"
             })
         ]
@@ -384,13 +384,12 @@ EditPage.prototype.getContainer = function () {
                     page.tabContainers.control
                 ]
             }),
-            //directionalControl,
             page.controlContainer,
             page.windowPreviewContainer,
             new Line({
                 left: 0, right: 0, height: 45,
                 contents: [
-                    new UndoButton(),                
+                    new UndoButton(),              
                 ]
             }),
            navBar,
