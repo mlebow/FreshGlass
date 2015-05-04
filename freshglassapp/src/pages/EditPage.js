@@ -48,6 +48,7 @@ var blue = "#4682EA";
 
 var buttonSkin = new Skin({fill: blue, stroke:"black"});
 
+
 var tran = new Skin({fill: "white"});
 
 var controluri = mergeURI(application.url, "images/controlbutton.png");
@@ -214,7 +215,7 @@ EditPage.prototype.getContainer = function () {
         ]
     };});   
       
-     var controlButton = BUTTONS.Button.template(function ($) { return {
+    var controlButton = BUTTONS.Button.template(function ($) { return {
         left: 15, right: 0, top: 0, height: 70,
         skin: controlContainerSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
@@ -317,7 +318,7 @@ EditPage.prototype.getContainer = function () {
     };});
 
     var UndoButton = BUTTONS.Button.template(function ($) { return {
-        left: 200, right: 10, bottom: 10, height: 25,
+        left: 200, right: 10, top: 10, bottom: 10,
         skin: buttonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -339,7 +340,7 @@ EditPage.prototype.getContainer = function () {
         contents: [
             new Label({
                 left: 0, right: 0, bottom: 0, top: 0,
-                style: new Style({color:"white", font: "Helvetica Neue", size: 18}),
+                style: new Style({color: "white", size: 18, font: "Helvetica Neue"}),
                 string: "Undo"
             })
         ]
@@ -368,13 +369,12 @@ EditPage.prototype.getContainer = function () {
                     page.tabContainers.control
                 ]
             }),
-            //directionalControl,
             page.controlContainer,
             page.windowPreviewContainer,
             new Line({
                 top: 10, left: 0, right: 0, height: 45,
                 contents: [
-                    new UndoButton(),                
+                    new UndoButton(),              
                 ]
             }),
            navBar,
