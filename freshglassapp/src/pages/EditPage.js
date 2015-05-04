@@ -355,7 +355,7 @@ EditPage.prototype.getContainer = function () {
         contents: [
             new Label({
                 left: 0, right: 0, bottom: 0, top: 0,
-                style: new Style({color: "grey", font: "Helvetica Neue", size: 18}),
+                style: new Style({color: "gray", font: "Helvetica Neue", size: 18}),
                 string: "Undo"
             })
         ]

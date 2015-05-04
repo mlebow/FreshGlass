@@ -81,7 +81,7 @@ var MainContainer = Container.template(function($) { return {
     contents: [
         Label($, {
             left: 0, right: 0,
-            style: new Style({ color: 'green', font: '15px Helvetica', horizontal: 'null', vertical: 'null', }),
+            style: new Style({ color: "gray", font: '15px Helvetica', horizontal: 'null', vertical: 'null', }),
             string: "Fresh Glass Window Hub"
         }),
     ],

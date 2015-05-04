@@ -143,7 +143,6 @@ MainPage.prototype.getContainer = function () {
         }
     }
 
-
 /*    rootContainer.add(new PresetsButton({
         window: this.windows[2], //hardcode 
     }));
