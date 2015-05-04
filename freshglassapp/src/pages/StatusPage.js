@@ -28,7 +28,6 @@ var StatusPage = function (window, switchPages) {
 
     this.name = "status";
 
-
     this.windowPreviewContainer = null; // kinoma container for window preview
     this.window.statusPage = this;
 };
@@ -64,19 +63,19 @@ StatusPage.prototype.getContainer = function () {
     var navBar = new NavBar( {selected: page.window.name, status: true, edit: false, presets: false, home: false, borders: true, page: page,});
     var windowSelector = new WindowSelector({status:true, presets: false, edit: false, page: page, name: page.window.name});
 
-    this.sunIcon = new Picture({width: 75, height: 75, left: 175, url: sunURL});
-    this.thermometer = new Picture({width: 75, height: 75, right: 175, url: thermURL});
+    this.sunIcon = new Picture({width: 50, height: 50, left: 175, url: sunURL});
+    this.thermometer = new Picture({width: 50, height: 50, right: 175, url: thermURL});
 
     this.temperatureLabel = new Label({
         left: 40, right: 0, top: 0, bottom: 0,
         style: new Style({color: "black", font: "25px Helvetica Neue"}),
-        string: page.window.temperature + " F"
+        string: page.window.temperature + "°F"
     });
 
     this.brightnessLabel = new Label({
         left: 0, right: 40, top: 0, bottom: 0,
         style: new Style({color: "black", font: "25px Helvetica Neue"}),
-        string: (Math.floor(page.window.brightness * 100)) + "%"
+        string: page.window.brightness + "%"
     });
 
     var statusLine = new Line({
@@ -106,7 +105,7 @@ StatusPage.prototype.getContainer = function () {
 
 
     var SavePresetButton = BUTTONS.Button.template(function ($) { return {
-        left: 5, right: 10, bottom: 10, height: 35,
+        left: 200, right: 10, bottom: 10, height: 35,
         skin: new Skin({fill: blue, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -130,7 +129,7 @@ StatusPage.prototype.getContainer = function () {
     });
 
     var statusContainer = new Container({
-        top: 5, left: 0, right: 0, height: 100,
+        top: 0, left: 0, right: 0, height: 80,
         contents: [
            this.sunIcon,
            this.thermometer,
@@ -160,11 +159,10 @@ StatusPage.prototype.getContainer = function () {
 };
 
 StatusPage.prototype.updateContainerWithData = function() {
-    if (this.container !== null) {
+    if (this.container !== null) {//why is this null?
         this.temperatureLabel.string = this.window.temperature + "\u00B0 F";
         this.brightnessLabel.string = this.window.brightness + "%";
-        //this.temperatureLabel.string = this.window.temperature.toString().substring( 0, 4 ) + " F";
-        //this.brightnessLabel.string = (Math.floor(this.window.brightness * 100)).toString().substring( 0, 4 ) + "%";
+        trace("status string: " + this.temperatureLabel.string + this.temperatureLabel.string + "\n");
     }
 };
 

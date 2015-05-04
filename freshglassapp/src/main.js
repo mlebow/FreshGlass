@@ -89,18 +89,19 @@ Handler.bind("/pollDevice", Behavior({
     onComplete: function(handler, message, json){
         //Update each window's information as needed
         //TO DO: need to update the sprite thing here
+
         mainPage.windows[0].temperature = json.temperature1;
         mainPage.windows[0].brightness = json.brightness1;
-        mainPage.statusPages[0].updateContainerWithData();//why does this break? 
-        
+
         mainPage.windows[1].temperature = json.temperature2;
         mainPage.windows[1].brightness = json.brightness2;
-        mainPage.statusPages[1].updateContainerWithData();   
              
         mainPage.windows[2].temperature = json.temperature3;
         mainPage.windows[2].brightness = json.brightness3;
-        mainPage.statusPages[2].updateContainerWithData();
         
+        for (var i = 0; i < mainPage.windows.length; i++) {
+            mainPage.statusPages[i].updateContainerWithData();
+        }    
         handler.invoke(new Message("/delay"));
     }
 }));

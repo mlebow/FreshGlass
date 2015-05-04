@@ -231,7 +231,7 @@ EditPage.prototype.getContainer = function () {
     };});   
       
      var controlButton = BUTTONS.Button.template(function ($) { return {
-        left: 15, right: 0, top: 10, height: 80,
+        left: 15, right: 0, top: 0, height: 70,
         skin: controlContainerSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
