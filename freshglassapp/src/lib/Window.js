@@ -28,8 +28,8 @@ var Window = function (name) {
     // NOTE: size is hardcoded (v2.0 feature)
     this.preview = null; // kinoma container for window preview that will be used on multiple pages
 };
-Window.HEX_TINT = "94895f"; // the hex code for the color that the window gets tinted
-Window.PREVIEW_WIDTH = 315; //changing to full screen? 
+Window.HEX_TINT = "46483b"; // the hex code for the color that the window gets tinted
+Window.PREVIEW_WIDTH = 315; 
 Window.PREVIEW_HEIGHT = 240;
 Window.currentImageId = 0;
 

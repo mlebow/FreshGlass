@@ -44,31 +44,16 @@ var EditPage = function (window, switchPages) {
     this.windowCopy = this.window.clone();
 };
 
-var red = "#DB4C3F";
 var blue = "#4682EA";
-var yellow = "#FDBA35";
-var orange = "#FF7F00";
-var green = "#67AF4B";
-var purple = "#AF6DC5";
-var darkBlue = "#43489B";
 
-var applyButtonSkin = new Skin({fill: green, stroke:"black"});
-var cancelButtonSkin = new Skin({fill: orange, stroke:"black"});
-var clearButtonSkin = new Skin({fill: red, stroke:"black"});
-var undoButtonSkin = new Skin({fill: "white", stroke:"black"});
+var buttonSkin = new Skin({fill: blue, stroke:"black"});
 
 var tran = new Skin({fill: "white"});
 
 var controluri = mergeURI(application.url, "images/controlbutton.png");
 var controlwithlabeluri = mergeURI(application.url, "images/controlbuttonwithlabel.png");
 
-var lefturi = mergeURI(application.url, "images/leftbutton.png");
-var righturi = mergeURI(application.url, "images/rightbutton.png");
-var upuri = mergeURI(application.url, "images/upbutton.png");
-var downuri = mergeURI(application.url, "images/downbutton.png");
-
 var imagesSkin = new Skin({fill: blue, borders:{bottom:2, right:1}, stroke: "gray"});
-var controlSkin = new Skin({fill: green, borders:{bottom:2}, stroke:"gray"});
 
 var tintContainerSkin = new Skin({fill: "white"});
 var imagesContainerSkin = new Skin({fill: "white"});
@@ -85,15 +70,14 @@ var unselectedControlSkin = new Skin({fill: "white", borders:{bottom:2, top: 1},
 var unselectedStyle = new Style({color: "gray", font: "20px Lucinda Grande"});
 var controlLabelStyle = new Style({color: "gray", font: "14px Lucinda Grande"});
 
-var selectedStyle = new Style({color: blue, font: "bold 28px Lucinda Grande"});
+var selectedStyle = new Style({color: blue, font: "bold 20px Lucinda Grande"});
 
 var tintRightBorderSkin = new Skin({fill: "white", borders:{right:1, bottom: 2, top: 1}, stroke:"gray"});
 var imagesRightBorderSkin = new Skin({fill: "white", borders:{right:1, bottom: 2, top: 1}, stroke:"gray"});
 var controlRightBorderSkin = new Skin({fill: "white", borders:{right:1, bottom: 2, top: 1}, stroke:"gray"});
 
-var addImageSkin = new Skin({fill: "gray"});
+var addImageSkin = new Skin({fill:blue});
 
-    
 EditPage.prototype.activateTab = function (tab) {
 
 	this.tabContainers["control"].skin = unselectedControlSkin;
@@ -195,7 +179,7 @@ EditPage.prototype.getContainer = function () {
 
     var AddImageButton = BUTTONS.Button.template(function ($) { return {
         left: 10, width: 100, top: 10, bottom: 5,
-        skin: addImageSkin,
+        skin: buttonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                 var cameraRoll = new CameraRoll($.window, page, page.switchPages);
@@ -333,8 +317,8 @@ EditPage.prototype.getContainer = function () {
     };});
 
     var UndoButton = BUTTONS.Button.template(function ($) { return {
-        left: 10, right: 10, top: 0, height: 35,
-        skin: undoButtonSkin,
+        left: 200, right: 10, bottom: 10, height: 25,
+        skin: buttonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                 trace(page.lastAction)
@@ -355,7 +339,7 @@ EditPage.prototype.getContainer = function () {
         contents: [
             new Label({
                 left: 0, right: 0, bottom: 0, top: 0,
-                style: new Style({color: "grey", font: "Helvetica Neue", size: 18}),
+                style: new Style({color:"white", font: "Helvetica Neue", size: 18}),
                 string: "Undo"
             })
         ]
@@ -388,7 +372,7 @@ EditPage.prototype.getContainer = function () {
             page.controlContainer,
             page.windowPreviewContainer,
             new Line({
-                left: 0, right: 0, height: 45,
+                top: 10, left: 0, right: 0, height: 45,
                 contents: [
                     new UndoButton(),                
                 ]
