@@ -168,11 +168,11 @@ var WindowNameTemplate2 = Label.template(function($) { return {
 var WindowSelector = Line.template(function($) {
 	var buttonTemp = null;
 	if ($.name == "Window 1"){
-		title = new Label({left: 30, right: 50, string: "Window 1", style: titleStyle});
+		title = new Label({left: 25, right: 50, string: "Window 1", style: titleStyle});
 	} if ($.name == "Window 2"){
-		title = new Label({left: 30, right: 50, string: "Window 2", style: titleStyle});
+		title = new Label({left: 25, right: 50, string: "Window 2", style: titleStyle});
 	} if ($.name == "Window 3"){
-		title = new Label({left: 30, right: 50, string: "Window 3", style: titleStyle});
+		title = new Label({left: 25, right: 50, string: "Window 3", style: titleStyle});
 	}
 	
 	menuBar = new MenuBarButtonTemplate({page: $.page, status: $.status, edit: $.edit, presets: $.presets, name: $.name});

@@ -13,7 +13,7 @@ var navBarSkinWithBorders = new Skin({fill:"white", borders: {bottom: 1}, stroke
 
 var navBarHeight = 35;
 
-var windowNameStyle = new Style({font:"Helvetica Neue", size: 22, color:blue});
+var windowNameStyle = new Style({font:"bold Helvetica Neue", size: 22, color:blue});
 var backStyle = new Style({font: "bold Helvetica Neue", size: 16, color:"black"});
 
 var BackButtonTemplate = BUTTONS.Button.template(function($){ return {
