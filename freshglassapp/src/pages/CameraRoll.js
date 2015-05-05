@@ -1,8 +1,8 @@
-
 // KPR Script file
 var NavBar = require('lib/NavBar');
 var SLIDERS = require('controls/sliders');
 var Window = require('lib/Window');
+var TitleBar = require("lib/TitleBar");
 
 var CameraRoll = function (window, previousPage, switchPages) {
 	this.window = window;
@@ -104,11 +104,14 @@ CameraRoll.prototype.getContainer = function () {
         	]
     	}
     });
+    var titleBar = new TitleBar({name:this.window.name, back: false, home: true, borders: true, page: page});
+
 	var insert = new Line({top:0, height:50, 
 		contents: [
 			new insertButton(),
 		]
-	});	
+	});
+
     var rootColumn = new Column({
         top: 0, left: 0, bottom: 0, right: 0,
         skin: new Skin({fill: "white"}),
@@ -131,9 +134,9 @@ CameraRoll.prototype.getContainer = function () {
             }},
         }),
         contents: [
-			picker,
+			titleBar,
+            picker,
 			insert,
-			navBar,
         ]
     });
 

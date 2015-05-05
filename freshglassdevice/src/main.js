@@ -81,8 +81,8 @@ var MainContainer = Container.template(function($) { return {
     contents: [
         Label($, {
             left: 0, right: 0,
-            style: new Style({ color: "gray", font: '15px Helvetica', horizontal: 'null', vertical: 'null', }),
-            string: "Fresh Glass Window Hub"
+            style: new Style({ color: 'green', font: '15px Helvetica', horizontal: 'null', vertical: 'null', }),
+            string: "Fresh Glass Window Hub: Windows 1, 2, 3"
         }),
     ],
 };});
@@ -146,6 +146,7 @@ var ApplicationBehavior = Behavior.template({
     },
 });
 
+var windowContents = null;
 // Handle Messages from the Phone
 var windowPreviewContainer = new Line({
     left: 0, right: 0, bottom: 0, top: 0, contents: [],
@@ -156,7 +157,8 @@ var windowPreviewContainer = new Line({
 Handler.bind("/update", Behavior({
     onInvoke: function(handler, message) {
         var serializedWindows = JSON.parse(parseQuery(message.query).windowsJSON);
-        windowPreviewContainer.empty();
+        windowPreviewContainer.empty(); //rather than empty... do sth else? 
+        
         for (var i = 0; i < serializedWindows.length; i++) {
             var newWindow = Window.deserialize(serializedWindows[i]);
             windowPreviewContainer.add(new Container({
@@ -164,7 +166,6 @@ Handler.bind("/update", Behavior({
                 contents: [
                     //change device preview dimension ratio here
                     newWindow.renderPreview(Window.PREVIEW_HEIGHT*.5, Window.PREVIEW_WIDTH*.33)
-                    //change device preview dimension ratio here
                 ]
             }));
         }
