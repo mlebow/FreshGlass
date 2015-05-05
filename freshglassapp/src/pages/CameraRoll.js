@@ -11,13 +11,7 @@ var CameraRoll = function (window, previousPage, switchPages) {
     this.container = null;
 };
 
-var red = "#DB4C3F";
 var blue = "#4682EA";
-var yellow = "#FDBA35";
-var green = "#67AF4B";
-var purple = "#AF6DC5";
-var darkBlue = "#43489B";
-
 
 /**
  * Return the kinoma Container which will be added to the application when this
@@ -76,7 +70,7 @@ CameraRoll.prototype.getContainer = function () {
 	var insertButton = BUTTONS.Button.template(function ($) { 
     	return {
         	top: 0, bottom: 0, width: 200, height: 40,
-        	skin: new Skin({fill: darkBlue}),
+        	skin: new Skin({fill: blue}),
         	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             	onTap: { value: function (button) {
                 	var scale = 0.4;

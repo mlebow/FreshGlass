@@ -63,8 +63,8 @@ StatusPage.prototype.getContainer = function () {
     var navBar = new NavBar( {selected: page.window.name, status: true, edit: false, presets: false, home: false, borders: true, page: page,});
     var windowSelector = new WindowSelector({status:true, presets: false, edit: false, page: page, name: page.window.name});
 
-    this.sunIcon = new Picture({width: 50, height: 50, left: 175, url: sunURL});
-    this.thermometer = new Picture({width: 50, height: 50, right: 175, url: thermURL});
+    this.sunIcon = new Picture({width: 50, height: 55, left: 190, url: sunURL});
+    this.thermometer = new Picture({width: 50, height: 55, right: 190, url: thermURL});
 
     this.temperatureLabel = new Label({
         left: 40, right: 0, top: 0, bottom: 0,
@@ -79,33 +79,13 @@ StatusPage.prototype.getContainer = function () {
     });
 
     var statusLine = new Line({
-        left: 0, right: 0, height: 50,
+        left: 0, right: 0, height: 55,
         contents: [page.temperatureLabel, page.brightnessLabel]
 
     });
 
-/*    var EditButton = BUTTONS.Button.template(function ($) { return {
-        left: 10, right: 5, bottom: 10, height: 35,
-        skin: new Skin({fill: red, stroke:"black"}),
-        behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
-            onTap: { value: function (button) {
-                 var editPage = new EditPage($.window, page, page.switchPages);
-                 page.switchPages(editPage);
-            }}
-        }),
-        contents: [
-            new Label({
-                left: 0, right: 0, bottom: 0, top: 0,
-                style: new Style({color: "white", size: 18, font: "Helvetica Neue"}),
-                string: "Edit"
-            })
-        ]
-    };});
-   */
-
-
     var SavePresetButton = BUTTONS.Button.template(function ($) { return {
-        left: 200, right: 10, bottom: 10, height: 35,
+        left: 200, right: 10, bottom: 10, top:10,//height: 35,
         skin: new Skin({fill: blue, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -122,7 +102,7 @@ StatusPage.prototype.getContainer = function () {
     };});
 
     page.windowPreviewContainer = new Container({
-        left: 0, right: 0, top: 0, bottom: 0,
+        left: 0, right: 0, top: 15, bottom: 0,
         contents: [
             page.window.renderPreview(),
         ]

@@ -141,4 +141,3 @@ Device.prototype = Object.create(Object.prototype, {
 application.behavior = new ApplicationBehavior();
 
 switchPages(mainPage);
-
