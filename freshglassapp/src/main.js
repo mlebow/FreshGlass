@@ -1,4 +1,3 @@
-
 //@program
 var THEME = require('themes/flat/theme');
 var BUTTONS = require("controls/buttons");
@@ -34,7 +33,6 @@ var switchPages = function(nextPage) {
 //Globals
 var mainPage = new MainPage(switchPages);
 
-
 var editPage1 = new EditPage(mainPage.windows[0], mainPage.switchPages);
 var statusPage1 = new StatusPage(mainPage.windows[0], mainPage.switchPages);
 var presetsPage1 = new PresetsPage(mainPage.windows[0], mainPage.switchPages);
@@ -46,6 +44,8 @@ var presetsPage2 = new PresetsPage(mainPage.windows[1], mainPage.switchPages);
 var editPage3 = new EditPage(mainPage.windows[2], mainPage.switchPages);
 var statusPage3 = new StatusPage(mainPage.windows[2], mainPage.switchPages);
 var presetsPage3 = new PresetsPage(mainPage.windows[2], mainPage.switchPages);
+
+mainPage.statusPages = [statusPage1, statusPage2, statusPage3];
 
 var device = null;
 var deviceURL = "";
@@ -76,6 +76,7 @@ Handler.bind("/forget", Object.create(Behavior.prototype, {
    }},
 }));
 
+
 //Live polling of the device
 Handler.bind("/pollDevice", Behavior({
     onInvoke: function(handler, message){
@@ -88,19 +89,13 @@ Handler.bind("/pollDevice", Behavior({
     },
     onComplete: function(handler, message, json){
         //Update each window's information as needed
-        //TO DO: need to update the sprite thing here
-
-        mainPage.windows[0].temperature = json.temperature1;
-        mainPage.windows[0].brightness = json.brightness1;
-
-        mainPage.windows[1].temperature = json.temperature2;
-        mainPage.windows[1].brightness = json.brightness2;
-             
-        mainPage.windows[2].temperature = json.temperature3;
-        mainPage.windows[2].brightness = json.brightness3;
+        //TO DO: need to update the sprite thing here?
+        mainPage.windows[0].updateSensorData(json.temperature1,json.brightness1);
+        mainPage.windows[1].updateSensorData(json.temperature2,json.brightness2);
+        mainPage.windows[2].updateSensorData(json.temperature3,json.brightness3);
         
         for (var i = 0; i < mainPage.windows.length; i++) {
-            mainPage.statusPages[i].updateContainerWithData();
+            mainPage.statusPages[i].updateContainerWithData();            
         }    
         handler.invoke(new Message("/delay"));
     }

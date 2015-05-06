@@ -39,7 +39,6 @@ var blue = "#4682EA";
 var yellow = "#FDBA35";
 var green = "#67AF4B";
 var purple = "#AF6DC5";
-var darkBlue = "#43489B";
 var lightGray = "#fafafa";
 
 var rootSkin = new Skin({fill: "white"}); 
@@ -58,6 +57,7 @@ var presetHeight = 100;
 //Globals
 var valentineURL = mergeURI(application.url, "./images/valentinePreset.png");
 var preview = null;
+
 
 /**
  * Return the kinoma Container which will be added to the application when this
