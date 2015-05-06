@@ -25,7 +25,7 @@ CameraRoll.prototype.getContainer = function () {
 	var imageBase = "http://michaelhobo.com/camera_roll/";
 	var numImages = 0;
 	var curImage = 0;
-    var navBar = new NavBar({ name: page.window.name, back: true, page: page });
+    //var navBar = new NavBar({ name: page.window.name, back: true, page: page });
     var arrowTemplate = BUTTONS.Button.template(function ($) { 
     	var arrow = ">";
     	if ($.direction == "left") {
@@ -46,6 +46,7 @@ CameraRoll.prototype.getContainer = function () {
                 		curImage += 1;
                 		if (curImage >= numImages) curImage = 0;
                 		image.url = imageBase + imageURLs[curImage];
+                		//trace("image.url: " + image.url + "\n");
                 	}
             	}}
         	}),
@@ -91,7 +92,6 @@ CameraRoll.prototype.getContainer = function () {
         	contents: [
             	new Label({
                 	left: 0, right: 0, bottom: 0, top: 0,
-
                 	style: new Style({color: "white", font: "Helvetica Neue"}),
                 	string: "Insert",
             	})
@@ -100,9 +100,15 @@ CameraRoll.prototype.getContainer = function () {
     });
     var titleBar = new TitleBar({name:this.window.name, back: false, home: true, borders: true, page: page});
 
-	var insert = new Line({top:0, height:50, 
+	var insert = new Line({top:0, height:45, 
 		contents: [
 			new insertButton(),
+		]
+	});
+    
+    var navBar = new Line({left:0, right:0, top:35, height:45,
+		contents: [
+    		new NavBar({selected: page.window.name, edit: true, status: false, presets: false, home: false, borders: true, page: page}),
 		]
 	});
 
@@ -131,6 +137,7 @@ CameraRoll.prototype.getContainer = function () {
 			titleBar,
             picker,
 			insert,
+			navBar,
         ]
     });
 

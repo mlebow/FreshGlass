@@ -151,7 +151,6 @@ Handler.bind("/update", Behavior({
         var first_update = false;
         for (var i = 0; i < serializedWindows.length; i++) {
         	if (windows[i]) {
-        		trace("windows is there");
         		var swObj = JSON.parse(serializedWindows[i])
         		swObj.height = 0;
         		swObj.width = 0;
@@ -161,14 +160,10 @@ Handler.bind("/update", Behavior({
         		wObj.width = 0;
         		var wString = JSON.stringify(wObj);
         		if (!(wString == swString)) {
-        			trace(serializedWindows[i] + "\n");
-        			trace(windows[i].serialize() + "\n");
         			empty = true;
-        			trace("empty");
         		}
         	} else if (serializedWindows[i]) {
         		trace(serializedWindows[i]);
-        		trace("FIRST UPDATE");
         		first_update = true;
         	}
         }
@@ -177,7 +172,6 @@ Handler.bind("/update", Behavior({
 		}
 		if (empty || first_update) {
         	for (var i = 0; i < serializedWindows.length; i++) {
-            	// trace(serializedWindows[i] + "\n");
             	windows[i] = Window.deserialize(serializedWindows[i]);
         	    windows[i].height = Window.PREVIEW_HEIGHT * 0.5;
     	        windows[i].width =  Window.PREVIEW_WIDTH * 0.33;
