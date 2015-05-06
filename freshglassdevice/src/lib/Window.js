@@ -57,22 +57,16 @@ Window.prototype.getTintHexCode = function () {
  */
 Window.prototype.addImage = function (url, x, y, height, width) {
     var newID = Window.currentImageId;
-    this.images.push({
+    var img = {
         url: url,
         x: x,
         y: y,
         height: height,
         width: width,
         id: newID
-    });
-    this.new_images.push({
-        url: url,
-        x: x,
-        y: y,
-        height: height,
-        width: width,
-        id: newID
-    });
+    }
+    this.images.push(img);
+    this.new_images.push(img);
     this.updatePreview();
     Window.currentImageId++;
     return newID;
@@ -189,21 +183,25 @@ Window.prototype.updatePreview = function () {
 };
 
 Window.prototype.updatePreviewImages = function() {
-	trace("updatepreviewimages\n");
+	trace("updatepreviewimages...");
     if (this.preview === null) {
+    	trace("this null");
         this.renderPreview();
     }
     var window = this;
     //this.preview.empty();
-
+	trace("preview add...");
     this.preview.add(new Container({
         top: 3, bottom: 3, left: 3, right: 3, // for borders
         skin: new Skin({fill: window.getTintHexCode()}),
     }));
+    trace(window.new_images + ", " + window.new_images.length);
 	for (var i = 0; i < window.new_images.length; i++) {
 			if (window.new_images[i].obj != null) {
+				trace("remove image " + i + " from preview...");
 				this.preview.remove(window.new_images[i].obj);
 			}
+			trace("add new image...");
 			newObj = new Picture({
             	url: window.new_images[i].url,
             	height: window.new_images[i].height,
@@ -242,7 +240,7 @@ Window.prototype.updatePreviewImages = function() {
     if(this.clearImages){
         this.preview.empty();
     }
-
+	trace("\n\n");
 };
 
 /**
