@@ -4,5 +4,7 @@
    <modulepathentry path="com.marvell.kinoma.kpr:/libraries/MobileFramework.zip" type="lib" kind="plugin"></modulepathentry>
    <modulepathentry path="com.marvell.kinoma.kpr:/libraries/Creations.zip" type="lib" kind="plugin"></modulepathentry>
    <modulepathentry path="com.marvell.kinoma.kpr:/libraries/Transitions.zip" type="lib" kind="plugin"></modulepathentry>
+   <modulepathentry path="com.marvell.kinoma.kpr:/libraries/MultiTouch.zip" type="lib" kind="plugin"></modulepathentry>
+   <modulepathentry path="com.marvell.kinoma.kpr:/libraries/Localization.zip" type="lib" kind="plugin"></modulepathentry>
    <modulepathentry path="src" type="src"></modulepathentry>
 </modulepath>

@@ -1,4 +1,5 @@
 //@module
+var DraggableImageTemplate = require("DraggableImageTemplate");
 
 /**
  * Constructor for window object.
@@ -206,7 +207,7 @@ Window.prototype.updatePreviewImages = function() {
     }));
 
     for (var i = 0; i < window.images.length; i++) {
-        this.preview.add(new Picture({
+        this.preview.add(new DraggableImageTemplate({
             url: window.images[i].url,
             height: window.images[i].height * heightRatio,
             width: window.images[i].width * widthRatio,
