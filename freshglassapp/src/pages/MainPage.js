@@ -138,4 +138,3 @@ MainPage.prototype.getContainer = function () {
 };
 
 module.exports = MainPage;
-
