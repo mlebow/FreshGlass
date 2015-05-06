@@ -33,14 +33,6 @@ var MainPage = function (switchPages) {
         statusPage2, 
         statusPage3,
     ];
-    /*
-    this.statusPages = [
-        new StatusPage(this.windows[0], this, this.switchPages),
-        new StatusPage(this.windows[1], this, this.switchPages),
-        new StatusPage(this.windows[2], this, this.switchPages),
-    ];
-    */
-
 };
 
 //Make color changes here

@@ -86,7 +86,9 @@ StatusPage.prototype.getContainer = function () {
         skin: new Skin({fill: blue, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
+                
                 trace("This does nothing right now.\n");
+                presetsPage.addToPreset(page.window);
             }}
         }),
         contents: [
@@ -132,15 +134,14 @@ StatusPage.prototype.getContainer = function () {
     });
 
     this.container = rootColumn;
-    trace("contructed statusPage?\n");
     return this.container; // TODO: implement
 };
 
 StatusPage.prototype.updateContainerWithData = function() {
-    if (this.container !== null) {//why is this null?
+    if (this.container !== null) {
         this.temperatureLabel.string = this.window.temperature + "\u00B0 F";
         this.brightnessLabel.string = this.window.brightness + "%";
-        trace("status string: " + this.temperatureLabel.string + this.temperatureLabel.string + "\n");
+        //trace("status string: " + this.temperatureLabel.string + this.temperatureLabel.string + "\n");
     }
 };
 

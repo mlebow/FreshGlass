@@ -35,15 +35,14 @@ var mainPage = new MainPage(switchPages);
 
 var editPage1 = new EditPage(mainPage.windows[0], mainPage.switchPages);
 var statusPage1 = new StatusPage(mainPage.windows[0], mainPage.switchPages);
-var presetsPage1 = new PresetsPage(mainPage.windows[0], mainPage.switchPages);
 
 var editPage2 = new EditPage(mainPage.windows[1], mainPage.switchPages);
 var statusPage2 = new StatusPage(mainPage.windows[1], mainPage.switchPages);
-var presetsPage2 = new PresetsPage(mainPage.windows[1], mainPage.switchPages);
 
 var editPage3 = new EditPage(mainPage.windows[2], mainPage.switchPages);
 var statusPage3 = new StatusPage(mainPage.windows[2], mainPage.switchPages);
-var presetsPage3 = new PresetsPage(mainPage.windows[2], mainPage.switchPages);
+
+var presetsPage = new PresetsPage(mainPage.windows, mainPage.switchPages);
 
 mainPage.statusPages = [statusPage1, statusPage2, statusPage3];
 
@@ -89,7 +88,7 @@ Handler.bind("/pollDevice", Behavior({
     },
     onComplete: function(handler, message, json){
         //Update each window's information as needed
-        //TO DO: need to update the sprite thing here?
+        //TO DO: need to update the sprite thing here? or call a StatusPage function
         mainPage.windows[0].updateSensorData(json.temperature1,json.brightness1);
         mainPage.windows[1].updateSensorData(json.temperature2,json.brightness2);
         mainPage.windows[2].updateSensorData(json.temperature3,json.brightness3);
