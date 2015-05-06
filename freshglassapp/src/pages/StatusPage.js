@@ -1,4 +1,3 @@
-
 //@module
 var THEME = require('themes/flat/theme'); // required for BUTTONS to work???
 var BUTTONS = require("controls/buttons");
@@ -6,21 +5,19 @@ var Window = require('lib/Window');
 
 var EditPage = require("pages/EditPage");
 var NavBar = require("lib/NavBar");
+var WindowSelector = require("lib/WindowSelector");
 
+//why do we have this? 
+/*
 var StatusPage = function (window, previousPage, switchPages) {
     this.window = window;
     this.previousPage = previousPage;
 }
-
-var WindowSelector = require("lib/WindowSelector");
-
-var EditPage = require("pages/EditPage");
-var NavBar = require("lib/NavBar");
+*/
 
 var StatusPage = function (window, switchPages) {
     this.window = window;
     //this.previousPage = previousPage;
-
     this.switchPages = switchPages;
     this.container = null;
     this.temperatureLabel = null;
@@ -89,7 +86,7 @@ StatusPage.prototype.getContainer = function () {
         skin: new Skin({fill: blue, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                trace("This does nothing right now.");
+                trace("This does nothing right now.\n");
             }}
         }),
         contents: [
@@ -135,6 +132,7 @@ StatusPage.prototype.getContainer = function () {
     });
 
     this.container = rootColumn;
+    trace("contructed statusPage?\n");
     return this.container; // TODO: implement
 };
 

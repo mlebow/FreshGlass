@@ -11,7 +11,7 @@ var tints = [-1, -1, -1];
 var imagesList = [[],[],[]];
 var controls = [null, null, null];
 
-
+// This is where communication with the iPhone App Begins
 var ApplicationBehavior = Behavior.template({
     onLaunch: function(application) {
         application.shared = true;
@@ -136,18 +136,7 @@ TempContainer.behaviors[0] = Behavior.template({
 	},
 });
 
-// This is where communication with the iPhone App Begins
-var ApplicationBehavior = Behavior.template({
-    onLaunch: function(application) {
-        application.shared = true;
-    },
-    onQuit: function(application) {
-        application.shared = false;
-    },
-});
 
-var windowContents = null;
-// Handle Messages from the Phone
 var windowPreviewContainer = new Line({
     left: 0, right: 0, bottom: 0, top: 0, contents: [],
     skin: new Skin({fill: "white"})
