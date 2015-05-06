@@ -131,13 +131,7 @@ var grayPresetsButtonTemplate = BUTTONS.Button.template(function($){ return {
 	],
 	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
 		onTap: { value: function(content) {
-			if ($.selected == "Window 2"){
-				$.page.switchPages(presetsPage2);
-			} if ($.selected == "Window 3"){
-				$.page.switchPages(presetsPage3);
-			} else {
-				$.page.switchPages(presetsPage1);
-			}		
+			$.page.switchPages(presetsPage);	
 		}}
 	})
 };});
