@@ -1,4 +1,3 @@
-
 //@module
 var THEME = require('themes/flat/theme'); // required for BUTTONS to work???
 var BUTTONS = require("controls/buttons");
@@ -9,12 +8,7 @@ var TitleBar = require("lib/TitleBar");
 var StatusPage = require("pages/StatusPage");
 var PresetsPage = require("pages/PresetsPage");
 
-var red = "#DB4C3F";
 var blue = "#4682EA";
-var yellow = "#FDBA35";
-var green = "#67AF4B";
-var purple = "AF6DC5";
-var darkBlue = "#43489B";
 
 var MainPage = function (switchPages) {
     this.switchPages = switchPages;
@@ -28,22 +22,31 @@ var MainPage = function (switchPages) {
         new Window("Window 2"),
         new Window("Window 3"),
     ];
-    
+
+    var statusPage1 = new StatusPage(this.windows[0], this.switchPages);
+    var statusPage2 = new StatusPage(this.windows[1], this.switchPages);
+    var statusPage3 = new StatusPage(this.windows[2], this.switchPages);
+    trace("statusPage1? " + statusPage1 + "\n");
+
+    this.statusPages = [
+        statusPage1, 
+        statusPage2, 
+        statusPage3,
+    ];
+    /*
     this.statusPages = [
         new StatusPage(this.windows[0], this, this.switchPages),
         new StatusPage(this.windows[1], this, this.switchPages),
         new StatusPage(this.windows[2], this, this.switchPages),
     ];
+    */
 
 };
 
 //Make color changes here
 var buttonSkin = new Skin({fill: "#80FFFFFF", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"});
-
 var rootSkin = new Skin({fill: "white"}); //root container's color
-
 var labelStyle = new Style({ color: 'black', font: "30px Georgia", horizontal: 'center', vertical: 'middle', });
-var presetsButtonSkin = new Skin({fill: green, stroke:"black"});
 
 /**
  * Return the kinoma Container which will be added to the application when this
@@ -55,14 +58,15 @@ MainPage.prototype.getContainer = function () {
 	
     var HorizontalWindowButton = BUTTONS.Button.template(function($) { return {
         left: 50, right: 50, top: 20, bottom: 20,
-        skin: buttonSkin,
+        skin: buttonSkin, 
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-            	  if ($.number == 1){          	  
-            	  	page.switchPages(statusPage1);
-            	  } else {
-            	    page.switchPages(statusPage3);
-            	  }
+                trace("statusPage1 " + statusPage1 + "\n");                
+                if ($.number == 1){
+                	page.switchPages(statusPage1);
+                } else {
+                    page.switchPages(statusPage3);
+                }
             }},
         }),
         contents: [
@@ -79,7 +83,9 @@ MainPage.prototype.getContainer = function () {
         skin: buttonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                 page.switchPages(statusPage2);
+                trace("statusPage 2 " + statusPage1 + "\n");                
+
+                page.switchPages(statusPage2);                
             }},
             
             onDisplaying: {value: function(button) {
@@ -97,23 +103,6 @@ MainPage.prototype.getContainer = function () {
         contents: []
     };});
 
-/*    var PresetsButton = BUTTONS.Button.template(function ($) { return {
-         left: 10, right: 10, top: 10, bottom: 10,
-         skin: presetsButtonSkin,
-         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
-             onTap: { value: function (button) {
-                  page.switchPages(presetsPage1);
-             }}
-         }),
-         contents: [
-             new Label({
-                 left: 0, right: 0, bottom: 0, top: 0,
-                 style: new Style({color: "white"}),
-                 string: "Presets"
-             })
-         ]
-     };});    
-*/    
     var titleBar = new TitleBar({name:"Fresh Glass", back: false, home: true, borders: true, page: page});
     var navBar = new NavBar({selected: this.windows[0].name, edit: false, status: false, presets: false, home: true, borders: true, page: page});
 
@@ -136,18 +125,12 @@ MainPage.prototype.getContainer = function () {
             rootContainer.add(new VerticalWindowButton({
                 window: this.windows[i],
                 string: this.windows[i].name,
-                statusPage: this.statusPages[i],
                 number: i+1,
         }));
         
         }
     }
 
-
-/*    rootContainer.add(new PresetsButton({
-        window: this.windows[2], //hardcode 
-    }));
-*/
     rootContainer.add(navBar);
 
     this.container = rootContainer;
@@ -155,4 +138,3 @@ MainPage.prototype.getContainer = function () {
 };
 
 module.exports = MainPage;
-

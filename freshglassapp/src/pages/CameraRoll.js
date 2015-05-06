@@ -1,8 +1,8 @@
-
 // KPR Script file
 var NavBar = require('lib/NavBar');
 var SLIDERS = require('controls/sliders');
 var Window = require('lib/Window');
+var TitleBar = require("lib/TitleBar");
 
 var CameraRoll = function (window, previousPage, switchPages) {
 	this.window = window;
@@ -11,13 +11,7 @@ var CameraRoll = function (window, previousPage, switchPages) {
     this.container = null;
 };
 
-var red = "#DB4C3F";
 var blue = "#4682EA";
-var yellow = "#FDBA35";
-var green = "#67AF4B";
-var purple = "#AF6DC5";
-var darkBlue = "#43489B";
-
 
 /**
  * Return the kinoma Container which will be added to the application when this
@@ -76,7 +70,7 @@ CameraRoll.prototype.getContainer = function () {
 	var insertButton = BUTTONS.Button.template(function ($) { 
     	return {
         	top: 0, bottom: 0, width: 200, height: 40,
-        	skin: new Skin({fill: darkBlue}),
+        	skin: new Skin({fill: blue}),
         	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             	onTap: { value: function (button) {
                 	var scale = 0.4;
@@ -104,11 +98,14 @@ CameraRoll.prototype.getContainer = function () {
         	]
     	}
     });
+    var titleBar = new TitleBar({name:this.window.name, back: false, home: true, borders: true, page: page});
+
 	var insert = new Line({top:0, height:50, 
 		contents: [
 			new insertButton(),
 		]
-	});	
+	});
+
     var rootColumn = new Column({
         top: 0, left: 0, bottom: 0, right: 0,
         skin: new Skin({fill: "white"}),
@@ -131,9 +128,9 @@ CameraRoll.prototype.getContainer = function () {
             }},
         }),
         contents: [
-			picker,
+			titleBar,
+            picker,
 			insert,
-			navBar,
         ]
     });
 
