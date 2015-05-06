@@ -43,10 +43,9 @@ application.invoke( new MessageWithObject( "pins:configure", {
     brightnessSensor: {
         require: "brightness",
         pins: {
-            brightness1: { pin: 50 }, 
-            brightness2: { pin: 51 }, 
-            brightness3: { pin: 52 } 
-      
+            brightness1: { pin: 50 },
+            brightness2: { pin: 51 },
+            brightness3: { pin: 52 }
         }
     },
     temperatureSensor: {
@@ -63,18 +62,20 @@ application.invoke( new MessageWithObject( "pins:configure", {
 /* Use the initialized brightnessSensor object and repeatedly 
    call its read method with a given interval.  */
 application.invoke( new MessageWithObject( "pins:/brightnessSensor/read?" +
-    serializeQuery( {
+    serializeQuery({
         repeat: "on",
         interval: 100,
         callback: "/gotBrightnessResult"
-} ) ) );
+    })
+));
 
 application.invoke( new MessageWithObject( "pins:/temperatureSensor/read?" +
-    serializeQuery( {
+    serializeQuery({
         repeat: "on",
         interval: 100,
         callback: "/gotTemperatureResult"
-} ) ) );
+    })
+));
 
 var MainContainer = Container.template(function($) { return {
     left: 0, right: 0, height:30, skin: new Skin({ fill: 'white',}),
@@ -119,23 +120,22 @@ BrightnessContainer.behaviors[0] = Behavior.template({
         currBrightness[0] = (result.brightness1*100).toString().substring( 0, 4 );
         currBrightness[1] = (result.brightness2*100).toString().substring( 0, 4 );
         currBrightness[2] = (result.brightness3*100).toString().substring( 0, 4 );
-        content.string = "Brightness Levels: " + currBrightness[0] + " %, " + 
-                         currBrightness[1] + " %, " + currBrightness[2]  +  " %, "
+        content.string = "Brightness Levels: " + currBrightness[0] + " %, " +
+                         currBrightness[1] + " %, " + currBrightness[2]  +  " %, ";
     },
 });
 
 TempContainer.behaviors[0] = Behavior.template({
-	onTemperatureValueChanged: function(content, result) {
-		currTemps[0] = result.temperature1.toString().substring( 0, 4 );
-		currTemps[1] = result.temperature2.toString().substring( 0, 4 );
-	    currTemps[2] = result.temperature3.toString().substring( 0, 4 );
-		content.string = "Temperature Levels: " + 
-			currTemps[0] + " °F, " + 
-	        currTemps[1] + " °F, " + 
-			currTemps[2]+ " °F";
-	},
+    onTemperatureValueChanged: function(content, result) {
+        currTemps[0] = result.temperature1.toString().substring( 0, 4 );
+        currTemps[1] = result.temperature2.toString().substring( 0, 4 );
+        currTemps[2] = result.temperature3.toString().substring( 0, 4 );
+        content.string = "Temperature Levels: " +
+            currTemps[0] + " °F, " +
+            currTemps[1] + " °F, " +
+            currTemps[2]+ " °F";
+    },
 });
-
 
 var windowPreviewContainer = new Line({
     left: 0, right: 0, bottom: 0, top: 0, contents: [],
@@ -146,23 +146,27 @@ var windowPreviewContainer = new Line({
 Handler.bind("/update", Behavior({
     onInvoke: function(handler, message) {
         var serializedWindows = JSON.parse(parseQuery(message.query).windowsJSON);
-        windowPreviewContainer.empty(); //rather than empty... do sth else? 
-        
+        windowPreviewContainer.empty(); //rather than empty... do sth else?
+
         for (var i = 0; i < serializedWindows.length; i++) {
+            // trace(serializedWindows[i] + "\n");
             var newWindow = Window.deserialize(serializedWindows[i]);
+            newWindow.height = Window.PREVIEW_HEIGHT * 0.5;
+            newWindow.width =  Window.PREVIEW_WIDTH * 0.33;
             windowPreviewContainer.add(new Container({
                 left: 0, right: 0, top: 0, bottom: 0,
                 contents: [
-                    //change device preview dimension ratio here
-                    newWindow.renderPreview(Window.PREVIEW_HEIGHT*.5, Window.PREVIEW_WIDTH*.33)
+                    // dimension ratio will be handled by the window's methods, so
+                    // we just need to render the preview here
+                    newWindow.renderPreview()
                 ]
             }));
         }
-        message.responseText = JSON.stringify( { 
-            temperature1: currTemps[0], brightness1: currBrightness[0], 
-            temperature2: currTemps[1], brightness2: currBrightness[1], 
+        message.responseText = JSON.stringify({
+            temperature1: currTemps[0], brightness1: currBrightness[0],
+            temperature2: currTemps[1], brightness2: currBrightness[1],
             temperature3: currTemps[2], brightness3: currBrightness[2]
- } );
+        });
         message.status = 200;
     }
 }));

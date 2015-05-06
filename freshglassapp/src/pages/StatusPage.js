@@ -132,7 +132,7 @@ StatusPage.prototype.getContainer = function () {
     });
 
     this.container = rootColumn;
-    trace("contructed statusPage?\n");
+    // trace("contructed statusPage?\n");
     return this.container; // TODO: implement
 };
 
@@ -140,7 +140,7 @@ StatusPage.prototype.updateContainerWithData = function() {
     if (this.container !== null) {//why is this null?
         this.temperatureLabel.string = this.window.temperature + "\u00B0 F";
         this.brightnessLabel.string = this.window.brightness + "%";
-        trace("status string: " + this.temperatureLabel.string + this.temperatureLabel.string + "\n");
+        // trace("status string: " + this.temperatureLabel.string + this.temperatureLabel.string + "\n");
     }
 };
 

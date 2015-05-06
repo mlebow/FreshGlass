@@ -3,7 +3,12 @@
 /**
  * Constructor for window object.
  */
-var Window = function (name) {
+var Window = function (name, height, width) {
+    height = height || Window.PREVIEW_HEIGHT;
+    width = width || Window.PREVIEW_WIDTH;
+    this.width = width;
+    this.height = height;
+
     this.name = name || "";
     this.tint = 0; // 0 is transparent, 1 is opaque
     this.temperature = null; // will be set eventually to degress fahrenheit
@@ -15,7 +20,7 @@ var Window = function (name) {
     this.controls = null;
     /*
     this.control = {
-    	added: false, 
+        added: false,
         url: null,
         x: null,
         y: null,
@@ -29,7 +34,7 @@ var Window = function (name) {
     this.preview = null; // kinoma container for window preview that will be used on multiple pages
 };
 Window.HEX_TINT = "46483b"; // the hex code for the color that the window gets tinted
-Window.PREVIEW_WIDTH = 315; 
+Window.PREVIEW_WIDTH = 315;
 Window.PREVIEW_HEIGHT = 240;
 Window.currentImageId = 0;
 
@@ -135,7 +140,9 @@ Window.prototype.serialize = function () {
         name: this.name,
         tint: this.tint,
         images: this.images,
-        controls: this.controls // WARNING: this assumes whatever we store in controls is valid JSON
+        controls: this.controls, // WARNING: this assumes whatever we store in controls is valid JSON
+        height: this.height,
+        width: this.width
     });
 };
 
@@ -145,10 +152,11 @@ Window.prototype.serialize = function () {
  */
 Window.deserialize = function (data) {
     var obj = JSON.parse(data);
-    var window = new Window(obj.name);
+    var window = new Window(obj.name, obj.height, obj.width);
     window.tint = obj.tint;
     window.images = obj.images;
     window.controls = obj.controls;
+
     return window;
 };
 
@@ -170,6 +178,11 @@ Window.prototype.updatePreview = function () {
 };
 
 Window.prototype.updatePreviewImages = function() {
+    var heightRatio = (this.height / Window.PREVIEW_HEIGHT);
+    var widthRatio = (this.width / Window.PREVIEW_WIDTH);
+
+    // trace("Ratios: " + heightRatio + ":" + widthRatio + "\n");
+
     if (this.preview === null) {
         this.renderPreview();
     }
@@ -184,36 +197,33 @@ Window.prototype.updatePreviewImages = function() {
     for (var i = 0; i < window.images.length; i++) {
         this.preview.add(new Picture({
             url: window.images[i].url,
-            height: window.images[i].height,
-            width: window.images[i].width,
-            top: window.images[i].y + 3,//to not touch the top border
-            left: window.images[i].x, 
-            opacity:.5, 
+            height: window.images[i].height * heightRatio,
+            width: window.images[i].width * widthRatio,
+            top: window.images[i].y * heightRatio + 3, // to not touch the top border
+            left: window.images[i].x * widthRatio,
+            opacity: 0.5,
         }));
     }
     /*
     if (this.control.added == true){
-	    this.preview.add(new Picture({
-	        url: window.control.url,
-	        height: window.control.height,
-	        width: window.control.width,
-	        top: window.control.y,
-	        left: window.control.x  
-		}))    
+        this.preview.add(new Picture({
+            url: window.control.url,
+            height: window.control.height,
+            width: window.control.width,
+            top: window.control.y,
+            left: window.control.x  
+        }))
     }
     */
-    if(this.clearImages){
+    if (this.clearImages) {
         this.preview.empty();
     }
-
 };
 
 /**
  * @return {Container} a kinoma Container object representing the preview of the window.
  */
-Window.prototype.renderPreview = function (height, width) {
-    height = height || Window.PREVIEW_HEIGHT;
-    width = width || Window.PREVIEW_WIDTH;
+Window.prototype.renderPreview = function () {
     if (this.preview !== null) {
         if (this.preview.container) {
             this.preview.container.remove(this.preview);
@@ -224,7 +234,7 @@ Window.prototype.renderPreview = function (height, width) {
     var window = this;
 
     var preview = new Container({
-        height: height, width: width,
+        height: this.height, width: this.width,
         skin: new Skin({
             borders: {left:3, right:3, top:3, bottom:3},
             stroke:"black"
@@ -233,7 +243,7 @@ Window.prototype.renderPreview = function (height, width) {
     });
     this.preview = preview;
 
-    this.updatePreviewImages();
+    this.updatePreview();
     return preview;
 };
 

@@ -36,10 +36,10 @@ var EditPage = function (window, switchPages) {
         control: null
     };
     this.directional = {
-        tint: null, 
-        images: null, 
+        tint: null,
+        images: null,
         control: null
-    }
+    };
 
     this.windowCopy = this.window.clone();
 };
@@ -157,12 +157,12 @@ EditPage.prototype.getContainer = function () {
                 left: 0, right: 0, bottom: 0, top: 0,
                 style: selectedStyle,
                 string: "Tint"
-            }), 
+            }),
         ]
     };});
 
-    var TintSlider = SLIDERS.HorizontalSlider.template(function($){ return{
-        left: 0, right: 0, top: 0, bottom: 0, 
+    var TintSlider = SLIDERS.HorizontalSlider.template(function($){ return {
+        left: 0, right: 0, top: 0, bottom: 0,
         behavior: Object.create(SLIDERS.HorizontalSliderBehavior.prototype, {
             onCreate: { value : function(container) {
                 this.data = {min:0, max:1, value: page.window.tint};
@@ -172,6 +172,7 @@ EditPage.prototype.getContainer = function () {
                 page.windowCopy.tint = this.data.value;
                 page.windowCopy.updatePreview();
                 page.lastAction = "tint";
+                page.window.updateFrom(page.windowCopy);
             }},
         }),
     };});
@@ -226,17 +227,18 @@ EditPage.prototype.getContainer = function () {
                 left: 0, right: 0, bottom: 0, top: 0,
                 style: unselectedStyle,
                 string: "Control"
-            }), 
+            }),
         ]
-    };});   
+    };});
       
-     var controlButton = BUTTONS.Button.template(function ($) { return {
+    var controlButton = BUTTONS.Button.template(function ($) { return {
         left: 15, right: 0, top: 0, height: 70,
         skin: controlContainerSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                if (page.controlID != null){}
-                else{
+                if (page.controlID !== null) {
+                    // do nothing
+                } else {
                     page.controlID = page.windowCopy.addImage(controluri, 130, 130, 25, 25);
                     //trace(page.controlID + "\n");
                     page.windowCopy.clearImages = false;
@@ -337,12 +339,12 @@ EditPage.prototype.getContainer = function () {
         skin: undoButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                trace(page.lastAction)
-                if (page.lastAction == "tint"){
+                trace(page.lastAction);
+                if (page.lastAction == "tint") {
                     page.controls.tint.behavior.data.value = page.window.tint;
                     page.controls.tint.behavior.onValueChanged();
                     page.controls.tint.behavior.onLayoutChanged(page.controls.tint);
-                } else if (page.lastAction == "control"){                
+                } else if (page.lastAction == "control") {
                     page.windowCopy.images = [];
                     page.windowCopy.clearImages = true;
                     //page.windowCopy.control.added = false;
@@ -389,7 +391,7 @@ EditPage.prototype.getContainer = function () {
             new Line({
                 left: 0, right: 0, height: 45,
                 contents: [
-                    new UndoButton(),              
+                    new UndoButton(),
                 ]
             }),
            navBar,
@@ -397,7 +399,7 @@ EditPage.prototype.getContainer = function () {
     });
 
     this.container = rootColumn;
-    return this.container; // TODO: implement
+    return this.container;
 };
 
 module.exports = EditPage;
