@@ -162,8 +162,17 @@ Window.deserialize = function (data) {
 
 /**
  * Changes the window preview kinoma container, does not return anything.
+ *
+ * @param {bool} shouldUpateIMages true if we should rerender the images also, false
+ * otherwise. If this parameter is true, the windows will be completely removed and
+ * repopulated based on this Window's window data, so when we don't need to change the
+ * images, we don't want this to happen, because it will cause flicker on the window
+ * preview (the app window preview, not the device window preview).
  */
-Window.prototype.updatePreview = function () {
+Window.prototype.updatePreview = function (shouldUpdateImages) {
+    if (shouldUpdateImages === undefined) {
+        shouldUpdateImages = true;
+    }
     if (this.preview === null) {
         this.renderPreview(); // will set this.preview as the correct container
     }
@@ -174,7 +183,9 @@ Window.prototype.updatePreview = function () {
         borders: {left:3, right:3, top:3, bottom:3,},
         stroke:"black"
     });
-    this.updatePreviewImages();
+    if (shouldUpdateImages) {
+        this.updatePreviewImages();
+    }
 };
 
 Window.prototype.updatePreviewImages = function() {
