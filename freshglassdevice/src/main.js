@@ -10,6 +10,7 @@ var titleStyle = new Style( { font: "bold 20px", color:"green" } );
 var tints = [-1, -1, -1];
 var imagesList = [[],[],[]];
 var controls = [null, null, null];
+var windows = [];
 
 // This is where communication with the iPhone App Begins
 var ApplicationBehavior = Behavior.template({
@@ -146,21 +147,49 @@ var windowPreviewContainer = new Line({
 Handler.bind("/update", Behavior({
     onInvoke: function(handler, message) {
         var serializedWindows = JSON.parse(parseQuery(message.query).windowsJSON);
-        windowPreviewContainer.empty(); //rather than empty... do sth else?
-
+        var empty = false;
+        var first_update = false;
         for (var i = 0; i < serializedWindows.length; i++) {
-            // trace(serializedWindows[i] + "\n");
-            var newWindow = Window.deserialize(serializedWindows[i]);
-            newWindow.height = Window.PREVIEW_HEIGHT * 0.5;
-            newWindow.width =  Window.PREVIEW_WIDTH * 0.33;
-            windowPreviewContainer.add(new Container({
-                left: 0, right: 0, top: 0, bottom: 0,
-                contents: [
-                    // dimension ratio will be handled by the window's methods, so
-                    // we just need to render the preview here
-                    newWindow.renderPreview()
-                ]
-            }));
+        	if (windows[i]) {
+        		trace("windows is there");
+        		var swObj = JSON.parse(serializedWindows[i])
+        		swObj.height = 0;
+        		swObj.width = 0;
+        		var swString = JSON.stringify(swObj);
+        		var wObj = JSON.parse(windows[i].serialize());
+        		wObj.height = 0;
+        		wObj.width = 0;
+        		var wString = JSON.stringify(wObj);
+        		if (!(wString == swString)) {
+        			trace(serializedWindows[i] + "\n");
+        			trace(windows[i].serialize() + "\n");
+        			empty = true;
+        			trace("empty");
+        		}
+        	} else if (serializedWindows[i]) {
+        		trace(serializedWindows[i]);
+        		trace("FIRST UPDATE");
+        		first_update = true;
+        	}
+        }
+        if (empty) {
+        	windowPreviewContainer.empty(); //rather than empty... do sth else?
+		}
+		if (empty || first_update) {
+        	for (var i = 0; i < serializedWindows.length; i++) {
+            	// trace(serializedWindows[i] + "\n");
+            	windows[i] = Window.deserialize(serializedWindows[i]);
+        	    windows[i].height = Window.PREVIEW_HEIGHT * 0.5;
+    	        windows[i].width =  Window.PREVIEW_WIDTH * 0.33;
+	            windowPreviewContainer.add(new Container({
+                	left: 0, right: 0, top: 0, bottom: 0,
+                	contents: [
+                    	// dimension ratio will be handled by the window's methods, so
+                    	// we just need to render the preview here
+                    	windows[i].renderPreview()
+                	]
+            	}));
+        	}
         }
         message.responseText = JSON.stringify({
             temperature1: currTemps[0], brightness1: currBrightness[0],
