@@ -170,7 +170,9 @@ EditPage.prototype.getContainer = function () {
             onValueChanged: { value: function(container) {
                 SLIDERS.HorizontalSliderBehavior.prototype.onValueChanged.call(this, container);
                 page.windowCopy.tint = this.data.value;
-                page.windowCopy.updatePreview();
+                // the false on the next line is to tell it to not update the images, because if
+                // we did that, they would flicker
+                page.windowCopy.updatePreview(false);
                 page.lastAction = "tint";
                 page.window.updateFrom(page.windowCopy);
             }},

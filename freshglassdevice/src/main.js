@@ -149,7 +149,7 @@ Handler.bind("/update", Behavior({
         windowPreviewContainer.empty(); //rather than empty... do sth else?
 
         for (var i = 0; i < serializedWindows.length; i++) {
-            // trace(serializedWindows[i] + "\n");
+            trace(serializedWindows[i] + "\n");
             var newWindow = Window.deserialize(serializedWindows[i]);
             newWindow.height = Window.PREVIEW_HEIGHT * 0.5;
             newWindow.width =  Window.PREVIEW_WIDTH * 0.33;
