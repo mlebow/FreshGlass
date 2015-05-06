@@ -230,7 +230,36 @@ Window.prototype.updatePreviewImages = function() {
         this.preview.empty();
     }
 };
+var TouchableTemplate = Container.template(function($) {
+    return {
+        left: 0, right: 0, top: 0, bottom: 0, active: true,
+        behavior: Object.create((TouchableTemplate.behaviors[0]).prototype),
+        contents: [],
+    };
+});
+TouchableTemplate.behaviors = new Array(1);
+TouchableTemplate.behaviors[0] = Behavior.template({
+    onTouchEnded: function (container, id, x, y, ticks) {
+        trace("OnTouchMoved: x: " + x + " y: " + y + " ticks: " + ticks + ";\n");
+    }
+});
+
 /*
+var DraggableImageTemplate = Container.template(function($) {
+    return {
+        left: 0, right: 0, top: 0, bottom: 0, active: true,
+        skin: whiteSkin,
+        behavior: Object.create((DraggableImageTemplate.behaviors[0]).prototype),
+        contents: [
+            Picture($, {
+                left: $.left, top: $.top, width: $.width, height: $.height, name: 'picture',
+                behavior: Object.create((DraggableImageTemplate.behaviors[1]).prototype),
+                url: $.url,
+                opacity: $.opacity || 1.0
+            }),
+        ],
+    };
+});
 DraggableImageTemplate.behaviors = new Array(2);
 DraggableImageTemplate.behaviors[0] = FINGERS.TouchBehavior.template({
     buildTouchStateMachine: function(container) {
@@ -271,7 +300,7 @@ Window.prototype.renderPreview = function () {
 
     var window = this;
 
-    var preview = new Container({
+    var preview = new TouchableTemplate({
         height: this.height, width: this.width,
         skin: new Skin({
             borders: {left:3, right:3, top:3, bottom:3},
