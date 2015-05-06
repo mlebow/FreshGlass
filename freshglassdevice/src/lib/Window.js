@@ -11,6 +11,9 @@ var Window = function (name) {
     this.images = [
         // {url: "...", top: 0, left: 0, width: 10, height: 10}
     ];
+    this.new_images = [
+    	// new updates
+    ];
     this.clearImages = false;
     this.controls = null;
     /*
@@ -29,8 +32,8 @@ var Window = function (name) {
     this.preview = null; // kinoma container for window preview that will be used on multiple pages
 };
 Window.HEX_TINT = "94895f"; // the hex code for the color that the window gets tinted
-Window.PREVIEW_WIDTH = 200;
-Window.PREVIEW_HEIGHT = 200;
+Window.PREVIEW_WIDTH = 315; //changing to full screen? 
+Window.PREVIEW_HEIGHT = 240;
 Window.currentImageId = 0;
 
 /**
@@ -62,11 +65,25 @@ Window.prototype.addImage = function (url, x, y, height, width) {
         width: width,
         id: newID
     });
+    this.new_images.push({
+        url: url,
+        x: x,
+        y: y,
+        height: height,
+        width: width,
+        id: newID
+    });
     this.updatePreview();
     Window.currentImageId++;
     return newID;
 };
 
+Window.prototype.removeImage = function(id) {
+	var img = this.getImageById(id);
+	img.show = false;
+	this.new_images.push(img);
+	this.updatePreview();
+}
 /*//for v2.0
 Window.prototype.addControl = function (url, x, y, height, width) {
 	this.control.added = true,
@@ -135,6 +152,7 @@ Window.prototype.serialize = function () {
         name: this.name,
         tint: this.tint,
         images: this.images,
+        new_images: this.new_images,
         controls: this.controls // WARNING: this assumes whatever we store in controls is valid JSON
     });
 };
@@ -149,6 +167,7 @@ Window.deserialize = function (data) {
     window.tint = obj.tint;
     window.images = obj.images;
     window.controls = obj.controls;
+    window.new_images = obj.new_images;
     return window;
 };
 
@@ -163,34 +182,52 @@ Window.prototype.updatePreview = function () {
 
     this.preview.skin = new Skin({
         fill: window.getTintHexCode(),
-        borders: {left:3, right:3, top:3, bottom:3},
+        borders: {left:3, right:3, top:3, bottom:3,},
         stroke:"black"
     });
     this.updatePreviewImages();
 };
 
 Window.prototype.updatePreviewImages = function() {
+	trace("updatepreviewimages\n");
     if (this.preview === null) {
         this.renderPreview();
     }
     var window = this;
-    this.preview.empty();
+    //this.preview.empty();
 
     this.preview.add(new Container({
         top: 3, bottom: 3, left: 3, right: 3, // for borders
         skin: new Skin({fill: window.getTintHexCode()}),
     }));
-
-    for (var i = 0; i < window.images.length; i++) {
-        this.preview.add(new Picture({
-            url: window.images[i].url,
-            height: window.images[i].height,
-            width: window.images[i].width,
-            top: window.images[i].y + 3,//to not touch the top border
-            left: window.images[i].x, 
-            opacity:.5, 
-        }));
+	for (var i = 0; i < window.new_images.length; i++) {
+			if (window.new_images[i].obj != null) {
+				this.preview.remove(window.new_images[i].obj);
+			}
+			newObj = new Picture({
+            	url: window.new_images[i].url,
+            	height: window.new_images[i].height,
+            	width: window.new_images[i].width,
+            	top: window.new_images[i].y + 3, //to not touch the top border
+            	left: window.new_images[i].x, 
+            	opacity:.5, 
+        	})
+        	this.preview.add(newObj);
+        	window.new_images[i].obj = newObj;
+        	window.new_images.length = 0; //clear the array so new updates can happen
     }
+    /*for (var i = 0; i < window.images.length; i++) {
+    	if (window.images[i].show) {
+        	this.preview.add(new Picture({
+            	url: window.images[i].url,
+            	height: window.images[i].height,
+            	width: window.images[i].width,
+            	top: window.images[i].y + 3,//to not touch the top border
+            	left: window.images[i].x, 
+            	opacity:.5, 
+        	}));
+        }
+    }*/
     /*
     if (this.control.added == true){
 	    this.preview.add(new Picture({

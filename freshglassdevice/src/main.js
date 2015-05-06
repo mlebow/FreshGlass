@@ -10,7 +10,7 @@ var titleStyle = new Style( { font: "bold 20px", color:"green" } );
 var tints = [-1, -1, -1];
 var imagesList = [[],[],[]];
 var controls = [null, null, null];
-
+var windows = [];
 
 var ApplicationBehavior = Behavior.template({
     onLaunch: function(application) {
@@ -159,14 +159,24 @@ Handler.bind("/update", Behavior({
         //windowPreviewContainer.empty();
         for (var i = 0; i < serializedWindows.length; i++) {
             var newWindow = Window.deserialize(serializedWindows[i]);
-            windowPreviewContainer.add(new Container({
-                left: 0, right: 0, top: 0, bottom: 0,
-                contents: [
-                    //change device preview dimension ratio here
-                    newWindow.renderPreview(Window.PREVIEW_HEIGHT*.5, Window.PREVIEW_WIDTH*.33)
-                    //change device preview dimension ratio here
-                ]
-            }));
+            if (windows[i] == null) {
+            	trace("window null");
+            	windows[i] = newWindow
+            	windowPreviewContainer.add(new Container({
+                	left: 0, right: 0, top: 0, bottom: 0,
+                	contents: [
+                    	//change device preview dimension ratio here
+                    	newWindow.renderPreview(Window.PREVIEW_HEIGHT*.5, Window.PREVIEW_WIDTH*.33)
+                    	//change device preview dimension ratio here
+                	]
+            	}));
+            } else {
+            	trace("else");
+            	windows[i].images = newWindow.images;
+            	//var thoseimages = "hi";//newWindow.new_images;
+            	windows[i].new_images = newWindow.new_images;
+            	windows[i].updatePreviewImages();
+            }
         }
         message.responseText = JSON.stringify( { 
             temperature1: currTemps[0], brightness1: currBrightness[0], 

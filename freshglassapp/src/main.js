@@ -107,7 +107,7 @@ Handler.bind("/pollDevice", Behavior({
 
 Handler.bind("/delay", {
     onInvoke: function(handler, message){
-        handler.wait(100); //will call onComplete after 1 seconds
+        handler.wait(5000); //will call onComplete after 1 seconds
     },
     onComplete: function(handler, message){
         handler.invoke(new Message("/pollDevice"));

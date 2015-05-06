@@ -152,6 +152,7 @@ Window.prototype.serialize = function () {
         name: this.name,
         tint: this.tint,
         images: this.images,
+        new_images: this.new_images,
         controls: this.controls // WARNING: this assumes whatever we store in controls is valid JSON
     });
 };
@@ -166,6 +167,7 @@ Window.deserialize = function (data) {
     window.tint = obj.tint;
     window.images = obj.images;
     window.controls = obj.controls;
+    window.new_images = obj.new_images;
     return window;
 };
 
@@ -205,11 +207,13 @@ Window.prototype.updatePreviewImages = function() {
             	url: window.new_images[i].url,
             	height: window.new_images[i].height,
             	width: window.new_images[i].width,
-            	top: window.new_images[i].y + 3,//to not touch the top border
+            	top: window.new_images[i].y + 3, //to not touch the top border
             	left: window.new_images[i].x, 
             	opacity:.5, 
         	})
-        	this.preview.add();
+        	this.preview.add(newObj);
+        	window.new_images[i].obj = newObj;
+        	window.new_images.length = 0; //clear the array so new updates can happen
     }
     /*for (var i = 0; i < window.images.length; i++) {
     	if (window.images[i].show) {
