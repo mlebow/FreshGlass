@@ -230,7 +230,34 @@ Window.prototype.updatePreviewImages = function() {
         this.preview.empty();
     }
 };
-
+/*
+DraggableImageTemplate.behaviors = new Array(2);
+DraggableImageTemplate.behaviors[0] = FINGERS.TouchBehavior.template({
+    buildTouchStateMachine: function(container) {
+        var allowRotation = true;
+        return TOUCH_STATES.buildPictureTouchStateMachine(container, container.picture, allowRotation); // note we pass both the container and the picture to be manipulated here
+    },
+    onCreate: function(container, data) {
+        FINGERS.TouchBehavior.prototype.onCreate.call(this, container, data);
+        this.data = data;
+        this.loaded = false;
+        container.active = true;
+        container.exclusiveTouch = true;
+        container.multipleTouch = true;
+    },
+    onShowingStateComplete: function(container) {
+        // could hide a busy indiator here for asyc pictures
+        // for now, does nothing
+    },
+    onPhotoViewChanged: function(container) {
+        // this is called when the touch state machine returns to idle
+        // Connect uses this oportunity send the latest cropped view of the image to the renderer
+    },
+    onTouchMoved: function (container, id, x, y, ticks) {
+        trace("OnTouchMoved: x: " + x + " y: " + y + " ticks: " + ticks + ";\n");
+    }
+});
+*/
 /**
  * @return {Container} a kinoma Container object representing the preview of the window.
  */
