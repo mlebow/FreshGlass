@@ -86,6 +86,7 @@ var grayEditButtonTemplate = BUTTONS.Button.template(function($){ return {
 	],
 	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
 		onTap: { value: function(content) {
+			trace("SELECTED IS" + $.selected);
 			if ($.selected == "Window 2"){
 				$.page.switchPages(editPage2);
 			} if ($.selected == "Window 3"){
