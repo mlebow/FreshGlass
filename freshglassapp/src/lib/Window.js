@@ -11,8 +11,9 @@ var Window = function (name, height, width) {
 
     this.name = name || "";
     this.tint = 0; // 0 is transparent, 1 is opaque
+    this.autoTint = false;
     this.temperature = null; // will be set eventually to degress fahrenheit
-    this.brightness = null; // will be set between 0 (no sun) to 1 (max sun we can detect)
+    this.brightness = null; // will be set between 0 (no sun) to 100 (max sun we can detect)
     this.images = [
         // {url: "...", top: 0, left: 0, width: 10, height: 10}
     ];
@@ -32,6 +33,7 @@ var Window = function (name, height, width) {
     this.editPage = null;
     // NOTE: size is hardcoded (v2.0 feature)
     this.preview = null; // kinoma container for window preview that will be used on multiple pages
+    this.original = null;
 };
 Window.HEX_TINT = "46483b"; // the hex code for the color that the window gets tinted
 Window.PREVIEW_WIDTH = 315;
@@ -110,6 +112,10 @@ Window.prototype.getImageByID = function(id) {
 Window.prototype.updateSensorData = function (temperature, brightness) {
     this.temperature = temperature;
     this.brightness = brightness;
+    //Change the tint if auto-tint selected
+    if (this.autoTint){
+        this.tint = this.brightness / 100;
+    }
 };
 
 /**
