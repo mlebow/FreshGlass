@@ -7,14 +7,16 @@ var NavBar = require("lib/NavBar");
 
 var ViewPresetPage = function (preset, presetsPage, switchPages) {
     this.preset = preset;
+    this.presetsPage = presetsPage;
     this.switchPages = switchPages;
-    this.container = null;
-    this.name = "viewPreset";
-    this.presetsPage = presetsPage
     
     this.container = null;
+    this.name = "viewPreset";
+    
+    this.previousPage = presetsPage;
+  
+    this.container = null;
     this.presetPreviewContainer = null; // kinoma container for window preview
-    //this.preset.statusPage = this;
 };
 
 var red = "#DB4C3F";
@@ -33,7 +35,7 @@ ViewPresetPage.prototype.getContainer = function () {
     var page = this;
 
     var navBar = new NavBar( {selected: null, status: false, edit: false, presets: true, home: false, borders: true, page: page});
-    var titleBar = new TitleBar({name: page.preset.name, back: false, home: true, borders: true, page: page});
+    var titleBar = new TitleBar({name: page.preset.name + "       ", back: true, home: true, borders: true, page: page });
 
     var windowsLabel = new Label({
         left: 0, right: 0, top: 0, height: 40,
@@ -48,14 +50,18 @@ ViewPresetPage.prototype.getContainer = function () {
             onTap: { value: function (button) {
                 for(var i = 0; i < page.preset.windowList.length; i++){
                     page.applyPreset(page.preset, page.preset.windowList[i]);
-                    trace("apply button\n");
+                    trace("apply button pressed\n");
                 }
                 // after applying the preset, go to the status page of the
                 // first window that the preset corresponds to
-                //page.switchPages(page.preset.windowList[0].statusPage);
-                trace("can't switch to status yet? Hard code to 3\n");
-                page.switchPages(statusPage3);//hardcode to 3
-                
+                if(page.preset.windowList[0] == mainPage.windows[0]){
+                    page.switchPages(statusPage1);
+                } else if (page.preset.windowList[0] == mainPage.windows[0]){
+                    page.switchPages(statusPage2);
+                } else if (page.preset.windowList[0] == mainPage.windows[0]){
+                    page.switchPages(statusPage3);
+                	
+                }                
             }}
         }),
         contents: [
@@ -72,7 +78,8 @@ ViewPresetPage.prototype.getContainer = function () {
         skin: buttonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                page.presetsPage.rootColumn.remove(page.preset);
+                trace("delete does nothing right now\n");
+                //page.presetsPage.removePreset(page.preset);
             }}
         }),
         contents: [
@@ -114,11 +121,13 @@ ViewPresetPage.prototype.getContainer = function () {
 };
 
 ViewPresetPage.prototype.applyPreset = function(preset, window) {
-//hardcode
-    mainPage.windows[2].images = preset.images;
-    mainPage.windows[2].tint = preset.tint;
-    mainPage.windows[2].control = preset.control;
-    //mainPage.
+    var index = mainPage.windows.indexOf(window);
+    trace("index: " + index + "\n");
+    mainPage.windows[index].tint = preset.tint;
+    mainPage.windows[index].images = preset.images;
+    mainPage.windows[index].controls = preset.controls;
+    //this.switchPages(mainPage.windows[index].editPage);
+    this.switchPages(mainPage.statusPages[index]);
 };
 
 module.exports = ViewPresetPage;

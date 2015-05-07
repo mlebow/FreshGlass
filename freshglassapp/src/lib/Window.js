@@ -28,8 +28,8 @@ var Window = function (name, height, width) {
         width: null,
     };
     */
-    // TODO: implement this!
     this.statusPage = null;
+    this.editPage = null;
     // NOTE: size is hardcoded (v2.0 feature)
     this.preview = null; // kinoma container for window preview that will be used on multiple pages
 };
@@ -130,6 +130,8 @@ Window.prototype.updateFrom = function (window) {
     this.tint = window.tint;
     this.images = window.images;
     this.controls = window.controls;
+    trace(this.tint, this.images, this.controls);
+    trace("done with updateFrom");
 };
 
 /**
