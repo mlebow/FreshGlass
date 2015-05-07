@@ -163,7 +163,6 @@ Handler.bind("/update", Behavior({
         			empty = true;
         		}
         	} else if (serializedWindows[i]) {
-        		trace(serializedWindows[i]);
         		first_update = true;
         	}
         }

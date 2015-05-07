@@ -45,7 +45,6 @@ var blueHomeButtonTemplate = BUTTONS.Button.template(function($){ return {
 	],
 	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
 		onTap: { value: function(content) {
-			trace($.selected);
 		}}
 	})
 };});
@@ -76,7 +75,6 @@ var blueStatusButtonTemplate = BUTTONS.Button.template(function($){ return {
 	],
 	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
 		onTap: { value: function(content) {
-			trace($.selected);
 		}}
 	})	
 };});
@@ -106,7 +104,6 @@ var blueEditButtonTemplate = BUTTONS.Button.template(function($){ return {
 	],
 	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
 		onTap: { value: function(content) {
-			trace($.selected);
 		}}
 	})	
 };})
@@ -130,7 +127,6 @@ var bluePresetsButtonTemplate = BUTTONS.Button.template(function($){ return {
 	],
 	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
 		onTap: { value: function(content) {
-			trace($.selected);
 		}}
 	})	
 };});
