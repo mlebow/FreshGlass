@@ -55,7 +55,7 @@ MainPage.prototype.getContainer = function () {
     var page = this;
 	
     var HorizontalWindowButton1 = BUTTONS.Button.template(function($) { return {
-        left: 60, right: 40, top: 60, bottom: 310,
+        left: 75, right: 75, top: 52, height: 30,
         skin: buttonSkin, 
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -78,7 +78,7 @@ MainPage.prototype.getContainer = function () {
     
  	
     var HorizontalWindowButton3 = BUTTONS.Button.template(function($) { return {
-        left: 70, right: 70, top: 310, bottom: 60,
+        left: 73, right: 73, top: 295, height:30 ,
         skin: buttonSkin, 
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {

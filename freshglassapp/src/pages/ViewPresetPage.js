@@ -123,9 +123,10 @@ ViewPresetPage.prototype.getContainer = function () {
 ViewPresetPage.prototype.applyPreset = function(preset, window) {
     var index = mainPage.windows.indexOf(window);
     trace("index: " + index + "\n");
-    mainPage.windows[index].tint = preset.tint;
-    mainPage.windows[index].images = preset.images;
-    mainPage.windows[index].controls = preset.controls;
+    //mainPage.windows[index].tint = preset.tint;
+    //mainPage.windows[index].images = preset.images;
+    //mainPage.windows[index].controls = preset.controls;
+    mainPage.windows[index].updateFrom(preset);
     //this.switchPages(mainPage.windows[index].editPage);
     this.switchPages(mainPage.statusPages[index]);
 };
