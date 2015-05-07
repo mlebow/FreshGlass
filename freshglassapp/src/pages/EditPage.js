@@ -340,7 +340,7 @@ EditPage.prototype.getContainer = function () {
     };});
 
     var UndoButton = BUTTONS.Button.template(function ($) { return {
-        left: 200, right: 10, top: 10, bottom: 10,
+        left: 100, right: 10, top: 10, bottom: 10,
         skin: undoButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -400,7 +400,6 @@ EditPage.prototype.getContainer = function () {
     Handler.bind("/updateFirst", Behavior({
         onInvoke: function(handler, message){
             if (page.window.autoTint) {
-                trace("updateFirst onComplete");
                 page.window.updatePreview();
                 handler.invoke(new Message("/updateSecond"));
             }  
@@ -409,7 +408,6 @@ EditPage.prototype.getContainer = function () {
 
     Handler.bind("/updateSecond", {
         onInvoke: function(handler, message){
-            trace("updateSecond Called");
             handler.wait(1000);
         },
         onComplete: function(handler, message){
