@@ -25,17 +25,20 @@ var MainPage = function (switchPages) {
         new Window("Window 2"),
         new Window("Window 3"),
     ];
-
-    var statusPage1 = new StatusPage(this.windows[0], this.switchPages);
-    var statusPage2 = new StatusPage(this.windows[1], this.switchPages);
-    var statusPage3 = new StatusPage(this.windows[2], this.switchPages);
-    trace("statusPage1? " + statusPage1 + "\n");
+    
+    //var statusPage1 = new StatusPage(this.windows[0], this.switchPages);
+    //var statusPage2 = new StatusPage(this.windows[1], this.switchPages);
+    //var statusPage3 = new StatusPage(this.windows[2], this.switchPages);
 
     this.statusPages = [
         statusPage1, 
         statusPage2, 
         statusPage3,
     ];
+    trace(statusPage1);
+    for (var i = 0; i < this.windows.length; i ++){
+        this.windows[i].statusPage = this.statusPages[i];
+    }
 };
 
 //Make color changes here
@@ -52,7 +55,7 @@ MainPage.prototype.getContainer = function () {
     var page = this;
 	
     var HorizontalWindowButton1 = BUTTONS.Button.template(function($) { return {
-        left: 60, right: 40, top: 60, bottom: 310,
+        left: 75, right: 75, top: 52, height: 30,
         skin: buttonSkin, 
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -75,7 +78,7 @@ MainPage.prototype.getContainer = function () {
     
  	
     var HorizontalWindowButton3 = BUTTONS.Button.template(function($) { return {
-        left: 70, right: 70, top: 310, bottom: 60,
+        left: 73, right: 73, top: 295, height:30 ,
         skin: buttonSkin, 
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
