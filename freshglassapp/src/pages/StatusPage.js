@@ -82,13 +82,13 @@ StatusPage.prototype.getContainer = function () {
     });
 
     var SavePresetButton = BUTTONS.Button.template(function ($) { return {
-        left: 200, right: 10, bottom: 10, top:10,//height: 35,
+        left: 200, right: 10, bottom: 10, top:10, //height: 35,
         skin: new Skin({fill: blue, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                 
                 trace("This does nothing right now.\n");
-                presetsPage.addToPreset(page.window);
+                presetsPage.addToPresetsPage(page.window);
             }}
         }),
         contents: [

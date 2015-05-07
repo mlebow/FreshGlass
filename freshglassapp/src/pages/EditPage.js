@@ -337,11 +337,11 @@ EditPage.prototype.getContainer = function () {
     };});
 
     var UndoButton = BUTTONS.Button.template(function ($) { return {
-        left: 200, right: 10, top: 10, bottom: 10, //height: 35,
+        left: 200, right: 10, top: 10, bottom: 10,
         skin: undoButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                trace(page.lastAction);
+                trace(page.lastAction + "\n");
                 if (page.lastAction == "tint") {
                     page.controls.tint.behavior.data.value = page.window.tint;
                     page.controls.tint.behavior.onValueChanged();
