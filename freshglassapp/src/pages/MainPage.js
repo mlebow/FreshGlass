@@ -26,9 +26,9 @@ var MainPage = function (switchPages) {
         new Window("Window 3"),
     ];
     
-    //var statusPage1 = new StatusPage(this.windows[0], this.switchPages);
-    //var statusPage2 = new StatusPage(this.windows[1], this.switchPages);
-    //var statusPage3 = new StatusPage(this.windows[2], this.switchPages);
+    var statusPage1 = new StatusPage(this.windows[0], this.switchPages);
+    var statusPage2 = new StatusPage(this.windows[1], this.switchPages);
+    var statusPage3 = new StatusPage(this.windows[2], this.switchPages);
 
     this.statusPages = [
         statusPage1, 

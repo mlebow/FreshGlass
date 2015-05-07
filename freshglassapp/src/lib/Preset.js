@@ -77,7 +77,7 @@ Preset.prototype.updatePreviewImages = function() {
 
     this.preview.add(new Container({
         top: 1, bottom: 1, left: 1, right: 1, // for borders
-        skin: presetSkin,
+        skin: new Skin({fill:"white"}),
     }));
 
     for(var i = 0; i < preset.images.length; i++) {
