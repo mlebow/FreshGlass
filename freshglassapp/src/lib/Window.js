@@ -8,6 +8,10 @@ var Window = function (name, height, width) {
     width = width || Window.PREVIEW_WIDTH;
     this.width = width;
     this.height = height;
+    this.somethingSelected = false;
+    this.selectedImage = null;
+    this.lastX = 0;
+    this.lastY = 0;
 
     this.name = name || "";
     this.tint = 0; // 0 is transparent, 1 is opaque
@@ -230,7 +234,88 @@ Window.prototype.updatePreviewImages = function() {
         this.preview.empty();
     }
 };
+var TouchableTemplate = Container.template(function($) {
+    return {
+        left: 0, right: 0, top: 0, bottom: 0, active: true,
+        behavior: Object.create((TouchableTemplate.behaviors[0]).prototype),
+        window: $.window,
+        pane: 5,
+        contents: [],
+    };
+});
+TouchableTemplate.behaviors = new Array(1);
+TouchableTemplate.behaviors[0] = Behavior.template({
+    onTouchEnded: function (container, id, x, y, ticks) {
+        trace("OnTouchEnded: x: " + x + " y: " + y + " ticks: " + ticks + ";\n");
+        trace(container);
+        trace(container.name);
+        trace(this.pane);
+        //for (val in container) trace(val + "\n");
+        var win = null; //I NEED TO FIGURE OUT HOW TO GET THIS WINDOW OBJECT
+		if (win.somethingSelected) {
+			win.selectedImage.x += x - lastX;
+			win.selectedImage.y += y - lastY;
+			win.somethingSelected = false;
+			win.updatePreview();
+		} else {
+        	for (var i = 0; i < win.images.length; i++) {
+	        	var xIn = win.images[i].x <= x && win.images[i].x + win.images[i].width >= x;
+	        	var yIn = win.images[i].y <= y && win.images[i].y + win.images[i].height >= y;
+	        	if (xIn && yIn) {
+	        		win.selectedImage = win.images[i];
+	        		win.somethingSelected = true;
+	        		win.lastX = x;
+	        		win.lastY = y;
+	        		break;
+	        	}
+	        }
+	    }
+    }
+});
 
+/*
+var DraggableImageTemplate = Container.template(function($) {
+    return {
+        left: 0, right: 0, top: 0, bottom: 0, active: true,
+        skin: whiteSkin,
+        behavior: Object.create((DraggableImageTemplate.behaviors[0]).prototype),
+        contents: [
+            Picture($, {
+                left: $.left, top: $.top, width: $.width, height: $.height, name: 'picture',
+                behavior: Object.create((DraggableImageTemplate.behaviors[1]).prototype),
+                url: $.url,
+                opacity: $.opacity || 1.0
+            }),
+        ],
+    };
+});
+DraggableImageTemplate.behaviors = new Array(2);
+DraggableImageTemplate.behaviors[0] = FINGERS.TouchBehavior.template({
+    buildTouchStateMachine: function(container) {
+        var allowRotation = true;
+        return TOUCH_STATES.buildPictureTouchStateMachine(container, container.picture, allowRotation); // note we pass both the container and the picture to be manipulated here
+    },
+    onCreate: function(container, data) {
+        FINGERS.TouchBehavior.prototype.onCreate.call(this, container, data);
+        this.data = data;
+        this.loaded = false;
+        container.active = true;
+        container.exclusiveTouch = true;
+        container.multipleTouch = true;
+    },
+    onShowingStateComplete: function(container) {
+        // could hide a busy indiator here for asyc pictures
+        // for now, does nothing
+    },
+    onPhotoViewChanged: function(container) {
+        // this is called when the touch state machine returns to idle
+        // Connect uses this oportunity send the latest cropped view of the image to the renderer
+    },
+    onTouchMoved: function (container, id, x, y, ticks) {
+        trace("OnTouchMoved: x: " + x + " y: " + y + " ticks: " + ticks + ";\n");
+    }
+});
+*/
 /**
  * @return {Container} a kinoma Container object representing the preview of the window.
  */
@@ -244,10 +329,11 @@ Window.prototype.renderPreview = function () {
 
     var window = this;
 
-    var preview = new Container({
+    var preview = new TouchableTemplate({
         height: this.height, width: this.width,
+        window: this,
         skin: new Skin({
-            borders: {left:3, right:3, top:3, bottom:3},
+            borders: {left:3, right:3, top:3, bottom:100},
             stroke:"black"
         }),
         contents: []
