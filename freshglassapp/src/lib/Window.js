@@ -12,7 +12,7 @@ var Window = function (name, height, width) {
     this.selectedImage = null;
     this.lastX = 0;
     this.lastY = 0;
-
+	Window.window = this;
     this.name = name || "";
     this.tint = 0; // 0 is transparent, 1 is opaque
     this.temperature = null; // will be set eventually to degress fahrenheit
@@ -251,13 +251,15 @@ TouchableTemplate.behaviors[0] = Behavior.template({
         trace(container.name);
         trace(this.pane);
         //for (val in container) trace(val + "\n");
-        var win = null; //I NEED TO FIGURE OUT HOW TO GET THIS WINDOW OBJECT
+        var win = Window.window; //I NEED TO FIGURE OUT HOW TO GET THIS WINDOW OBJECT
 		if (win.somethingSelected) {
+			trace("something selected\n\n");
 			win.selectedImage.x += x - lastX;
 			win.selectedImage.y += y - lastY;
 			win.somethingSelected = false;
 			win.updatePreview();
 		} else {
+			trace("not anymore");
         	for (var i = 0; i < win.images.length; i++) {
 	        	var xIn = win.images[i].x <= x && win.images[i].x + win.images[i].width >= x;
 	        	var yIn = win.images[i].y <= y && win.images[i].y + win.images[i].height >= y;
