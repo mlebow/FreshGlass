@@ -235,6 +235,8 @@ Window.prototype.updatePreviewImages = function() {
     }
 };
 var TouchableTemplate = Container.template(function($) {
+	this.window = $.window;
+	trace(this.window);
     return {
         left: 0, right: 0, top: 0, bottom: 0, active: true,
         behavior: Object.create((TouchableTemplate.behaviors[0]).prototype),
@@ -251,7 +253,7 @@ TouchableTemplate.behaviors[0] = Behavior.template({
         trace(container.name);
         trace(this.pane);
         //for (val in container) trace(val + "\n");
-        var win = Window.window; //I NEED TO FIGURE OUT HOW TO GET THIS WINDOW OBJECT
+        var win = container.window; //I NEED TO FIGURE OUT HOW TO GET THIS WINDOW OBJECT
 		if (win.somethingSelected) {
 			trace("something selected\n\n");
 			win.selectedImage.x += x - lastX;
