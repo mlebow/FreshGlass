@@ -46,7 +46,7 @@ var EditPage = function (window, switchPages) {
     //this.windowCopy = this.window;
 };
 
-var red = "#DB4C3F";
+var red = "#db3a1c";
 var blue = "#4682EA";
 var yellow = "#FDBA35";
 var orange = "#FF7F00";
@@ -56,7 +56,7 @@ var darkBlue = "#43489B";
 
 var applyButtonSkin = new Skin({fill: green, stroke:"black"});
 var cancelButtonSkin = new Skin({fill: orange, stroke:"black"});
-var clearButtonSkin = new Skin({fill: red, stroke:"black"});
+var clearButtonSkin = new Skin({fill: blue, stroke:"black"});
 var undoButtonSkin = new Skin({fill:blue , stroke:"white"});
 
 var tran = new Skin({fill: "white"});
@@ -124,7 +124,6 @@ EditPage.prototype.activateTab = function (tab) {
         this.tabContainers[this.currentTab].first.style = selectedStyle;
         this.container.skin = imagesContainerSkin;
         this.controlContainer.skin = imagesContainerSkin;
-        //this.undoAutoLine.remove(this.tintCheckbox);
         
     } else if (this.currentTab == "control"){
         this.tabContainers[this.currentTab].skin = controlSelectedSkin;
@@ -267,55 +266,55 @@ EditPage.prototype.getContainer = function () {
         ],
     });
 
-    var ApplyButton = BUTTONS.Button.template(function ($) { return {
-        left: 10, right: 5, top: 0, height: 35,
-        skin: applyButtonSkin,
-        behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
-            onTap: { value: function (button) {
-                page.window.updateFrom(page.window);
-                page.window.updatePreview();
-            }}
-        }),
-        contents: [
-            new Label({
-                left: 0, right: 0, bottom: 0, top: 0,
-                style: new Style({color: "white", font: "Helvetica Neue", size: 18}),
-                string: "Apply"
-            })
-        ]
-    };});
+    // var ApplyButton = BUTTONS.Button.template(function ($) { return {
+    //     left: 10, right: 5, top: 0, height: 35,
+    //     skin: applyButtonSkin,
+    //     behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
+    //         onTap: { value: function (button) {
+    //             page.window.updateFrom(page.window);
+    //             page.window.updatePreview();
+    //         }}
+    //     }),
+    //     contents: [
+    //         new Label({
+    //             left: 0, right: 0, bottom: 0, top: 0,
+    //             style: new Style({color: "white", font: "Helvetica Neue", size: 18}),
+    //             string: "Apply"
+    //         })
+    //     ]
+    // };});
 
-    var CancelButton = BUTTONS.Button.template(function ($) { return {
-        left: 5, right: 10, top: 0, height: 35,
-        skin: cancelButtonSkin,
-        behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
-            onTap: { value: function (button) {
-                trace(page.lastAction)
-                if (page.lastAction == "tint"){
-                    page.controls.tint.behavior.data.value = page.window.tint;
-                    page.controls.tint.behavior.onValueChanged();
-                    page.controls.tint.behavior.onLayoutChanged(page.controls.tint);
-                } else if (page.lastAction == "control"){                
-                    page.window.images = [];
-                    page.window.clearImages = true;
-                    //page.window.control.added = false;
-                } else if (page.lastAction == "images"){
-                    page.window.images.pop(page.window.images.length - 1);
-                }
-                page.window.updatePreview();
-            }}
-        }),
-        contents: [
-            new Label({
-                left: 0, right: 0, bottom: 0, top: 0,
-                style: new Style({color: "white", font: "Helvetica Neue", size: 18}),
-                string: "Cancel"
-            })
-        ]
-    };});
+    // var CancelButton = BUTTONS.Button.template(function ($) { return {
+    //     left: 5, right: 10, top: 0, height: 35,
+    //     skin: cancelButtonSkin,
+    //     behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
+    //         onTap: { value: function (button) {
+    //             trace(page.lastAction)
+    //             if (page.lastAction == "tint"){
+    //                 page.controls.tint.behavior.data.value = page.window.tint;
+    //                 page.controls.tint.behavior.onValueChanged();
+    //                 page.controls.tint.behavior.onLayoutChanged(page.controls.tint);
+    //             } else if (page.lastAction == "control"){                
+    //                 page.window.images = [];
+    //                 page.window.clearImages = true;
+    //                 //page.window.control.added = false;
+    //             } else if (page.lastAction == "images"){
+    //                 page.window.images.pop(page.window.images.length - 1);
+    //             }
+    //             page.window.updatePreview();
+    //         }}
+    //     }),
+    //     contents: [
+    //         new Label({
+    //             left: 0, right: 0, bottom: 0, top: 0,
+    //             style: new Style({color: "white", font: "Helvetica Neue", size: 18}),
+    //             string: "Cancel"
+    //         })
+    //     ]
+    // };});
 
     var ClearButton = BUTTONS.Button.template(function ($) { return {
-        left: 10, right: 10, top: 0, height: 25,
+        right: 15, height: 30, width: 70,
         skin: clearButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -340,7 +339,7 @@ EditPage.prototype.getContainer = function () {
     };});
 
     var UndoButton = BUTTONS.Button.template(function ($) { return {
-        left: 100, right: 10, top: 10, bottom: 10,
+        right: 10, height: 30, width: 70,
         skin: undoButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -433,6 +432,7 @@ EditPage.prototype.getContainer = function () {
         left: 0, right: 0, height: 45,
         contents: [
             page.tintCheckbox,
+            new ClearButton(),
             new UndoButton(),
         ]
         });
