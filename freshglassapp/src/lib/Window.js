@@ -335,7 +335,7 @@ Window.prototype.renderPreview = function () {
 
     var window = this;
 
-    var preview = new Container({
+    var preview = new TouchableTemplate({
         height: this.height, width: this.width,
         window: window,
         skin: new Skin({
