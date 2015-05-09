@@ -16,6 +16,7 @@ local.properties
 .settings/
 .loadpath
 .metadata
+.DS_STORE
 
 # External tool builders
 .externalToolBuilders/

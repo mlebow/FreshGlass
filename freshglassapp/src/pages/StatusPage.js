@@ -36,8 +36,8 @@ var green = "#67AF4B";
 var purple = "#AF6DC5";
 var darkBlue = "#43489B";
 
-var sunURL = mergeURI(application.url, "images/sunpicture.png");
-var thermURL = mergeURI(application.url, "images/thermometer.png");
+var sunURL = mergeURI(application.url, "images/suns/Sun0.png");
+var thermURL = mergeURI(application.url, "images/thermometers/Thermometer0.png");
 
 StatusPage.prototype.onNavigatedTo = function () {
     // if we already rendered the kinoma structure for this page, make sure that we
@@ -82,19 +82,19 @@ StatusPage.prototype.getContainer = function () {
     });
 
     var SavePresetButton = BUTTONS.Button.template(function ($) { return {
-        left: 200, right: 10, bottom: 10, top:10,//height: 35,
+        left: 200, right: 10, bottom: 10, top:10, //height: 35,
         skin: new Skin({fill: blue, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
                 
                 trace("This does nothing right now.\n");
-                presetsPage.addToPreset(page.window);
+                presetsPage.addToPresetsPage(page.window);
             }}
         }),
         contents: [
             new Label({
                 left: 0, right: 0, bottom: 0, top: 0,
-                style: new Style({color: "white", size: 18, font: "Helvetica Neue"}),
+                style: new Style({color: "white", size: 16, font: "Helvetica Neue"}),
                 string: "Save as Preset"
             })
         ]
@@ -141,6 +141,16 @@ StatusPage.prototype.updateContainerWithData = function() {
     if (this.container !== null) {
         this.temperatureLabel.string = this.window.temperature + "\u00B0 F";
         this.brightnessLabel.string = this.window.brightness + "%";
+        sunPicNumber = Math.floor(this.window.brightness / 10);
+        sunURL = mergeURI(application.url, "images/suns/Sun" + sunPicNumber + ".png");
+        if (sunURL != this.sunIcon.url){
+            this.sunIcon.url = sunURL;
+        }
+        thermometerPicNumber = Math.floor(this.window.temperature / 10);
+        thermURL = mergeURI(application.url, "images/thermometers/Thermometer" + thermometerPicNumber + ".png");
+        if (thermURL != this.thermometer.url){
+            this.thermometer.url = thermURL;
+        }
     }
 };
 

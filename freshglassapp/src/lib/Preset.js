@@ -12,7 +12,6 @@ var Preset = function (name, windowList, images) {
     this.images = images;
     this.clearImages = false;
     this.controls = null;
-    
     this.controls = [
         /*
         added: false, 
@@ -28,6 +27,9 @@ var Preset = function (name, windowList, images) {
 
 Preset.PREVIEW_WIDTH = 100; 
 Preset.PREVIEW_HEIGHT = 150;
+
+var lightGray = "#fafafa";
+var presetSkin = new Skin({fill: lightGray, stroke:"black"});
 
 /**
  * Apply the preset to each window in the preset's windowList 
@@ -75,20 +77,16 @@ Preset.prototype.updatePreviewImages = function() {
 
     this.preview.add(new Container({
         top: 1, bottom: 1, left: 1, right: 1, // for borders
-        skin: new Skin({fill: "orange"}),
+        skin: new Skin({fill:"white"}),
     }));
 
     for(var i = 0; i < preset.images.length; i++) {
         this.preview.add(new Picture({
             url: preset.images[i].url, 
-            top: 5,            //Does this add a full picture? 
-            bottom: 5,
-            left: 5, 
-            right: 5, 
-            //height: window.images[i].height + 1, 
-            //width: window.images[i].width + 1,
-            //top: window.images[i].y + 1,//to not touch the top border
-            //left: window.images[i].x + 1, 
+            height: preset.images[i].height + 1, 
+            width: preset.images[i].width + 1,
+            top: preset.images[i].y + 1, //to not touch the top border
+            left: preset.images[i].x + 1, 
             opacity:1.0, 
         }));
     }
@@ -102,10 +100,10 @@ Preset.prototype.updatePreviewImages = function() {
 /**
  * @return {Container} a kinoma Container object representing the preview of the preset.
  */
-Preset.prototype.renderPreview = function (height, width) {
+Preset.prototype.renderPreview = function () { //(height, width) {
 	//preview when clicked
-    height = height || Preset.PREVIEW_HEIGHT;
-    width = width || Preset.PREVIEW_WIDTH;
+    height = 280;
+    //width = width || Preset.PREVIEW_WIDTH;
     if (this.preview !== null) {
         if (this.preview.container) {
             this.preview.container.remove(this.preview);
@@ -116,7 +114,8 @@ Preset.prototype.renderPreview = function (height, width) {
     var preset = this;
 
     var preview = new Container({
-        height: height, width: width,
+        height: height,
+        left: 0, right: 0, //top: 0, bottom: 100, //bottom
         skin: new Skin({
             borders: {left:1, right:1, top:1, bottom:1},
             stroke:"black"
@@ -126,14 +125,6 @@ Preset.prototype.renderPreview = function (height, width) {
     this.preview = preview;
     this.updatePreviewImages();
 
-    this.preview.add( //add to contents?            
-        new Label({
-                    left: 1, right: 1, top:10, height:35,
-                    style: new Style({color: "black", font:"10px"}),
-                    skin: new Skin({fill:"yellow"}),
-                    string: preset.name, 
-                })
-    );
     return preview;
 };
 

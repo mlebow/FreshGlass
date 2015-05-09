@@ -13,16 +13,6 @@ var navBarHeight = 45;
 var windowNameStyle = new Style({font:"Helvetica Neue", size: 22, color: "black"});
 var backStyle = new Style({font: "bold Helvetica Neue", size: 16, color:"black"});
 
-/*var BackButtonTemplate = BUTTONS.Button.template(function($){ return {
-	left:0, bottom:0, width:60, height:navBarHeight, skin: backSkin,
-	contents: [
-		new Label({left: 0, right: 0, height: navBarHeight, string: "< Back", style: backStyle})
-	],
-	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
-		onTap: { value: function(content) {
-			$.page.switchPages($.page.previousPage);
-
-*/
 var grayHomeURL = mergeURI(application.url, "images/grayHome.png");
 var blueHomeURL = mergeURI(application.url, "images/blueHome.png");
 
@@ -55,7 +45,6 @@ var blueHomeButtonTemplate = BUTTONS.Button.template(function($){ return {
 	],
 	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
 		onTap: { value: function(content) {
-			trace($.selected);
 		}}
 	})
 };});
@@ -64,7 +53,6 @@ var grayStatusButtonTemplate = BUTTONS.Button.template(function($){ return {
 	left:15, bottom:0, width:60, height:navBarHeight, skin: backSkin,
 	contents: [
 		 new Picture({width:40, height:40, url: grayStatusURL})
-
 	],
 	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
 		onTap: { value: function(content) {
@@ -87,7 +75,6 @@ var blueStatusButtonTemplate = BUTTONS.Button.template(function($){ return {
 	],
 	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
 		onTap: { value: function(content) {
-			trace($.selected);
 		}}
 	})	
 };});
@@ -96,10 +83,10 @@ var grayEditButtonTemplate = BUTTONS.Button.template(function($){ return {
 	left:15, bottom:0, width:60, height:navBarHeight, skin: backSkin,
 	contents: [
 		 new Picture({width:40, height:40, url: grayEditURL})
-
 	],
 	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
 		onTap: { value: function(content) {
+			trace("SELECTED IS" + $.selected);
 			if ($.selected == "Window 2"){
 				$.page.switchPages(editPage2);
 			} if ($.selected == "Window 3"){
@@ -118,7 +105,6 @@ var blueEditButtonTemplate = BUTTONS.Button.template(function($){ return {
 	],
 	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
 		onTap: { value: function(content) {
-			trace($.selected);
 		}}
 	})	
 };})
@@ -127,7 +113,6 @@ var grayPresetsButtonTemplate = BUTTONS.Button.template(function($){ return {
 	left:15, bottom:0, width:60, height:navBarHeight, skin: backSkin,
 	contents: [
 		 new Picture({width:40, height:40, url: grayPresetsURL})
-
 	],
 	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
 		onTap: { value: function(content) {
@@ -143,7 +128,6 @@ var bluePresetsButtonTemplate = BUTTONS.Button.template(function($){ return {
 	],
 	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
 		onTap: { value: function(content) {
-			trace($.selected);
 		}}
 	})	
 };});

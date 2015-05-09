@@ -13,27 +13,27 @@ var ViewPresetPage = require('pages/ViewPresetPage');
  */
 var PresetsPage = function (windows, switchPages) {
     this.windows = windows;    
-    /*
-    //don't need window?
-    this.window = window;
-    //do we care about previous page anymore? 
-    if (this.window.name == "Window 1"){
-	    this.previousPage = statusPage1;
-    } if (this.window.name == "Window 2"){
-	    this.previousPage = statusPage2;
-    } if (this.window.name == "Window 3"){
-	    this.previousPage = statusPage3;
-    }
-    */
     this.switchPages = switchPages;
     this.container = null;
+    var valImg ={ url: valentineURL, height: 250, width: 200, x: 30, y: 10};
+    var calImg ={ url: calURL, height: 250, width: 200, x: 40, y: 20};
+     
     this.presets = [
-        new Preset("Valentine's Day", [this.windows[2]], valentineURL),
-        new Preset("Go Bears!", this.windows.slice(0,1), calURL),
+        new Preset("Valentine's Day", [this.windows[2]], [valImg]),
+        new Preset("Go Bears!", this.windows.slice(0,1), [calImg]),
     ];
+    
     this.name = "presets";
     this.selectedPreset = null;
     this.navBar = new NavBar({selected: null, edit: false, status: false, presets: true, home: false, borders: true, page: this});
+	
+	
+	this.displayLine = new Line({ 
+		top:0, left: 0, right: 0, height: 250, name:"displayLine", 
+		contents:[
+            //valPreset,
+            //calPreset,
+        ],});
 };
 
 var red = "#DB4C3F";
@@ -43,7 +43,7 @@ var lightGray = "#fafafa";
 var rootSkin = new Skin({fill: "white"}); 
 
 var buttonSkin = new Skin({fill: blue, stroke:"white"});
-var addPresetSkin = new Skin({fill: lightGray, stroke:"black"});
+var presetSkin = new Skin({fill: lightGray, stroke:"black"});
 
 var transparentSkin = new Skin({borders:{bottom:2, top:2, left:2, right:2}, opacity: .001});
 var presetTitleSkin = new Skin({fill: "white", opacity: .01});
@@ -58,6 +58,31 @@ var calURL = mergeURI(application.url, "./images/calPreset.png");
 var preview = null;
 var presetCoordinates = {1:(20, 20), 2: (20, 0)} //{presetCount: (top, left)} top, left of the displayed presetPreview on the page
 var number = 1;
+
+
+var PresetPreview = BUTTONS.Button.template(function ($) { return {
+    left: 5, width: Preset.PREVIEW_WIDTH, top: 20, height: Preset.PREVIEW_HEIGHT,
+    skin: presetSkin,
+    behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
+        onTap: { value: function (button) {
+            presetsPage.selectedPreset = $.preset;// :/
+            trace("viewPresetPage in the works\n");
+            
+            var viewPreset = new ViewPresetPage($.preset, presetsPage, presetsPage.switchPages);
+            presetsPage.switchPages(viewPreset);
+        }}
+    }),
+    contents: [
+        new Picture({left:0, right:0, top:0, bottom: 0, url: $.url,}), 
+        new Label({
+                left: 0, right: 0, bottom:0, height:15,
+                style: new Style({color: "black", font:"10px"}),
+                string: $.presetName, 
+                skin: new Skin({color:"red"}),
+            }),
+    ]
+};});
+
 /**
  * Return the kinoma Container which will be added to the application when this
  * page becomes active.
@@ -67,28 +92,6 @@ PresetsPage.prototype.getContainer = function () {
     var page = this;
 
     var titleBar = new TitleBar({name:"Presets", back: false, home: true, borders: true, page: page});
-    var PresetPreview = BUTTONS.Button.template(function ($) { return {
-        left: 5, width: Preset.PREVIEW_WIDTH, top: 20, height: Preset.PREVIEW_HEIGHT,
-        skin: addPresetSkin,
-        behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
-            onTap: { value: function (button) {
-                page.selectedPreset = $.preset;
-                trace("viewPresetPage in the works\n");
-                //var viewPreset = new ViewPresetPage($.preset, page, page.switchPages);
-                //page.switchPages(viewPreset);
-            }}
-        }),
-        contents: [
-            new Picture({left:0, right:0, top:0, bottom: 0, url: $.url,}), 
-            new Label({
-                    left: 0, right: 0, bottom:0, height:15,
-                    style: new Style({color: "black", font:"10px"}),
-                    string: $.presetName, 
-                    skin: new Skin({color:"red"}),
-                }),
-        ]
-    };});
-
     
     var AddPresetButton = BUTTONS.Button.template(function ($) { return {
         left: 5, width: Preset.PREVIEW_WIDTH, top: 20, height: Preset.PREVIEW_HEIGHT,
@@ -102,40 +105,11 @@ PresetsPage.prototype.getContainer = function () {
             new Label({
                     left: 0, right: 0, top:0, bottom:0,
                     style: new Style({color: "black", font:" bold 30px"}),
-                    skin: addPresetSkin,
+                    skin: presetSkin,
                     string: "+", 
                 }),
         ]
     };});
-    
-    var ViewPresetContainer = Container.template(function($) {return { 
-        left: 0, right: 0, top: -375, bottom: 100, 
-        skin: addPresetSkin,
-        name:$.name, 
-        contents:[
-            new Label({
-                left: 0, right: 0, top:0, height:15,
-                style: labelStyle,
-                string: page.selectedPreset.name,
-                skin: new Skin({fill:"green"}), 
-            }), 
-            new Label({
-				left: 0, right: 0, top:15, height:15,
-				style: labelStyle,
-			    string: page.selectedPreset.getWindowsNames(), 
-			}),
-            new Picture({left:0, right:0, top:50, height:200, url: $.url,}), 
-            new Line({ 
-                top:0, left: 0, right: 0, bottom:45, top: 250, skin: new Skin({fill:"purple",}),
-                contents:[
-                    new ApplyButton(), 
-                    new DeleteButton(),
-                ],
-            }),
-            //page.navBar,
-            ],
-        
-    }});
 
     var valPreset = new PresetPreview({
         preset: page.presets[0],
@@ -148,25 +122,19 @@ PresetsPage.prototype.getContainer = function () {
         presetName: page.presets[1].name,
         url:calURL,
     });
+    
+    page.displayLine.add(valPreset);
+    page.displayLine.add(calPreset);
 
     var rootColumn = new Column({
         top: 0, left: 0, bottom: 0, right: 0,
         skin: rootSkin,
         contents: [
-        //windowSelector,
             titleBar,
             new Container({
-                name:"presetsLand", top: 0, left: 0, bottom: 0, right: 0, 
+                name:"presets", top: 0, left: 0, bottom: 0, right: 0, 
                 skin: rootSkin,
-                contents:[
-                    new Line({ top:0, left: 0, right: 0, height: 250,
-                    contents:[
-                        valPreset,
-                        calPreset,
-                        //new AddPresetButton(), 
-                        ],
-                    })
-                ],
+                contents:[page.displayLine],
 
         }),
         page.navBar,
@@ -177,10 +145,24 @@ PresetsPage.prototype.getContainer = function () {
 };
 
 PresetsPage.prototype.addToPresetsPage = function(window) {
-    //add a fake window? 
-    var newPreset = new Preset("Open!", window.name, window.images)
+    var newPreset = new Preset("Open!", [window], window.images)
     this.presets.push(newPreset);
-    this.rootColumn.add(newPreset);
+    trace(newPreset.images[0]);
+    var newPresetPreview = new PresetPreview({
+        preset: newPreset,
+        presetName: newPreset.name,
+        url: newPreset.images[0],
+    });
+    trace("addToPresetsPage doesn't work");
+/*
+    this.displayLine = new Line({ 
+		top:0, left: 0, right: 0, height: 250, name:"displayLine", 
+		contents:[
+            valPreset,
+            calPreset,
+            newPresetPreview,
+        ],});
+      */
 }
 
 module.exports = PresetsPage;

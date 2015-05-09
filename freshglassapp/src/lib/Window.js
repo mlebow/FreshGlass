@@ -15,8 +15,9 @@ var Window = function (name, height, width) {
 	Window.window = this;
     this.name = name || "";
     this.tint = 0; // 0 is transparent, 1 is opaque
+    this.autoTint = false;
     this.temperature = null; // will be set eventually to degress fahrenheit
-    this.brightness = null; // will be set between 0 (no sun) to 1 (max sun we can detect)
+    this.brightness = null; // will be set between 0 (no sun) to 100 (max sun we can detect)
     this.images = [
         // {url: "...", top: 0, left: 0, width: 10, height: 10}
     ];
@@ -32,10 +33,11 @@ var Window = function (name, height, width) {
         width: null,
     };
     */
-    // TODO: implement this!
     this.statusPage = null;
+    this.editPage = null;
     // NOTE: size is hardcoded (v2.0 feature)
     this.preview = null; // kinoma container for window preview that will be used on multiple pages
+    this.original = null;
 };
 Window.HEX_TINT = "46483b"; // the hex code for the color that the window gets tinted
 Window.PREVIEW_WIDTH = 315;
@@ -114,6 +116,10 @@ Window.prototype.getImageByID = function(id) {
 Window.prototype.updateSensorData = function (temperature, brightness) {
     this.temperature = temperature;
     this.brightness = brightness;
+    //Change the tint if auto-tint selected
+    if (this.autoTint){
+        this.tint = this.brightness / 100;
+    }
 };
 
 /**
@@ -134,6 +140,8 @@ Window.prototype.updateFrom = function (window) {
     this.tint = window.tint;
     this.images = window.images;
     this.controls = window.controls;
+    trace(this.tint, this.images, this.controls);
+    trace("done with updateFrom");
 };
 
 /**
@@ -314,49 +322,6 @@ TouchableTemplate.behaviors[0] = function($) {
 	}
 }
 
-/*
-var DraggableImageTemplate = Container.template(function($) {
-    return {
-        left: 0, right: 0, top: 0, bottom: 0, active: true,
-        skin: whiteSkin,
-        behavior: Object.create((DraggableImageTemplate.behaviors[0]).prototype),
-        contents: [
-            Picture($, {
-                left: $.left, top: $.top, width: $.width, height: $.height, name: 'picture',
-                behavior: Object.create((DraggableImageTemplate.behaviors[1]).prototype),
-                url: $.url,
-                opacity: $.opacity || 1.0
-            }),
-        ],
-    };
-});
-DraggableImageTemplate.behaviors = new Array(2);
-DraggableImageTemplate.behaviors[0] = FINGERS.TouchBehavior.template({
-    buildTouchStateMachine: function(container) {
-        var allowRotation = true;
-        return TOUCH_STATES.buildPictureTouchStateMachine(container, container.picture, allowRotation); // note we pass both the container and the picture to be manipulated here
-    },
-    onCreate: function(container, data) {
-        FINGERS.TouchBehavior.prototype.onCreate.call(this, container, data);
-        this.data = data;
-        this.loaded = false;
-        container.active = true;
-        container.exclusiveTouch = true;
-        container.multipleTouch = true;
-    },
-    onShowingStateComplete: function(container) {
-        // could hide a busy indiator here for asyc pictures
-        // for now, does nothing
-    },
-    onPhotoViewChanged: function(container) {
-        // this is called when the touch state machine returns to idle
-        // Connect uses this oportunity send the latest cropped view of the image to the renderer
-    },
-    onTouchMoved: function (container, id, x, y, ticks) {
-        trace("OnTouchMoved: x: " + x + " y: " + y + " ticks: " + ticks + ";\n");
-    }
-});
-*/
 /**
  * @return {Container} a kinoma Container object representing the preview of the window.
  */
@@ -370,11 +335,11 @@ Window.prototype.renderPreview = function () {
 
     var window = this;
 
-    var preview = new TouchableTemplate({
+    var preview = new Container({
         height: this.height, width: this.width,
         window: window,
         skin: new Skin({
-            borders: {left:3, right:3, top:3, bottom:100},
+            borders: {left:3, right:3, top:3, bottom:3},
             stroke:"black"
         }),
         contents: []
