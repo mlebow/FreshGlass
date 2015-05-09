@@ -398,7 +398,7 @@ EditPage.prototype.getContainer = function () {
     Handler.bind("/updateFirst", Behavior({
         onInvoke: function(handler, message){
             if (page.window.autoTint) {
-                page.window.updatePreview();
+                page.window.updatePreview(false);
                 page.controls.tint.behavior.data.value = page.window.tint;
                 page.controls.tint.behavior.onLayoutChanged(page.controls.tint);
                 handler.invoke(new Message("/updateSecond"));
