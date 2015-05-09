@@ -235,47 +235,84 @@ Window.prototype.updatePreviewImages = function() {
     }
 };
 var TouchableTemplate = Container.template(function($) {
-	this.window = $.window;
-	trace(this.window);
+	window = $.window;
+	trace("window in touchabletemplate: " + window);
     return {
         left: 0, right: 0, top: 0, bottom: 0, active: true,
-        behavior: Object.create((TouchableTemplate.behaviors[0]).prototype),
+        //behavior: Object.create(Behavior.template(TouchableTemplate.behaviors[0]({window: window})).prototype),
+        behavior: Behavior({
+        	onTouchEnded: function (container, id, x, y, ticks) {
+		        trace("OnTouchEnded: x: " + x + " y: " + y + " ticks: " + ticks + ";\n");
+		        //trace(container);
+		        //trace(container.name);
+		        //trace(this.pane);
+		        //for (val in container) trace(val + "\n");
+		        var win = window; //I NEED TO FIGURE OUT HOW TO GET THIS WINDOW OBJECT
+				if (win.somethingSelected) {
+					trace("something selected\n\n");
+					win.selectedImage.x += x - lastX;
+					win.selectedImage.y += y - lastY;
+					win.somethingSelected = false;
+					win.updatePreview();
+				} else {
+					trace("nothing selected\n\n");
+		        	for (var i = 0; i < win.images.length; i++) {
+			        	var xIn = win.images[i].x <= x && win.images[i].x + win.images[i].width >= x;
+			        	var yIn = win.images[i].y <= y && win.images[i].y + win.images[i].height >= y;
+			        	if (xIn && yIn) {
+			        		win.selectedImage = win.images[i];
+			        		win.somethingSelected = true;
+			        		win.lastX = x;
+			        		win.lastY = y;
+			        		break;
+			        	}
+			        }
+			    }
+			}
+			
+	    }),
         window: $.window,
         pane: 5,
         contents: [],
     };
 });
 TouchableTemplate.behaviors = new Array(1);
-TouchableTemplate.behaviors[0] = Behavior.template({
-    onTouchEnded: function (container, id, x, y, ticks) {
-        trace("OnTouchEnded: x: " + x + " y: " + y + " ticks: " + ticks + ";\n");
-        trace(container);
-        trace(container.name);
-        trace(this.pane);
-        //for (val in container) trace(val + "\n");
-        var win = container.window; //I NEED TO FIGURE OUT HOW TO GET THIS WINDOW OBJECT
-		if (win.somethingSelected) {
-			trace("something selected\n\n");
-			win.selectedImage.x += x - lastX;
-			win.selectedImage.y += y - lastY;
-			win.somethingSelected = false;
-			win.updatePreview();
-		} else {
-			trace("not anymore");
-        	for (var i = 0; i < win.images.length; i++) {
-	        	var xIn = win.images[i].x <= x && win.images[i].x + win.images[i].width >= x;
-	        	var yIn = win.images[i].y <= y && win.images[i].y + win.images[i].height >= y;
-	        	if (xIn && yIn) {
-	        		win.selectedImage = win.images[i];
-	        		win.somethingSelected = true;
-	        		win.lastX = x;
-	        		win.lastY = y;
-	        		break;
-	        	}
-	        }
+//TouchableTemplate.behaviors[0] = Behavior.template(function($) { 
+TouchableTemplate.behaviors[0] = function($) { 
+
+	var window = $.window;
+	return {
+	    onTouchEnded: function (container, id, x, y, ticks) {
+	        trace("OnTouchEnded: x: " + x + " y: " + y + " ticks: " + ticks + ";\n");
+	        trace(container);
+	        trace(container.name);
+	        trace(this.pane);
+	        //for (val in container) trace(val + "\n");
+	        var win = window; //I NEED TO FIGURE OUT HOW TO GET THIS WINDOW OBJECT
+			if (win.somethingSelected) {
+				trace("something selected\n\n");
+				win.selectedImage.x += x - lastX;
+				win.selectedImage.y += y - lastY;
+				win.somethingSelected = false;
+				win.updatePreview();
+			} else {
+				trace("not anymore");
+				win.somethingSelected = true;
+	        	for (var i = 0; i < win.images.length; i++) {
+		        	var xIn = win.images[i].x <= x && win.images[i].x + win.images[i].width >= x;
+		        	var yIn = win.images[i].y <= y && win.images[i].y + win.images[i].height >= y;
+		        	if (xIn && yIn) {
+		        		win.selectedImage = win.images[i];
+		        		win.somethingSelected = true;
+		        		win.lastX = x;
+		        		win.lastY = y;
+		        		break;
+		        	}
+		        }
+		    }
 	    }
-    }
-});
+	}
+}
 
 /*
 var DraggableImageTemplate = Container.template(function($) {
@@ -335,7 +372,7 @@ Window.prototype.renderPreview = function () {
 
     var preview = new TouchableTemplate({
         height: this.height, width: this.width,
-        window: this,
+        window: window,
         skin: new Skin({
             borders: {left:3, right:3, top:3, bottom:100},
             stroke:"black"
