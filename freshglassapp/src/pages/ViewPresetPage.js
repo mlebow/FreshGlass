@@ -19,6 +19,10 @@ var ViewPresetPage = function (preset, presetsPage, switchPages) {
     this.presetPreviewContainer = null; // kinoma container for window preview
 };
 
+ViewPresetPage.prototype.getMainWindow = function () {
+    return this.presetsPage.windows[0];
+};
+
 var red = "#DB4C3F";
 var blue = "#4682EA";
 var lightGray = "#fafafa";
@@ -34,7 +38,7 @@ ViewPresetPage.prototype.getContainer = function () {
     if (this.container) { return this.container; }
     var page = this;
 
-    var navBar = new NavBar( {selected: null, status: false, edit: false, presets: true, home: false, borders: true, page: page});
+    var navBar = new NavBar({ page: page });
     var titleBar = new TitleBar({name: page.preset.name + "       ", back: true, home: true, borders: true, page: page });
 
     var windowsLabel = new Label({

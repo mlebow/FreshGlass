@@ -13,32 +13,18 @@ var blue = "#4682EA";
 var floorplanURL = mergeURI(application.url, "images/floorplan.jpg");
 
 
-var MainPage = function (switchPages) {
+var MainPage = function (switchPages, windows) {
     this.switchPages = switchPages;
     this.container = null;
     this.previousPage = null;
 
     this.name = "main";
 
-    this.windows = [
-        new Window("Window 1"),
-        new Window("Window 2"),
-        new Window("Window 3"),
-    ];
-    
-    var statusPage1 = new StatusPage(this.windows[0], this.switchPages);
-    var statusPage2 = new StatusPage(this.windows[1], this.switchPages);
-    var statusPage3 = new StatusPage(this.windows[2], this.switchPages);
+    this.windows = windows;
+};
 
-    this.statusPages = [
-        statusPage1, 
-        statusPage2, 
-        statusPage3,
-    ];
-    trace(statusPage1);
-    for (var i = 0; i < this.windows.length; i ++){
-        this.windows[i].statusPage = this.statusPages[i];
-    }
+MainPage.prototype.getMainWindow = function () {
+    return this.windows[0];
 };
 
 //Make color changes here
@@ -124,29 +110,27 @@ MainPage.prototype.getContainer = function () {
     };});
 
     var titleBar = new TitleBar({name:"Fresh Glass", back: false, home: true, borders: true, page: page});
-    var navBar = new NavBar({selected: this.windows[0].name, edit: false, status: false, presets: false, home: true, borders: true, page: page});
+    var navBar = new NavBar({ page: page });
 	
 	var innerContainer = new Container({
-		top: 0, left:0, right:0, bottom:0, 
+		top: 0, left:0, right:0, bottom:0,
 		skin: rootSkin,
 		contents: [
-            new Picture({width:300, height:500, top:0, bottom: 0, left:0, right:0, url: floorplanURL}), 
-			new HorizontalWindowButton1({ window: this.windows[0], string: this.windows[0].name, number: 1}),	
-			new VerticalWindowButton({window: this.windows[1], string: this.windows[1].name, number: 2}),			
+            new Picture({width:300, height:500, top:0, bottom: 0, left:0, right:0, url: floorplanURL}),
+			new HorizontalWindowButton1({ window: this.windows[0], string: this.windows[0].name, number: 1}),
+			new VerticalWindowButton({window: this.windows[1], string: this.windows[1].name, number: 2}),
             new HorizontalWindowButton3({ window: this.windows[2], string: this.windows[2].name, number: 3}),
 		]
 	});
 
-
     var rootContainer = new Column({
         top: 0, left: 0, right: 0, bottom: 0,
         skin: rootSkin,
-        contents: [ 
+        contents: [
             titleBar,
 			innerContainer,
         ]
     });
-    
     
 /*
     for (var i=0; i < this.windows.length; i++) {

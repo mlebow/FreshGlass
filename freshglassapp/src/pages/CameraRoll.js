@@ -9,6 +9,11 @@ var CameraRoll = function (window, previousPage, switchPages) {
     this.previousPage = previousPage;
     this.switchPages = switchPages;
     this.container = null;
+    this.name = "cameraRoll";
+};
+
+CameraRoll.prototype.getMainWindow = function () {
+    return this.window;
 };
 
 var blue = "#4682EA";
@@ -25,7 +30,6 @@ CameraRoll.prototype.getContainer = function () {
 	var imageBase = "http://michaelhobo.com/camera_roll/";
 	var numImages = 0;
 	var curImage = 0;
-    //var navBar = new NavBar({ name: page.window.name, back: true, page: page });
     var arrowTemplate = BUTTONS.Button.template(function ($) { 
     	var arrow = ">";
     	if ($.direction == "left") {
@@ -108,7 +112,7 @@ CameraRoll.prototype.getContainer = function () {
     
     var navBar = new Line({left:0, right:0, top:35, height:45,
 		contents: [
-    		new NavBar({selected: page.window.name, edit: true, status: false, presets: false, home: false, borders: true, page: page}),
+    		new NavBar({ page: page }),
 		]
 	});
 

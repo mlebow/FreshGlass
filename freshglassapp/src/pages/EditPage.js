@@ -8,7 +8,8 @@ var Window = require('lib/Window');
 
 var EditPage = function (window, switchPages) {
     this.window = window;
-    
+    this.window.editPage = this;
+
     this.name = "edit";
     //this.previousPage = previousPage;
     this.switchPages = switchPages;
@@ -44,6 +45,10 @@ var EditPage = function (window, switchPages) {
     this.undoAutoLine = null;
     this.tintCheckbox = null;
     //this.windowCopy = this.window;
+};
+
+EditPage.prototype.getMainWindow = function () {
+    return this.window;
 };
 
 var red = "#DB4C3F";
@@ -144,7 +149,7 @@ EditPage.prototype.getContainer = function () {
     if (this.container) { return this.container; }
     var page = this;
 
-    var navBar = new NavBar({ selected: page.window.name, edit: true, presets: false, status: false, home: false, borders: false, page: page });
+    var navBar = new NavBar({ page: page });
     var windowSelector = new WindowSelector({edit: true, presets: false, status: false, page: page, name: page.window.name });
 
     var TintTab = BUTTONS.Button.template(function ($) { return {
@@ -290,12 +295,11 @@ EditPage.prototype.getContainer = function () {
         skin: cancelButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                trace(page.lastAction)
                 if (page.lastAction == "tint"){
                     page.controls.tint.behavior.data.value = page.window.tint;
                     page.controls.tint.behavior.onValueChanged();
                     page.controls.tint.behavior.onLayoutChanged(page.controls.tint);
-                } else if (page.lastAction == "control"){                
+                } else if (page.lastAction == "control") {
                     page.window.images = [];
                     page.window.clearImages = true;
                     //page.window.control.added = false;
@@ -378,8 +382,7 @@ EditPage.prototype.getContainer = function () {
         ]
     });
 
-
-    var autoTintCheckbox = BUTTONS.Checkbox.template(function($){ return{
+    var autoTintCheckbox = BUTTONS.Checkbox.template(function($) { return {
         top:0, bottom:0, left:5,
         behavior: Object.create(BUTTONS.CheckboxBehavior.prototype, {
             onSelected: { value:  function(checkBox){
@@ -395,7 +398,7 @@ EditPage.prototype.getContainer = function () {
                 trace("Checkbox was unselected.\n");
             }}
         })
-    }});
+    };});
 
     Handler.bind("/updateFirst", Behavior({
         onInvoke: function(handler, message){

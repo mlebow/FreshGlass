@@ -12,12 +12,12 @@ var ViewPresetPage = require('pages/ViewPresetPage');
  * @param {Window List} windows  list of windows part of the app
  */
 var PresetsPage = function (windows, switchPages) {
-    this.windows = windows;    
+    this.windows = windows;
     this.switchPages = switchPages;
     this.container = null;
     var valImg ={ url: valentineURL, height: 250, width: 200, x: 30, y: 10};
     var calImg ={ url: calURL, height: 250, width: 200, x: 40, y: 20};
-     
+
     this.presets = [
         new Preset("Valentine's Day", [this.windows[2]], [valImg]),
         new Preset("Go Bears!", this.windows.slice(0,1), [calImg]),
@@ -25,28 +25,31 @@ var PresetsPage = function (windows, switchPages) {
     
     this.name = "presets";
     this.selectedPreset = null;
-    this.navBar = new NavBar({selected: null, edit: false, status: false, presets: true, home: false, borders: true, page: this});
-	
-	
-	this.displayLine = new Line({ 
-		top:0, left: 0, right: 0, height: 250, name:"displayLine", 
-		contents:[
+    this.navBar = new NavBar({ page: this });
+
+    this.displayLine = new Line({
+        top:0, left: 0, right: 0, height: 250, name:"displayLine",
+        contents:[
             //valPreset,
             //calPreset,
         ],});
+};
+
+PresetsPage.prototype.getMainWindow = function () {
+    return this.windows[0];
 };
 
 var red = "#DB4C3F";
 var blue = "#4682EA";
 var lightGray = "#fafafa";
 
-var rootSkin = new Skin({fill: "white"}); 
+var rootSkin = new Skin({fill: "white"});
 
 var buttonSkin = new Skin({fill: blue, stroke:"white"});
 var presetSkin = new Skin({fill: lightGray, stroke:"black"});
 
-var transparentSkin = new Skin({borders:{bottom:2, top:2, left:2, right:2}, opacity: .001});
-var presetTitleSkin = new Skin({fill: "white", opacity: .01});
+var transparentSkin = new Skin({borders:{bottom:2, top:2, left:2, right:2}, opacity: 0.001});
+var presetTitleSkin = new Skin({fill: "white", opacity: 0.01});
 
 var labelStyle = new Style({ color: 'black', font: "10px Georgia", horizontal: 'center', vertical: 'middle', });
 
@@ -56,7 +59,7 @@ var valentineURL = mergeURI(application.url, "./images/valentinePreset.png");
 var calURL = mergeURI(application.url, "./images/calPreset.png");
 
 var preview = null;
-var presetCoordinates = {1:(20, 20), 2: (20, 0)} //{presetCount: (top, left)} top, left of the displayed presetPreview on the page
+var presetCoordinates = {1:(20, 20), 2: (20, 0)}; // {presetCount: (top, left)} top, left of the displayed presetPreview on the page
 var number = 1;
 
 
@@ -98,7 +101,7 @@ PresetsPage.prototype.getContainer = function () {
         skin: new Skin({fill:"white",}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-				trace("add preset does nothing\n");
+                trace("add preset does nothing\n");
             }}
         }),
         contents: [
@@ -156,8 +159,8 @@ PresetsPage.prototype.addToPresetsPage = function(window) {
     trace("addToPresetsPage doesn't work");
 /*
     this.displayLine = new Line({ 
-		top:0, left: 0, right: 0, height: 250, name:"displayLine", 
-		contents:[
+        top:0, left: 0, right: 0, height: 250, name:"displayLine", 
+        contents:[
             valPreset,
             calPreset,
             newPresetPreview,

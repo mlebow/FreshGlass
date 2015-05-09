@@ -7,16 +7,9 @@ var EditPage = require("pages/EditPage");
 var NavBar = require("lib/NavBar");
 var WindowSelector = require("lib/WindowSelector");
 
-//why do we have this? 
-/*
-var StatusPage = function (window, previousPage, switchPages) {
-    this.window = window;
-    this.previousPage = previousPage;
-}
-*/
-
 var StatusPage = function (window, switchPages) {
     this.window = window;
+    this.window.statusPage = this;
     //this.previousPage = previousPage;
     this.switchPages = switchPages;
     this.container = null;
@@ -26,7 +19,10 @@ var StatusPage = function (window, switchPages) {
     this.name = "status";
 
     this.windowPreviewContainer = null; // kinoma container for window preview
-    this.window.statusPage = this;
+};
+
+StatusPage.prototype.getMainWindow = function () {
+    return this.window;
 };
 
 var red = "#DB4C3F";
@@ -57,7 +53,7 @@ StatusPage.prototype.getContainer = function () {
     if (this.container) { return this.container; }
     var page = this;
 
-    var navBar = new NavBar( {selected: page.window.name, status: true, edit: false, presets: false, home: false, borders: true, page: page,});
+    var navBar = new NavBar({ page: page });
     var windowSelector = new WindowSelector({status:true, presets: false, edit: false, page: page, name: page.window.name});
 
     this.sunIcon = new Picture({width: 50, height: 55, left: 190, url: sunURL});
@@ -120,8 +116,8 @@ StatusPage.prototype.getContainer = function () {
         top: 0, left: 0, bottom: 0, right: 0,
         skin: new Skin({fill: "white"}),
         contents: [
-       		windowSelector,
-			statusContainer,
+            windowSelector,
+            statusContainer,
             page.windowPreviewContainer,
             new Line({
                 left: 0, right: 0, height: 45,
@@ -134,7 +130,7 @@ StatusPage.prototype.getContainer = function () {
     });
 
     this.container = rootColumn;
-    return this.container; // TODO: implement
+    return this.container;
 };
 
 StatusPage.prototype.updateContainerWithData = function() {
