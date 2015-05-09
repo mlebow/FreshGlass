@@ -391,7 +391,6 @@ EditPage.prototype.getContainer = function () {
             onUnselected: { value:  function(checkBox){
                 autoTintCheckboxContainer.first.next.style = new Style({color: "black", size: 18, font: "Helvetica Neue"});
                 page.window.autoTint = false;
-                page.controls.tint.behavior.onValueChanged();
             }}
         })
     }});
@@ -400,6 +399,8 @@ EditPage.prototype.getContainer = function () {
         onInvoke: function(handler, message){
             if (page.window.autoTint) {
                 page.window.updatePreview();
+                page.controls.tint.behavior.data.value = page.window.tint;
+                page.controls.tint.behavior.onLayoutChanged(page.controls.tint);
                 handler.invoke(new Message("/updateSecond"));
             }  
         },
