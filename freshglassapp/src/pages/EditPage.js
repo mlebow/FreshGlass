@@ -171,12 +171,14 @@ EditPage.prototype.getContainer = function () {
             }},
             onValueChanged: { value: function(container) {
                 SLIDERS.HorizontalSliderBehavior.prototype.onValueChanged.call(this, container);
-                page.window.tint = this.data.value;
-                // the false on the next line is to tell it to not update the images, because if
-                // we did that, they would flicker
-                page.window.updatePreview(false);
-                page.lastAction = "tint";
-                page.window.updateFrom(page.window);
+                if (!page.window.autoTint) {
+                    page.window.tint = this.data.value;
+                    // the false on the next line is to tell it to not update the images, because if
+                    // we did that, they would flicker
+                    page.window.updatePreview(false);
+                    page.lastAction = "tint";
+                    page.window.updateFrom(page.window);
+                }
             }},
         }),
     };});
@@ -384,14 +386,12 @@ EditPage.prototype.getContainer = function () {
             onSelected: { value:  function(checkBox){
                 autoTintCheckboxContainer.first.next.style = new Style({color: "blue", size: 18, font: "Helvetica Neue"});
                 page.window.autoTint = true;
-                //updateFirst();
                 application.invoke(new Message("/updateFirst"));
-                trace("Checkbox was selected.\n");
             }},
             onUnselected: { value:  function(checkBox){
                 autoTintCheckboxContainer.first.next.style = new Style({color: "black", size: 18, font: "Helvetica Neue"});
                 page.window.autoTint = false;
-                trace("Checkbox was unselected.\n");
+                page.controls.tint.behavior.onValueChanged();
             }}
         })
     }});
@@ -407,7 +407,7 @@ EditPage.prototype.getContainer = function () {
 
     Handler.bind("/updateSecond", {
         onInvoke: function(handler, message){
-            handler.wait(1000);
+            handler.wait(100);
         },
         onComplete: function(handler, message){
             handler.invoke(new Message("/updateFirst"));
