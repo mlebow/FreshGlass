@@ -273,53 +273,7 @@ EditPage.prototype.getContainer = function () {
         ],
     });
 
-<<<<<<< HEAD
-    var ApplyButton = BUTTONS.Button.template(function ($) { return {
-        left: 10, right: 5, top: 0, height: 35,
-        skin: applyButtonSkin,
-        behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
-            onTap: { value: function (button) {
-                page.window.updateFrom(page.window);
-                page.window.updatePreview();
-            }}
-        }),
-        contents: [
-            new Label({
-                left: 0, right: 0, bottom: 0, top: 0,
-                style: new Style({color: "white", font: "Helvetica Neue", size: 18}),
-                string: "Apply"
-            })
-        ]
-    };});
 
-    var CancelButton = BUTTONS.Button.template(function ($) { return {
-        left: 5, right: 10, top: 0, height: 35,
-        skin: cancelButtonSkin,
-        behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
-            onTap: { value: function (button) {
-                if (page.lastAction == "tint"){
-                    page.controls.tint.behavior.data.value = page.window.tint;
-                    page.controls.tint.behavior.onValueChanged();
-                    page.controls.tint.behavior.onLayoutChanged(page.controls.tint);
-                } else if (page.lastAction == "control") {
-                    page.window.images = [];
-                    page.window.clearImages = true;
-                    //page.window.control.added = false;
-                } else if (page.lastAction == "images"){
-                    page.window.images.pop(page.window.images.length - 1);
-                }
-                page.window.updatePreview();
-            }}
-        }),
-        contents: [
-            new Label({
-                left: 0, right: 0, bottom: 0, top: 0,
-                style: new Style({color: "white", font: "Helvetica Neue", size: 18}),
-                string: "Cancel"
-            })
-        ]
-    };});
-=======
     // var ApplyButton = BUTTONS.Button.template(function ($) { return {
     //     left: 10, right: 5, top: 0, height: 35,
     //     skin: applyButtonSkin,
@@ -366,7 +320,7 @@ EditPage.prototype.getContainer = function () {
     //         })
     //     ]
     // };});
->>>>>>> 141bee9a6bf0b68aa912bb48c532a15cd23dfd4a
+
 
     var ClearButton = BUTTONS.Button.template(function ($) { return {
         right: 15, height: 30, width: 70,
@@ -381,6 +335,7 @@ EditPage.prototype.getContainer = function () {
                 page.controls.tint.behavior.onValueChanged();
                 page.controls.tint.behavior.onLayoutChanged(page.controls.tint);
                 page.controlID = null;
+                page.window.updatePreview();
 
             }}
         }),
