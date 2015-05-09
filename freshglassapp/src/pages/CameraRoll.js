@@ -82,7 +82,7 @@ CameraRoll.prototype.getContainer = function () {
                 	var startY = 0;
                 	//page.window.addImage(imageBase + imageURLs[curImage], scale, 0, 0);
                 	trace(url + " " + startX + " " + startY + " " + height + " " + width + "\n");
-                	page.previousPage.windowCopy.addImage(url, startX, startY, height, width);
+                	page.previousPage.window.addImage(url, startX, startY, height, width);
                 	//page.previousPage.windowCopy.updatePreview()
                 	page.switchPages(page.previousPage);
                 	page.previousPage.lastAction = "images";
