@@ -126,13 +126,12 @@ ViewPresetPage.prototype.getContainer = function () {
 
 ViewPresetPage.prototype.applyPreset = function(preset, window) {
     var index = mainPage.windows.indexOf(window);
-    trace("index: " + index + "\n");
-    //mainPage.windows[index].tint = preset.tint;
-    //mainPage.windows[index].images = preset.images;
-    //mainPage.windows[index].controls = preset.controls;
+    trace("index: before" + index + "\n");
     mainPage.windows[index].updateFrom(preset);
-    //this.switchPages(mainPage.windows[index].editPage);
-    this.switchPages(mainPage.statusPages[index]);
+    //trace(mainPage.windows[index].images[0].url);
+    // after update the window with preset, go to the status page of the
+    // first window that the preset corresponds to
+    this.switchPages(mainPage.windows[index].statusPage);
 };
 
 module.exports = ViewPresetPage;
