@@ -51,6 +51,16 @@ EditPage.prototype.getMainWindow = function () {
     return this.window;
 };
 
+EditPage.prototype.onNavigatedTo = function () {
+    // if we already rendered the kinoma structure for this page, make sure that we
+    // still have the window preview here, because it may have been removed to get
+    // put on another page
+    if (this.container) {
+        this.windowPreviewContainer.empty();
+        this.windowPreviewContainer.add(this.window.renderPreview());
+    }
+};
+
 var red = "#db3a1c";
 var blue = "#4682EA";
 var yellow = "#FDBA35";
