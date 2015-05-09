@@ -4,7 +4,7 @@ var BUTTONS = require("controls/buttons");
 var SLIDERS = require('controls/sliders');
 // var currentPage = new Page();
 // var nextPage = new EditPage(currentWindow, currentPage, switchPages);
-
+var Window = require('lib/Window');
 var MainPage = require("pages/MainPage");
 
 var windowSelector = require("lib/windowSelector");
@@ -30,8 +30,13 @@ var switchPages = function(nextPage) {
     }
 };
 
-//Globals
-var mainPage = new MainPage(switchPages);
+// Globals
+var globalWindows = [
+    new Window("Window 1"),
+    new Window("Window 2"),
+    new Window("Window 3"),
+];
+var mainPage = new MainPage(switchPages, globalWindows);
 
 var editPage1 = new EditPage(mainPage.windows[0], mainPage.switchPages);
 var statusPage1 = new StatusPage(mainPage.windows[0], mainPage.switchPages);
@@ -43,8 +48,6 @@ var editPage3 = new EditPage(mainPage.windows[2], mainPage.switchPages);
 var statusPage3 = new StatusPage(mainPage.windows[2], mainPage.switchPages);
 
 var presetsPage = new PresetsPage(mainPage.windows, mainPage.switchPages);
-
-mainPage.statusPages = [statusPage1, statusPage2, statusPage3];
 
 var device = null;
 var deviceURL = "";
@@ -94,7 +97,7 @@ Handler.bind("/pollDevice", Behavior({
         mainPage.windows[2].updateSensorData(json.temperature3,json.brightness3);
         
         for (var i = 0; i < mainPage.windows.length; i++) {
-            mainPage.statusPages[i].updateContainerWithData();            
+            mainPage.windows[i].statusPage.updateContainerWithData();            
         }    
         handler.invoke(new Message("/delay"));
     }
@@ -102,7 +105,7 @@ Handler.bind("/pollDevice", Behavior({
 
 Handler.bind("/delay", {
     onInvoke: function(handler, message){
-        handler.wait(100); //will call onComplete after 1 seconds
+        handler.wait(100); //will call onComplete after X  milliseconds
     },
     onComplete: function(handler, message){
         handler.invoke(new Message("/pollDevice"));

@@ -13,6 +13,7 @@ var Window = function (name, height, width) {
     this.lastX = 0;
     this.lastY = 0;
 	Window.window = this;
+
     this.name = name || "";
     this.tint = 0; // 0 is transparent, 1 is opaque
     this.autoTint = false;

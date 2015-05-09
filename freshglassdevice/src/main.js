@@ -150,39 +150,39 @@ Handler.bind("/update", Behavior({
         var empty = false;
         var first_update = false;
         for (var i = 0; i < serializedWindows.length; i++) {
-        	if (windows[i]) {
-        		var swObj = JSON.parse(serializedWindows[i])
-        		swObj.height = 0;
-        		swObj.width = 0;
-        		var swString = JSON.stringify(swObj);
-        		var wObj = JSON.parse(windows[i].serialize());
-        		wObj.height = 0;
-        		wObj.width = 0;
-        		var wString = JSON.stringify(wObj);
-        		if (!(wString == swString)) {
-        			empty = true;
-        		}
-        	} else if (serializedWindows[i]) {
-        		first_update = true;
-        	}
+            if (windows[i]) {
+                var swObj = JSON.parse(serializedWindows[i]);
+                swObj.height = 0;
+                swObj.width = 0;
+                var swString = JSON.stringify(swObj);
+                var wObj = JSON.parse(windows[i].serialize());
+                wObj.height = 0;
+                wObj.width = 0;
+                var wString = JSON.stringify(wObj);
+                if (wString !== swString) {
+                    empty = true;
+                }
+            } else if (serializedWindows[i]) {
+                first_update = true;
+            }
         }
         if (empty) {
-        	windowPreviewContainer.empty(); //rather than empty... do sth else?
-		}
-		if (empty || first_update) {
-        	for (var i = 0; i < serializedWindows.length; i++) {
-            	windows[i] = Window.deserialize(serializedWindows[i]);
-        	    windows[i].height = Window.PREVIEW_HEIGHT * 0.5;
-    	        windows[i].width =  Window.PREVIEW_WIDTH * 0.33;
-	            windowPreviewContainer.add(new Container({
-                	left: 0, right: 0, top: 0, bottom: 0,
-                	contents: [
-                    	// dimension ratio will be handled by the window's methods, so
-                    	// we just need to render the preview here
-                    	windows[i].renderPreview()
-                	]
-            	}));
-        	}
+            windowPreviewContainer.empty(); //rather than empty... do sth else?
+        }
+        if (empty || first_update) {
+            for (var i = 0; i < serializedWindows.length; i++) {
+                windows[i] = Window.deserialize(serializedWindows[i]);
+                windows[i].height = Window.PREVIEW_HEIGHT * 0.5;
+                windows[i].width =  Window.PREVIEW_WIDTH * 0.33;
+                windowPreviewContainer.add(new Container({
+                    left: 0, right: 0, top: 0, bottom: 0,
+                    contents: [
+                        // dimension ratio will be handled by the window's methods, so
+                        // we just need to render the preview here
+                        windows[i].renderPreview()
+                    ]
+                }));
+            }
         }
         message.responseText = JSON.stringify({
             temperature1: currTemps[0], brightness1: currBrightness[0],

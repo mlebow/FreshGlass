@@ -8,7 +8,8 @@ var Window = require('lib/Window');
 
 var EditPage = function (window, switchPages) {
     this.window = window;
-    
+    this.window.editPage = this;
+
     this.name = "edit";
     //this.previousPage = previousPage;
     this.switchPages = switchPages;
@@ -44,6 +45,10 @@ var EditPage = function (window, switchPages) {
     this.undoAutoLine = null;
     this.tintCheckbox = null;
     //this.windowCopy = this.window;
+};
+
+EditPage.prototype.getMainWindow = function () {
+    return this.window;
 };
 
 var red = "#db3a1c";
@@ -143,7 +148,7 @@ EditPage.prototype.getContainer = function () {
     if (this.container) { return this.container; }
     var page = this;
 
-    var navBar = new NavBar({ selected: page.window.name, edit: true, presets: false, status: false, home: false, borders: false, page: page });
+    var navBar = new NavBar({ page: page });
     var windowSelector = new WindowSelector({edit: true, presets: false, status: false, page: page, name: page.window.name });
 
     var TintTab = BUTTONS.Button.template(function ($) { return {
@@ -268,6 +273,7 @@ EditPage.prototype.getContainer = function () {
         ],
     });
 
+
     // var ApplyButton = BUTTONS.Button.template(function ($) { return {
     //     left: 10, right: 5, top: 0, height: 35,
     //     skin: applyButtonSkin,
@@ -315,6 +321,7 @@ EditPage.prototype.getContainer = function () {
     //     ]
     // };});
 
+
     var ClearButton = BUTTONS.Button.template(function ($) { return {
         right: 15, height: 30, width: 70,
         skin: clearButtonSkin,
@@ -328,6 +335,7 @@ EditPage.prototype.getContainer = function () {
                 page.controls.tint.behavior.onValueChanged();
                 page.controls.tint.behavior.onLayoutChanged(page.controls.tint);
                 page.controlID = null;
+                page.window.updatePreview();
 
             }}
         }),
@@ -379,8 +387,7 @@ EditPage.prototype.getContainer = function () {
         ]
     });
 
-
-    var autoTintCheckbox = BUTTONS.Checkbox.template(function($){ return{
+    var autoTintCheckbox = BUTTONS.Checkbox.template(function($) { return {
         top:0, bottom:0, left:5,
         behavior: Object.create(BUTTONS.CheckboxBehavior.prototype, {
             onSelected: { value:  function(checkBox){
@@ -395,10 +402,11 @@ EditPage.prototype.getContainer = function () {
         })
     }});
 
+
     Handler.bind("/updateFirst", Behavior({
         onInvoke: function(handler, message){
             if (page.window.autoTint) {
-                page.window.updatePreview();
+                page.window.updatePreview(false);
                 page.controls.tint.behavior.data.value = page.window.tint;
                 page.controls.tint.behavior.onLayoutChanged(page.controls.tint);
                 handler.invoke(new Message("/updateSecond"));
