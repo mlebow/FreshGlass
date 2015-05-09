@@ -51,7 +51,7 @@ EditPage.prototype.getMainWindow = function () {
     return this.window;
 };
 
-var red = "#DB4C3F";
+var red = "#db3a1c";
 var blue = "#4682EA";
 var yellow = "#FDBA35";
 var orange = "#FF7F00";
@@ -61,7 +61,7 @@ var darkBlue = "#43489B";
 
 var applyButtonSkin = new Skin({fill: green, stroke:"black"});
 var cancelButtonSkin = new Skin({fill: orange, stroke:"black"});
-var clearButtonSkin = new Skin({fill: red, stroke:"black"});
+var clearButtonSkin = new Skin({fill: blue, stroke:"black"});
 var undoButtonSkin = new Skin({fill:blue , stroke:"white"});
 
 var tran = new Skin({fill: "white"});
@@ -129,7 +129,6 @@ EditPage.prototype.activateTab = function (tab) {
         this.tabContainers[this.currentTab].first.style = selectedStyle;
         this.container.skin = imagesContainerSkin;
         this.controlContainer.skin = imagesContainerSkin;
-        //this.undoAutoLine.remove(this.tintCheckbox);
         
     } else if (this.currentTab == "control"){
         this.tabContainers[this.currentTab].skin = controlSelectedSkin;
@@ -177,12 +176,14 @@ EditPage.prototype.getContainer = function () {
             }},
             onValueChanged: { value: function(container) {
                 SLIDERS.HorizontalSliderBehavior.prototype.onValueChanged.call(this, container);
-                page.window.tint = this.data.value;
-                // the false on the next line is to tell it to not update the images, because if
-                // we did that, they would flicker
-                page.window.updatePreview(false);
-                page.lastAction = "tint";
-                page.window.updateFrom(page.window);
+                if (!page.window.autoTint) {
+                    page.window.tint = this.data.value;
+                    // the false on the next line is to tell it to not update the images, because if
+                    // we did that, they would flicker
+                    page.window.updatePreview(false);
+                    page.lastAction = "tint";
+                    page.window.updateFrom(page.window);
+                }
             }},
         }),
     };});
@@ -272,6 +273,7 @@ EditPage.prototype.getContainer = function () {
         ],
     });
 
+<<<<<<< HEAD
     var ApplyButton = BUTTONS.Button.template(function ($) { return {
         left: 10, right: 5, top: 0, height: 35,
         skin: applyButtonSkin,
@@ -317,9 +319,57 @@ EditPage.prototype.getContainer = function () {
             })
         ]
     };});
+=======
+    // var ApplyButton = BUTTONS.Button.template(function ($) { return {
+    //     left: 10, right: 5, top: 0, height: 35,
+    //     skin: applyButtonSkin,
+    //     behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
+    //         onTap: { value: function (button) {
+    //             page.window.updateFrom(page.window);
+    //             page.window.updatePreview();
+    //         }}
+    //     }),
+    //     contents: [
+    //         new Label({
+    //             left: 0, right: 0, bottom: 0, top: 0,
+    //             style: new Style({color: "white", font: "Helvetica Neue", size: 18}),
+    //             string: "Apply"
+    //         })
+    //     ]
+    // };});
+
+    // var CancelButton = BUTTONS.Button.template(function ($) { return {
+    //     left: 5, right: 10, top: 0, height: 35,
+    //     skin: cancelButtonSkin,
+    //     behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
+    //         onTap: { value: function (button) {
+    //             trace(page.lastAction)
+    //             if (page.lastAction == "tint"){
+    //                 page.controls.tint.behavior.data.value = page.window.tint;
+    //                 page.controls.tint.behavior.onValueChanged();
+    //                 page.controls.tint.behavior.onLayoutChanged(page.controls.tint);
+    //             } else if (page.lastAction == "control"){                
+    //                 page.window.images = [];
+    //                 page.window.clearImages = true;
+    //                 //page.window.control.added = false;
+    //             } else if (page.lastAction == "images"){
+    //                 page.window.images.pop(page.window.images.length - 1);
+    //             }
+    //             page.window.updatePreview();
+    //         }}
+    //     }),
+    //     contents: [
+    //         new Label({
+    //             left: 0, right: 0, bottom: 0, top: 0,
+    //             style: new Style({color: "white", font: "Helvetica Neue", size: 18}),
+    //             string: "Cancel"
+    //         })
+    //     ]
+    // };});
+>>>>>>> 141bee9a6bf0b68aa912bb48c532a15cd23dfd4a
 
     var ClearButton = BUTTONS.Button.template(function ($) { return {
-        left: 10, right: 10, top: 0, height: 25,
+        right: 15, height: 30, width: 70,
         skin: clearButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -344,7 +394,7 @@ EditPage.prototype.getContainer = function () {
     };});
 
     var UndoButton = BUTTONS.Button.template(function ($) { return {
-        left: 100, right: 10, top: 10, bottom: 10,
+        right: 10, height: 30, width: 70,
         skin: undoButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
@@ -388,14 +438,11 @@ EditPage.prototype.getContainer = function () {
             onSelected: { value:  function(checkBox){
                 autoTintCheckboxContainer.first.next.style = new Style({color: "blue", size: 18, font: "Helvetica Neue"});
                 page.window.autoTint = true;
-                //updateFirst();
                 application.invoke(new Message("/updateFirst"));
-                trace("Checkbox was selected.\n");
             }},
             onUnselected: { value:  function(checkBox){
                 autoTintCheckboxContainer.first.next.style = new Style({color: "black", size: 18, font: "Helvetica Neue"});
                 page.window.autoTint = false;
-                trace("Checkbox was unselected.\n");
             }}
         })
     };});
@@ -403,7 +450,9 @@ EditPage.prototype.getContainer = function () {
     Handler.bind("/updateFirst", Behavior({
         onInvoke: function(handler, message){
             if (page.window.autoTint) {
-                page.window.updatePreview();
+                page.window.updatePreview(false);
+                page.controls.tint.behavior.data.value = page.window.tint;
+                page.controls.tint.behavior.onLayoutChanged(page.controls.tint);
                 handler.invoke(new Message("/updateSecond"));
             }  
         },
@@ -411,7 +460,7 @@ EditPage.prototype.getContainer = function () {
 
     Handler.bind("/updateSecond", {
         onInvoke: function(handler, message){
-            handler.wait(1000);
+            handler.wait(100);
         },
         onComplete: function(handler, message){
             handler.invoke(new Message("/updateFirst"));
@@ -436,6 +485,7 @@ EditPage.prototype.getContainer = function () {
         left: 0, right: 0, height: 45,
         contents: [
             page.tintCheckbox,
+            new ClearButton(),
             new UndoButton(),
         ]
         });
