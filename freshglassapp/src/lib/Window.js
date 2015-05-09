@@ -244,8 +244,12 @@ Window.prototype.updatePreviewImages = function() {
     }
 };
 var TouchableTemplate = Container.template(function($) {
-	window = $.window;
+	var window = $.window;
 	trace("window in touchabletemplate: " + window);
+	var somethingSelected = false;
+	var selectedImage = null;
+	var lastX = 0;
+	var lastY = 0;
     return {
         left: 0, right: 0, top: 0, bottom: 0, active: true,
         //behavior: Object.create(Behavior.template(TouchableTemplate.behaviors[0]({window: window})).prototype),
@@ -257,25 +261,30 @@ var TouchableTemplate = Container.template(function($) {
 		        //trace(this.pane);
 		        //for (val in container) trace(val + "\n");
 		        var win = window; //I NEED TO FIGURE OUT HOW TO GET THIS WINDOW OBJECT
-				if (win.somethingSelected) {
+				if (somethingSelected) {
 					trace("something selected\n\n");
-					win.selectedImage.x += x - lastX;
-					win.selectedImage.y += y - lastY;
-					win.somethingSelected = false;
+					selectedImage.x += x - lastX;
+					selectedImage.y += y - lastY;
+					somethingSelected = false;
 					win.updatePreview();
 				} else {
 					trace("nothing selected\n\n");
+					//somethingSelected = true;
+					trace ("looking through...");
 		        	for (var i = 0; i < win.images.length; i++) {
+		        		trace(i);
 			        	var xIn = win.images[i].x <= x && win.images[i].x + win.images[i].width >= x;
 			        	var yIn = win.images[i].y <= y && win.images[i].y + win.images[i].height >= y;
 			        	if (xIn && yIn) {
+			        		trace("xIn and yIn\n\n");
 			        		win.selectedImage = win.images[i];
-			        		win.somethingSelected = true;
-			        		win.lastX = x;
-			        		win.lastY = y;
+			        		somethingSelected = true;
+			        		lastX = x;
+			        		lastY = y;
 			        		break;
 			        	}
 			        }
+			        trace ("\n\n");
 			    }
 			}
 			
@@ -285,10 +294,10 @@ var TouchableTemplate = Container.template(function($) {
         contents: [],
     };
 });
-TouchableTemplate.behaviors = new Array(1);
+/*TouchableTemplate.behaviors = new Array(1);
 //TouchableTemplate.behaviors[0] = Behavior.template(function($) { 
 TouchableTemplate.behaviors[0] = function($) { 
-
+	var somethingSelected = false;
 	var window = $.window;
 	return {
 	    onTouchEnded: function (container, id, x, y, ticks) {
@@ -298,7 +307,7 @@ TouchableTemplate.behaviors[0] = function($) {
 	        trace(this.pane);
 	        //for (val in container) trace(val + "\n");
 	        var win = window; //I NEED TO FIGURE OUT HOW TO GET THIS WINDOW OBJECT
-			if (win.somethingSelected) {
+			if (container.somethingSelected) {
 				trace("something selected\n\n");
 				win.selectedImage.x += x - lastX;
 				win.selectedImage.y += y - lastY;
@@ -306,7 +315,7 @@ TouchableTemplate.behaviors[0] = function($) {
 				win.updatePreview();
 			} else {
 				trace("not anymore");
-				win.somethingSelected = true;
+				container.somethingSelected = true;
 	        	for (var i = 0; i < win.images.length; i++) {
 		        	var xIn = win.images[i].x <= x && win.images[i].x + win.images[i].width >= x;
 		        	var yIn = win.images[i].y <= y && win.images[i].y + win.images[i].height >= y;
@@ -322,7 +331,7 @@ TouchableTemplate.behaviors[0] = function($) {
 	    }
 	}
 }
-
+*/
 /**
  * @return {Container} a kinoma Container object representing the preview of the window.
  */
@@ -338,7 +347,7 @@ Window.prototype.renderPreview = function () {
 
     var preview = new TouchableTemplate({
         height: this.height, width: this.width,
-        window: window,
+        window: this,
         skin: new Skin({
             borders: {left:3, right:3, top:3, bottom:3},
             stroke:"black"
