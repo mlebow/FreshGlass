@@ -56,7 +56,8 @@ var MenuBarButtonTemplate = BUTTONS.Button.template(function($){ return {
 							new ViewMenuContainer({page: $.page, status: false, presets: true, edit: false}),
 	                    ],
 	            })          	 	
-	          	$.page.container.insert(menu, $.page.container.first.next);   
+	          	//$.page.container.insert(menu, $.page.container.first.next);   
+	          	$.page.container.add(menu);
 	          	menuVisible = true;
             }                	
 		}}
