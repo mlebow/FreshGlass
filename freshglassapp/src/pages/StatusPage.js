@@ -32,6 +32,8 @@ var green = "#67AF4B";
 var purple = "#AF6DC5";
 var darkBlue = "#43489B";
 
+var rootContainterSkin = new Skin({fill: "white"});
+
 var sunURL = mergeURI(application.url, "images/suns/Sun0.png");
 var thermURL = mergeURI(application.url, "images/thermometers/Thermometer0.png");
 
@@ -129,8 +131,16 @@ StatusPage.prototype.getContainer = function () {
         ]
     });
 
-    this.container = rootColumn;
-    return this.container;
+   rootContainter = new Container({
+        top:0, bottom: 0, left: 0, right: 0, 
+        skin: rootContainterSkin,
+        contents: [ 
+            rootColumn
+        ]
+    });
+
+    this.container = rootContainter;
+    return this.container; // TODO: implement
 };
 
 StatusPage.prototype.updateContainerWithData = function() {

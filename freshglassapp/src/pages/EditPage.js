@@ -51,6 +51,16 @@ EditPage.prototype.getMainWindow = function () {
     return this.window;
 };
 
+EditPage.prototype.onNavigatedTo = function () {
+    // if we already rendered the kinoma structure for this page, make sure that we
+    // still have the window preview here, because it may have been removed to get
+    // put on another page
+    if (this.container) {
+        this.windowPreviewContainer.empty();
+        this.windowPreviewContainer.add(this.window.renderPreview());
+    }
+};
+
 var red = "#db3a1c";
 var blue = "#4682EA";
 var yellow = "#FDBA35";
@@ -77,6 +87,7 @@ var downuri = mergeURI(application.url, "images/downbutton.png");
 var imagesSkin = new Skin({fill: blue, borders:{bottom:2, right:1}, stroke: "gray"});
 var controlSkin = new Skin({fill: green, borders:{bottom:2}, stroke:"gray"});
 
+var rootContainterSkin = new Skin({fill: "white"});
 var tintContainerSkin = new Skin({fill: "white"});
 var imagesContainerSkin = new Skin({fill: "white"});
 var controlContainerSkin = new Skin({fill: "white"});
@@ -466,7 +477,15 @@ EditPage.prototype.getContainer = function () {
         ]
     });
 
-    this.container = rootColumn;
+    rootContainter = new Container({
+        top:0, bottom: 0, left: 0, right: 0, 
+        skin: rootContainterSkin,
+        contents: [ 
+            rootColumn
+        ]
+    });
+
+    this.container = rootContainter;
     return this.container;
 };
 

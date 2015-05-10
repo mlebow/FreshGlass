@@ -6,7 +6,7 @@ THEME.buttonSkin = new Skin({fill: "#00FFFFFF", borders:{left: 2, right:2, botto
 var BUTTONS = require('controls/buttons');
 
 var backSkin = new Skin({ fill:"transparent"});
-var windowButtonSkin = new Skin({ fill:"transparent", borders:{bottom:1, top: 1, left: 1, right: 1}, stroke:"gray"  });
+var windowButtonSkin = new Skin({ fill:"white", borders:{bottom:1, top: 1, left: 1, right: 1}, stroke:"gray"  });
 
 var navBarSkin = new Skin({fill:"white", borders:{bottom:1}, stroke:"gray" });
 var navSkin = new Skin({fill:"white"});
@@ -26,7 +26,7 @@ var number = 1;
 var menuURL = mergeURI(application.url, "images/blueMenu.png");
 
 var MenuBarButtonTemplate = BUTTONS.Button.template(function($){ return {
-	left:10, bottom:0, width:20, height:navBarHeight, skin: backSkin,
+	left: 15, bottom:0, width:20, height:navBarHeight, skin: backSkin,
 	contents: [
 		 new Picture({width:30, height:30, url: menuURL})
 
@@ -51,12 +51,13 @@ var MenuBarButtonTemplate = BUTTONS.Button.template(function($){ return {
 				$.page.container.remove(menu);
 				menuVisible = false;
 			} else {
-	            menu = new Container({ top:0, left: 0, right: 0, bottom:0, skin: navSkin,
+	            menu = new Container({ top: navBarHeight, left: 0, right: 0, bottom:0,
 	                    contents:[
 							new ViewMenuContainer({page: $.page, status: false, presets: true, edit: false}),
 	                    ],
 	            })          	 	
-	          	$.page.container.insert(menu, $.page.container.first.next);   
+	          	//$.page.container.insert(menu, $.page.container.first.next);   
+	          	$.page.container.add(menu);
 	          	menuVisible = true;
             }                	
 		}}
@@ -64,8 +65,8 @@ var MenuBarButtonTemplate = BUTTONS.Button.template(function($){ return {
 };});
 
 var ViewMenuContainer = Container.template(function($) {return { 
-        left: 0, right: 200, top: 0, 
-        skin: navSkin,
+        left: 0, right: 0, top: 0, bottom: 0,
+        skin: new Skin({fill:"#2f000000"}),
         contents:[
             new Column({ 
                 top:0, left: 0, right: 200, height: 200,
@@ -80,7 +81,7 @@ var ViewMenuContainer = Container.template(function($) {return {
 
 
 var Window1ButtonTemplate = BUTTONS.Button.template(function($){ return {
-	left:20, bottom:0, width: 80, height:navBarHeight, skin: windowButtonSkin,
+	left:10, bottom:0, width: 80, height:navBarHeight, skin: windowButtonSkin,
 	contents: [
             new Label({
                 left: 0, right: 0, bottom: 0, top: 0,
@@ -105,7 +106,7 @@ var Window1ButtonTemplate = BUTTONS.Button.template(function($){ return {
 };});
 
 var Window2ButtonTemplate = BUTTONS.Button.template(function($){ return {
-	left:20, bottom:0, width:80, height:navBarHeight, skin: windowButtonSkin,
+	left:10, bottom:0, width:80, height:navBarHeight, skin: windowButtonSkin,
 	contents: [
             new Label({
                 left: 0, right: 0, bottom: 0, top: 0,
@@ -132,7 +133,7 @@ var Window2ButtonTemplate = BUTTONS.Button.template(function($){ return {
 };});
 
 var Window3ButtonTemplate = BUTTONS.Button.template(function($){ return {
-	left:20, bottom:0, width:80, height:navBarHeight, skin: windowButtonSkin,
+	left:10, bottom:0, width:80, height:navBarHeight, skin: windowButtonSkin,
 	contents: [
             new Label({
                 left: 0, right: 0, bottom: 0, top: 0,

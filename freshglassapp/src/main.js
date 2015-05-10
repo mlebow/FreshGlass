@@ -22,7 +22,7 @@ var switchPages = function(nextPage) {
             application.remove(currentPage.getContainer());
         }
         currentPage = nextPage;
-        if (nextPage.onNavigatedTo == "function") {
+        if (nextPage.onNavigatedTo) {
             nextPage.onNavigatedTo();
         }
 
