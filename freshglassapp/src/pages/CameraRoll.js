@@ -4,6 +4,14 @@ var SLIDERS = require('controls/sliders');
 var Window = require('lib/Window');
 var TitleBar = require("lib/TitleBar");
 
+var blue = "#4682EA";
+
+/**
+ * Initialize the camera roll page.
+ * @param {Object} window - the global window that we are currently working on
+ * @param {Object} previousPage - the previous page
+ * @param {function} switchPages - the function to switch pages
+ */
 var CameraRoll = function (window, previousPage, switchPages) {
 	this.window = window;
     this.previousPage = previousPage;
@@ -12,11 +20,13 @@ var CameraRoll = function (window, previousPage, switchPages) {
     this.name = "cameraRoll";
 };
 
+/**
+ * Return the main window.
+ */
 CameraRoll.prototype.getMainWindow = function () {
     return this.window;
 };
 
-var blue = "#4682EA";
 
 /**
  * Return the kinoma Container which will be added to the application when this
@@ -37,11 +47,9 @@ CameraRoll.prototype.getContainer = function () {
     	}
     	return {
         	width: 50, top: 0, bottom: 0,
-
         	skin: new Skin({fill: "white"}),
         	behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             	onTap: { value: function (button) {
-                	trace("switch " + $.direction);
                 	if ($.direction == "left") {
                 		curImage -= 1;
                 		if (curImage < 0) curImage = numImages - 1;
@@ -50,7 +58,6 @@ CameraRoll.prototype.getContainer = function () {
                 		curImage += 1;
                 		if (curImage >= numImages) curImage = 0;
                 		image.url = imageBase + imageURLs[curImage];
-                		//trace("image.url: " + image.url + "\n");
                 	}
             	}}
         	}),
@@ -84,10 +91,7 @@ CameraRoll.prototype.getContainer = function () {
                 	var width = Window.PREVIEW_WIDTH * scale;
                 	var startX = 0;
                 	var startY = 0;
-                	//page.window.addImage(imageBase + imageURLs[curImage], scale, 0, 0);
-                	trace(url + " " + startX + " " + startY + " " + height + " " + width + "\n");
                 	page.previousPage.window.addImage(url, startX, startY, height, width);
-                	//page.previousPage.windowCopy.updatePreview()
                 	page.switchPages(page.previousPage);
                 	page.previousPage.lastAction = "images";
                 	
@@ -121,7 +125,7 @@ CameraRoll.prototype.getContainer = function () {
         skin: new Skin({fill: "white"}),
         behavior: Object.create(Behavior.template, {
             onCreate: { value: function (container) {
-                trace("created");
+            	//This routes to a server that hosts our images backend
                 var uri = "http://michaelhobo.com/camera_roll";
                 container.invoke(new Message( uri ), Message.JSON );
             }},
@@ -146,7 +150,7 @@ CameraRoll.prototype.getContainer = function () {
     });
 
     this.container = rootColumn;
-    return this.container; // TODO: implement
+    return this.container;
 };
 
 module.exports = CameraRoll;
