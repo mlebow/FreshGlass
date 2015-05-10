@@ -1,29 +1,11 @@
 //@module
-var THEME = require('themes/flat/theme'); // required for BUTTONS to work???
+var THEME = require('themes/flat/theme');
 var BUTTONS = require("controls/buttons");
 var Window = require('lib/Window');
 
 var EditPage = require("pages/EditPage");
 var NavBar = require("lib/NavBar");
 var WindowSelector = require("lib/WindowSelector");
-
-var StatusPage = function (window, switchPages) {
-    this.window = window;
-    this.window.statusPage = this;
-    //this.previousPage = previousPage;
-    this.switchPages = switchPages;
-    this.container = null;
-    this.temperatureLabel = null;
-    this.brightnessLabel = null;
-
-    this.name = "status";
-
-    this.windowPreviewContainer = null; // kinoma container for window preview
-};
-
-StatusPage.prototype.getMainWindow = function () {
-    return this.window;
-};
 
 var red = "#DB4C3F";
 var blue = "#4682EA";
@@ -37,6 +19,34 @@ var rootContainterSkin = new Skin({fill: "white"});
 var sunURL = mergeURI(application.url, "images/suns/Sun0.png");
 var thermURL = mergeURI(application.url, "images/thermometers/Thermometer0.png");
 
+/**
+ * Initialize status page.
+ * @window - the global window object representing the window preview we are working on
+ * @switchPages - the function used to switch pages
+ */
+var StatusPage = function (window, switchPages) {
+    this.window = window;
+    this.window.statusPage = this;
+    this.switchPages = switchPages;
+    this.container = null;
+    this.temperatureLabel = null;
+    this.brightnessLabel = null;
+
+    this.name = "status";
+
+    this.windowPreviewContainer = null; // kinoma container for window preview
+};
+
+/**
+ * return the main window.
+ */
+StatusPage.prototype.getMainWindow = function () {
+    return this.window;
+};
+
+/**
+ * Clean up preview after navigation.
+ */
 StatusPage.prototype.onNavigatedTo = function () {
     // if we already rendered the kinoma structure for this page, make sure that we
     // still have the window preview here, because it may have been removed to get
@@ -80,12 +90,10 @@ StatusPage.prototype.getContainer = function () {
     });
 
     var SavePresetButton = BUTTONS.Button.template(function ($) { return {
-        left: 200, right: 10, bottom: 10, top:10, //height: 35,
+        left: 200, right: 10, bottom: 10, top:10,
         skin: new Skin({fill: blue, stroke:"black"}),
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                
-                trace("This does nothing right now.\n");
                 presetsPage.addToPresetsPage(page.window);
             }}
         }),
@@ -140,9 +148,12 @@ StatusPage.prototype.getContainer = function () {
     });
 
     this.container = rootContainter;
-    return this.container; // TODO: implement
+    return this.container;
 };
 
+/**
+ * Update the sensor icons with data from the device.
+ */
 StatusPage.prototype.updateContainerWithData = function() {
     if (this.container !== null) {
         this.temperatureLabel.string = this.window.temperature + "\u00B0 F";

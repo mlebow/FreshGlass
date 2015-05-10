@@ -12,6 +12,9 @@ var blue = "#4682EA";
 
 var floorplanURL = mergeURI(application.url, "images/floorplan.jpg");
 
+var buttonSkin = new Skin({fill: "white", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"});
+var rootSkin = new Skin({fill: "white"}); //root container's color
+var labelStyle = new Style({ color: 'black', font: "30px Georgia", horizontal: 'center', vertical: 'middle', });
 
 
 var MainPage = function (switchPages, windows) {
@@ -26,10 +29,7 @@ MainPage.prototype.getMainWindow = function () {
     return this.windows[0];
 };
 
-//Make color changes here
-var buttonSkin = new Skin({fill: "white", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"});
-var rootSkin = new Skin({fill: "white"}); //root container's color
-var labelStyle = new Style({ color: 'black', font: "30px Georgia", horizontal: 'center', vertical: 'middle', });
+
 
 /**
  * Return the kinoma Container which will be added to the application when this
@@ -44,7 +44,6 @@ MainPage.prototype.getContainer = function () {
         skin: buttonSkin, 
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                trace("statusPage1 " + statusPage1 + "\n");                
                 if ($.number == 1){
                 	page.switchPages(statusPage1);
                 } else {
@@ -67,7 +66,6 @@ MainPage.prototype.getContainer = function () {
         skin: buttonSkin, 
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                trace("statusPage1 " + statusPage1 + "\n");                
                 if ($.number == 1){
                 	page.switchPages(statusPage1);
                 } else {
@@ -89,18 +87,16 @@ MainPage.prototype.getContainer = function () {
         skin: buttonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                trace("statusPage 2 " + statusPage1 + "\n");                
                 page.switchPages(statusPage2);                
             }},
             
             onDisplaying: {value: function(button) {
-                //trace("onDisplaying\n");
                 var string = $.string;
                 var size = labelStyle.measure(string);
                 var label = new Label( { left: 0, right: 0, top: 0, bottom: 0}, undefined, labelStyle, string );
                 var layer = new Layer( { width:button.height, height:size.height, opacity:0.9 });
                 layer.add( label );
-                layer.origin = { x:70, y:15 };//hard coded the origin, no idea what it means... but it works, kinda
+                layer.origin = { x:70, y:15 };
                 layer.rotation = 90;
                 button.add(layer);
             }},
@@ -131,31 +127,11 @@ MainPage.prototype.getContainer = function () {
 			innerContainer,
         ]
     });
-    
-
-/*
-    for (var i=0; i < this.windows.length; i++) {
-        if (i % 2 === 0){
-            rootContainer.add(new HorizontalWindowButton({
-                window: this.windows[i],
-                string: this.windows[i].name,
-                number: i+1,
-            }));
-        } else {
-            rootContainer.add(new VerticalWindowButton({
-                window: this.windows[i],
-                string: this.windows[i].name,
-                number: i+1,
-        }));
-        
-        }
-    }
-    */
 
     rootContainer.add(navBar);
 
     this.container = rootContainer;
-    return this.container; // TODO: implement
+    return this.container;
 };
 
 module.exports = MainPage;
