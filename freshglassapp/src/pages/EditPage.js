@@ -264,6 +264,7 @@ EditPage.prototype.getContainer = function () {
                 if (page.controlID === null) {
                     page.controlID = page.window.addImage(controlURI, 130, 130, 25, 25);
                     page.window.clearImages = false;
+                    page.lastAction = "control";
                 }
             }}
         }),
@@ -314,15 +315,11 @@ EditPage.prototype.getContainer = function () {
         skin: undoButtonSkin,
         behavior: Object.create(BUTTONS.ButtonBehavior.prototype, {
             onTap: { value: function (button) {
-                trace(page.lastAction + "\n");
                 if (page.lastAction == "tint") {
                     page.controls.tint.behavior.data.value = page.window.tint;
                     page.controls.tint.behavior.onValueChanged();
                     page.controls.tint.behavior.onLayoutChanged(page.controls.tint);
-                } else if (page.lastAction == "control") {
-                    page.window.images = [];
-                    page.window.clearImages = true;
-                } else if (page.lastAction == "images"){
+                } else if (page.lastAction == "control" || page.lastAction == "images") {
                     page.window.images.pop(page.window.images.length - 1);
                 }
                 page.window.updatePreview();
@@ -336,6 +333,7 @@ EditPage.prototype.getContainer = function () {
             })
         ]
     };});
+
     page.tabContainers.tint = new TintTab();
     page.tabContainers.images = new ImagesTab();
     page.tabContainers.control = new ControlTab();
