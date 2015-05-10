@@ -59,14 +59,14 @@ ViewPresetPage.prototype.getContainer = function () {
                 }
                 // after applying the preset, go to the status page of the
                 // first window that the preset corresponds to
-                if(page.preset.windowList[0] == mainPage.windows[0]){
-                    page.switchPages(statusPage1);
-                } else if (page.preset.windowList[0] == mainPage.windows[0]){
-                    page.switchPages(statusPage2);
-                } else if (page.preset.windowList[0] == mainPage.windows[0]){
-                    page.switchPages(statusPage3);
+                // if(page.preset.windowList[0] == mainPage.windows[0]){
+                //     page.switchPages(statusPage1);
+                // } else if (page.preset.windowList[0] == mainPage.windows[0]){
+                //     page.switchPages(statusPage2);
+                // } else if (page.preset.windowList[0] == mainPage.windows[0]){
+                //     page.switchPages(statusPage3);
                 	
-                }                
+                // }                
             }}
         }),
         contents: [
@@ -133,6 +133,7 @@ ViewPresetPage.prototype.applyPreset = function(preset, window) {
     // after update the window with preset, go to the status page of the
     // first window that the preset corresponds to
     this.switchPages(mainPage.windows[index].statusPage);
+    window.updatePreview();
 };
 
 module.exports = ViewPresetPage;
