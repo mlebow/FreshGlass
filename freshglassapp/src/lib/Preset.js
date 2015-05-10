@@ -1,7 +1,4 @@
 //@module
-Preset.PREVIEW_WIDTH = 100; 
-Preset.PREVIEW_HEIGHT = 150;
-
 var lightGray = "#fafafa";
 var presetSkin = new Skin({fill: lightGray, stroke:"black"});
 /**
@@ -19,6 +16,9 @@ var Preset = function (name, windowList, images) {
     this.controls = [];
     this.preview = null; //preview of this presets, to be added to the preset page 
 };
+
+Preset.PREVIEW_WIDTH = 100; 
+Preset.PREVIEW_HEIGHT = 150;
 
 /**
  * Apply the preset to each window in the preset's windowList 
