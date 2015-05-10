@@ -21,8 +21,8 @@ var thermURL = mergeURI(application.url, "images/thermometers/Thermometer0.png")
 
 /**
  * Initialize status page.
- * @window - the global window object representing the window preview we are working on
- * @switchPages - the function used to switch pages
+ * @param {Object} window - the global window object representing the window preview we are working on
+ * @param {function} switchPages - the function used to switch pages
  */
 var StatusPage = function (window, switchPages) {
     this.window = window;
@@ -38,7 +38,8 @@ var StatusPage = function (window, switchPages) {
 };
 
 /**
- * return the main window.
+ * Returns the main window.
+ * @return - Window object
  */
 StatusPage.prototype.getMainWindow = function () {
     return this.window;

@@ -119,8 +119,6 @@ Window.prototype.updateFrom = function (window) {
     this.tint = window.tint;
     this.images = window.images;
     this.controls = window.controls;
-    trace(this.tint, this.images, this.controls);
-    trace("done with updateFrom");
 };
 
 /**
@@ -191,7 +189,7 @@ Window.prototype.updatePreviewImages = function() {
     this.preview.empty();
 
     this.preview.add(new Container({
-        top: 3, bottom: 3, left: 3, right: 3, // for borders
+        top: 3, bottom: 3, left: 3, right: 3, 
         skin: new Skin({fill: window.getTintHexCode()}),
     }));
     for (var i = 0; i < window.images.length; i++) {
@@ -211,7 +209,7 @@ Window.prototype.updatePreviewImages = function() {
             		url: window.images[i].url,
             		bottom: 0,
             		right: 0,
-            		top: 0, // to not touch the top border
+            		top: 0,
             		left: 0,
             		opacity: 0.5,
             	}),
@@ -236,12 +234,10 @@ var TouchablePicture = Container.template(function($) {
         active: true,
         behavior: Behavior({
         	onTouchEnded: function (container, id, x, y, ticks) {
-		        trace("Picture OnTouchEnded: x: " + x + " y: " + y + " ticks: " + ticks + ";\n");
 		    	window.selectedImage = window.images[index];
 		    	window.somethingSelected = true;
 		    	window.lastX = x;
 		    	window.lastY = y;
-		    	trace("window.lastX, window.lastY" + x + "," + y + "\n");
 			}
 	    }),
         contents: $.contents,
@@ -257,8 +253,7 @@ var TouchablePreview = Container.template(function($) {
         left: 0, right: 0, top: 0, bottom: 0, active: true,
         behavior: Behavior({
         	onTouchEnded: function (container, id, x, y, ticks) {
-		        trace("Preview OnTouchEnded: x: " + x + " y: " + y + " ticks: " + ticks + ";\n");
-		        var win = window; //I NEED TO FIGURE OUT HOW TO GET THIS WINDOW OBJECT
+		        var win = window;
 				if (win.somethingSelected) {
 					win.selectedImage.x += x - win.lastX;
 					if (win.selectedImage.x < 0) {
@@ -272,7 +267,6 @@ var TouchablePreview = Container.template(function($) {
 					} else if (win.selectedImage.y + win.selectedImage.height > Window.PREVIEW_HEIGHT) {
 						win.selectedImage.y = Window.PREVIEW_HEIGHT - win.selectedImage.height;
 					}
-					trace ("new coords: " + win.selectedImage.x + "," + win.selectedImage.y + "\n");
 					win.somethingSelected = false;
 					win.updatePreview();
 			    }

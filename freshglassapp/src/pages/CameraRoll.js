@@ -8,9 +8,9 @@ var blue = "#4682EA";
 
 /**
  * Initialize the camera roll page.
- * @window - the global window that we are currently working on
- * @previousPage - the previous page
- * @switchPages - the function to switch pages
+ * @param {Object} window - the global window that we are currently working on
+ * @param {Object} previousPage - the previous page
+ * @param {function} switchPages - the function to switch pages
  */
 var CameraRoll = function (window, previousPage, switchPages) {
 	this.window = window;

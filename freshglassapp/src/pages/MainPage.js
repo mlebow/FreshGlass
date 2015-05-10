@@ -1,5 +1,5 @@
 //@module
-var THEME = require('themes/flat/theme'); // required for BUTTONS to work???
+var THEME = require('themes/flat/theme');
 var BUTTONS = require("controls/buttons");
 var Window = require("lib/Window");
 var NavBar = require("lib/NavBar");
@@ -13,10 +13,14 @@ var blue = "#4682EA";
 var floorplanURL = mergeURI(application.url, "images/floorplan.jpg");
 
 var buttonSkin = new Skin({fill: "white", borders:{left:3, right:3, top:3, bottom:3}, stroke:"black"});
-var rootSkin = new Skin({fill: "white"}); //root container's color
+var rootSkin = new Skin({fill: "white"});
 var labelStyle = new Style({ color: 'black', font: "30px Georgia", horizontal: 'center', vertical: 'middle', });
 
-
+/**
+ * Initialize the main page.
+ * @param {function} switchPages - the switch pages function
+ * @param {array} windows - the windows array
+ */
 var MainPage = function (switchPages, windows) {
     this.switchPages = switchPages;
     this.container = null;
@@ -25,11 +29,12 @@ var MainPage = function (switchPages, windows) {
     this.windows = windows;
 };
 
+/**
+ * returns the main window.
+ */
 MainPage.prototype.getMainWindow = function () {
     return this.windows[0];
 };
-
-
 
 /**
  * Return the kinoma Container which will be added to the application when this
