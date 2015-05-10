@@ -129,11 +129,11 @@ EditPage.prototype.activateTab = function (tab) {
     this.tabContainers["tint"].first.style = unselectedStyle;
 
     this.controlContainer.remove(this.controls[this.currentTab]);
-    
+
     this.currentTab = tab;
-    
+
     this.controlContainer.add(this.controls[this.currentTab]);
-    
+
     if (this.currentTab == "tint") {
         this.tabContainers[this.currentTab].skin = tintSelectedSkin;
         this.tabContainers[this.currentTab].first.style = selectedStyle;
@@ -163,10 +163,7 @@ EditPage.prototype.getContainer = function () {
     var page = this;
 
     var navBar = new NavBar({ page: page });
-    var windowSelector = new WindowSelector({
-        edit: true, presets: false, status: false,
-        page: page, name: page.window.name
-    });
+    var windowSelector = new WindowSelector({ page: page });
 
     var TintTab = BUTTONS.Button.template(function ($) { return {
         left: 0, right: 0, top: 0, bottom: 0,
