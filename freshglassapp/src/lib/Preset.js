@@ -1,5 +1,9 @@
 //@module
+Preset.PREVIEW_WIDTH = 100; 
+Preset.PREVIEW_HEIGHT = 150;
 
+var lightGray = "#fafafa";
+var presetSkin = new Skin({fill: lightGray, stroke:"black"});
 /**
  * Constructor for preset object.
  * @param {string} name          name of the preset shown below the preset preview in the preset page
@@ -12,24 +16,9 @@ var Preset = function (name, windowList, images) {
     this.images = images;
     this.clearImages = false;
     this.controls = null;
-    this.controls = [
-        /*
-        added: false, 
-        url: null,
-        x: null,
-        y: null,
-        height: null, 
-        width: null,
-        */
-    ];
-    this.preview = null;//preview of this presets, to be added to the preset page 
+    this.controls = [];
+    this.preview = null; //preview of this presets, to be added to the preset page 
 };
-
-Preset.PREVIEW_WIDTH = 100; 
-Preset.PREVIEW_HEIGHT = 150;
-
-var lightGray = "#fafafa";
-var presetSkin = new Skin({fill: lightGray, stroke:"black"});
 
 /**
  * Apply the preset to each window in the preset's windowList 
@@ -54,7 +43,7 @@ Preset.prototype.getWindowsNames = function () {
 /**
  * Changes the preset preview kinoma container, does not return anything.
  */
-Preset.prototype.addToPresetPage = function (window) {
+Preset.prototype.addToPresetPage = function () {
     if (this.preview === null) {
         this.renderPreview(); // will set this.preview as the correct container
     }
@@ -100,10 +89,8 @@ Preset.prototype.updatePreviewImages = function() {
 /**
  * @return {Container} a kinoma Container object representing the preview of the preset.
  */
-Preset.prototype.renderPreview = function () { //(height, width) {
-	//preview when clicked
+Preset.prototype.renderPreview = function () {
     height = 280;
-    //width = width || Preset.PREVIEW_WIDTH;
     if (this.preview !== null) {
         if (this.preview.container) {
             this.preview.container.remove(this.preview);
@@ -115,7 +102,7 @@ Preset.prototype.renderPreview = function () { //(height, width) {
 
     var preview = new Container({
         height: height,
-        left: 0, right: 0, //top: 0, bottom: 100, //bottom
+        left: 0, right: 0,
         skin: new Skin({
             borders: {left:1, right:1, top:1, bottom:1},
             stroke:"black"

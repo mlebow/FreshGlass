@@ -2,8 +2,6 @@
 var THEME = require('themes/flat/theme');
 var BUTTONS = require("controls/buttons");
 var SLIDERS = require('controls/sliders');
-// var currentPage = new Page();
-// var nextPage = new EditPage(currentWindow, currentPage, switchPages);
 var Window = require('lib/Window');
 var MainPage = require("pages/MainPage");
 
@@ -16,6 +14,10 @@ var PresetsPage = require("pages/PresetsPage");
 
 var currentPage = null; // global
 
+/**
+ * Switch to the next page.
+ * @param {object} nextPage - the page object of the page we want to switch to.
+ */
 var switchPages = function(nextPage) {
     if (nextPage !== null) {
         if (currentPage !== null) {
@@ -52,6 +54,9 @@ var presetsPage = new PresetsPage(mainPage.windows, mainPage.switchPages);
 var device = null;
 var deviceURL = "";
 
+/**
+ * Discover and forget the app at the right times
+ */
 var ApplicationBehavior = Behavior.template({
     onDisplayed: function(application) {
         application.discover("freshglassdevice");
@@ -60,9 +65,12 @@ var ApplicationBehavior = Behavior.template({
         application.forget("freshglassdevice");
     },
 });
+
+/**
+ * Discover devices to pair with
+ */
 Handler.bind("/discover", Object.create(Behavior.prototype, {
     onInvoke: { value: function(handler, message) {
-        trace("discover\n");
         var discovery = JSON.parse(message.requestText);
         deviceURL = discovery.url;
         device = new Device(discovery);
@@ -70,16 +78,20 @@ Handler.bind("/discover", Object.create(Behavior.prototype, {
     },},
 }));
 
+/**
+ * Forget the device when it disappears
+ */
 Handler.bind("/forget", Object.create(Behavior.prototype, {
     onInvoke: { value: function(handler, message) {
-       trace("\n/forget\n");
        device = null;
        deviceURL = "";
    }},
 }));
 
 
-//Live polling of the device
+/**
+ * Poll the device to get sensor data and to update images on device side.
+ */
 Handler.bind("/pollDevice", Behavior({
     onInvoke: function(handler, message){
         var windowsJSON = [];
@@ -91,7 +103,6 @@ Handler.bind("/pollDevice", Behavior({
     },
     onComplete: function(handler, message, json){
         //Update each window's information as needed
-        //TO DO: need to update the sprite thing here? or call a StatusPage function
         mainPage.windows[0].updateSensorData(json.temperature1,json.brightness1);
         mainPage.windows[1].updateSensorData(json.temperature2,json.brightness2);
         mainPage.windows[2].updateSensorData(json.temperature3,json.brightness3);
