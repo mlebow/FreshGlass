@@ -12,6 +12,7 @@ var Window = function (name, height, width) {
     this.selectedImage = null;
     this.lastX = 0;
     this.lastY = 0;
+    
 	Window.window = this;
 
     this.name = name || "";
@@ -201,6 +202,8 @@ Window.prototype.updatePreview = function (shouldUpdateImages) {
     }
 };
 
+
+
 Window.prototype.updatePreviewImages = function() {
     var heightRatio = (this.height / Window.PREVIEW_HEIGHT);
     var widthRatio = (this.width / Window.PREVIEW_WIDTH);
@@ -217,15 +220,43 @@ Window.prototype.updatePreviewImages = function() {
         top: 3, bottom: 3, left: 3, right: 3, // for borders
         skin: new Skin({fill: window.getTintHexCode()}),
     }));
-
+	trace("updating images...");
     for (var i = 0; i < window.images.length; i++) {
-        this.preview.add(new Picture({
-            url: window.images[i].url,
-            height: window.images[i].height * heightRatio,
-            width: window.images[i].width * widthRatio,
-            top: window.images[i].y * heightRatio + 3, // to not touch the top border
-            left: window.images[i].x * widthRatio,
-            opacity: 0.5,
+    	var h = window.images[i].height * heightRatio;
+    	var w = window.images[i].width * widthRatio;
+    	var t = window.images[i].y * heightRatio + 3;
+    	var l = window.images[i].x * widthRatio; 
+    	trace(i + ": " + l + "," + t);
+    	trace ("h" + h + ",w" + w + ",t" + t + ",l" + l + "\n");
+        this.preview.add(new TouchablePicture({
+            //url: window.images[i].url,
+            height: h,
+            width: w,
+            top: t, // to not touch the top border
+            left: l,
+            window: this,
+            index: i,
+            //opacity: 0.5,
+            skin: new Skin({fill: "blue"}),
+            contents: [
+            	new Picture({
+            		url: window.images[i].url,
+            		bottom: 0,
+            		right: 0,
+            		top: 0, // to not touch the top border
+            		left: 0,
+            		opacity: 0.5,
+            	}),
+            ],
+            /*behavior: Behavior({
+	        	onTouchEnded: function (container, id, x, y, ticks) {
+	        		trace("Picture " + i + " touched. (x,y): " + x + "," + y + "\n");
+			    	window.selectedImage = window.images[i];
+			    	window.somethingSelected = true;
+			    	window.lastX = x;
+			    	window.lastY = y;
+				}
+		    }),*/
         }));
     }
     /*
@@ -243,54 +274,61 @@ Window.prototype.updatePreviewImages = function() {
         this.preview.empty();
     }
 };
-var TouchableTemplate = Container.template(function($) {
+var TouchablePicture = Container.template(function($) {
 	var window = $.window;
-	trace("window in touchabletemplate: " + window);
-	var somethingSelected = false;
-	var selectedImage = null;
-	var lastX = 0;
-	var lastY = 0;
+	var index = $.index;
+	trace("top" + $.top + ",left" + $.left + ",height" + $.height + ",width" + $.width + "\n");
     return {
-        left: 0, right: 0, top: 0, bottom: 0, active: true,
-        //behavior: Object.create(Behavior.template(TouchableTemplate.behaviors[0]({window: window})).prototype),
+    	top: $.top, left: $.left,
+        height: $.height,
+        width: $.width,
+        //top: 3, left: 0, height: 96, width: 123,
+        //skin: new Skin({fill: "blue"}),
+        active: true,
         behavior: Behavior({
         	onTouchEnded: function (container, id, x, y, ticks) {
-		        trace("OnTouchEnded: x: " + x + " y: " + y + " ticks: " + ticks + ";\n");
-		        //trace(container);
-		        //trace(container.name);
-		        //trace(this.pane);
-		        //for (val in container) trace(val + "\n");
+		        trace("Picture OnTouchEnded: x: " + x + " y: " + y + " ticks: " + ticks + ";\n");
+		    	window.selectedImage = window.images[index];
+		    	window.somethingSelected = true;
+		    	window.lastX = x;
+		    	window.lastY = y;
+		    	trace("window.lastX, window.lastY" + x + "," + y + "\n");
+			}
+			
+	    }),
+        contents: $.contents,
+    };
+});
+
+var TouchableTemplate = Container.template(function($) {
+	var window = $.window;
+    return {
+        left: 0, right: 0, top: 0, bottom: 0, active: true,
+        behavior: Behavior({
+        	onTouchEnded: function (container, id, x, y, ticks) {
+		        trace("Preview OnTouchEnded: x: " + x + " y: " + y + " ticks: " + ticks + ";\n");
 		        var win = window; //I NEED TO FIGURE OUT HOW TO GET THIS WINDOW OBJECT
-				if (somethingSelected) {
+				if (win.somethingSelected) {
 					trace("something selected\n\n");
-					selectedImage.x += x - lastX;
-					selectedImage.y += y - lastY;
-					somethingSelected = false;
+					win.selectedImage.x += x - win.lastX;
+					if (win.selectedImage.x < 0) {
+						win.selectedImage.x = 0;
+					} else if (win.selectedImage.x + win.selectedImage.width > Window.PREVIEW_WIDTH) {
+						win.selectedImage.x = Window.PREVIEW_WIDTH - win.selectedImage.width;
+					}
+					win.selectedImage.y += y - win.lastY;
+					if (win.selectedImage.y < 0) {
+						win.selectedImage.y = 0;
+					} else if (win.selectedImage.y + win.selectedImage.height > Window.PREVIEW_HEIGHT) {
+						win.selectedImage.y = Window.PREVIEW_HEIGHT - win.selectedImage.height;
+					}
+					trace ("new coords: " + win.selectedImage.x + "," + win.selectedImage.y + "\n");
+					win.somethingSelected = false;
 					win.updatePreview();
-				} else {
-					trace("nothing selected\n\n");
-					//somethingSelected = true;
-					trace ("looking through...");
-		        	for (var i = 0; i < win.images.length; i++) {
-		        		trace(i);
-			        	var xIn = win.images[i].x <= x && win.images[i].x + win.images[i].width >= x;
-			        	var yIn = win.images[i].y <= y && win.images[i].y + win.images[i].height >= y;
-			        	if (xIn && yIn) {
-			        		trace("xIn and yIn\n\n");
-			        		win.selectedImage = win.images[i];
-			        		somethingSelected = true;
-			        		lastX = x;
-			        		lastY = y;
-			        		break;
-			        	}
-			        }
-			        trace ("\n\n");
 			    }
 			}
 			
 	    }),
-        window: $.window,
-        pane: 5,
         contents: [],
     };
 });
@@ -347,7 +385,7 @@ Window.prototype.renderPreview = function () {
 
     var preview = new TouchableTemplate({
         height: this.height, width: this.width,
-        window: this,
+        window: window,
         skin: new Skin({
             borders: {left:3, right:3, top:3, bottom:3},
             stroke:"black"
