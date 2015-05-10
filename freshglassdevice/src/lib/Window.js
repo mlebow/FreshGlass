@@ -1,7 +1,10 @@
 //@module
 
 /**
- * Constructor for window object.
+ * Constructor for window object. Note that this window object is actually different
+ * than the Window operate that operates in teh device - we have two versions because
+ * Kinoma can be a little bit weird about importing a file that's technically part of
+ * a different project.
  */
 var Window = function (name, height, width) {
     height = height || Window.PREVIEW_HEIGHT;
@@ -18,19 +21,7 @@ var Window = function (name, height, width) {
     ];
     this.clearImages = false;
     this.controls = null;
-    /*
-    this.control = {
-        added: false,
-        url: null,
-        x: null,
-        y: null,
-        height: null, 
-        width: null,
-    };
-    */
-    // TODO: implement this!
     this.statusPage = null;
-    // NOTE: size is hardcoded (v2.0 feature)
     this.preview = null; // kinoma container for window preview that will be used on multiple pages
 };
 Window.HEX_TINT = "46483b"; // the hex code for the color that the window gets tinted
@@ -71,19 +62,6 @@ Window.prototype.addImage = function (url, x, y, height, width) {
     Window.currentImageId++;
     return newID;
 };
-
-/*//for v2.0
-Window.prototype.addControl = function (url, x, y, height, width) {
-	this.control.added = true,
-    this.control.x = x,
-    this.control.url = url,
-	this.control.y = y,
-    this.control.height = height,
-    this.control.width = width,
-    
-    this.updatePreview();
-};
-*/
 
 /**
  * Return the image of this window specified by the given id, or null if no
@@ -140,7 +118,7 @@ Window.prototype.serialize = function () {
         name: this.name,
         tint: this.tint,
         images: this.images,
-        controls: this.controls, // WARNING: this assumes whatever we store in controls is valid JSON
+        controls: this.controls,
         height: this.height,
         width: this.width
     });
@@ -181,8 +159,6 @@ Window.prototype.updatePreviewImages = function() {
     var heightRatio = (this.height / Window.PREVIEW_HEIGHT);
     var widthRatio = (this.width / Window.PREVIEW_WIDTH);
 
-    // trace("Ratios: " + heightRatio + ":" + widthRatio + "\n");
-
     if (this.preview === null) {
         this.renderPreview();
     }
@@ -204,17 +180,7 @@ Window.prototype.updatePreviewImages = function() {
             opacity: 0.5,
         }));
     }
-    /*
-    if (this.control.added == true){
-        this.preview.add(new Picture({
-            url: window.control.url,
-            height: window.control.height,
-            width: window.control.width,
-            top: window.control.y,
-            left: window.control.x  
-        }))
-    }
-    */
+
     if (this.clearImages) {
         this.preview.empty();
     }

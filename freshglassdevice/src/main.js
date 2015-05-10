@@ -6,7 +6,7 @@ var currTemps = [-1, -1, -1];
 var currBrightness = [-1, -1, -1];
 var titleStyle = new Style( { font: "bold 20px", color:"green" } );
 
-//Globals that should be changed
+// Globals that should be changed
 var tints = [-1, -1, -1];
 var imagesList = [[],[],[]];
 var controls = [null, null, null];
@@ -28,6 +28,7 @@ Handler.bind("/gotBrightnessResult", Object.create(Behavior.prototype, {
                 application.distribute( "onBrightnessValueChanged", result );
             }}
 }));
+
 Handler.bind("/gotTemperatureResult", Object.create(Behavior.prototype, {
     onInvoke: { value: function( handler, message ){
                 var result = message.requestObject;
@@ -35,11 +36,13 @@ Handler.bind("/gotTemperatureResult", Object.create(Behavior.prototype, {
             }}
 }));
 
-/* Create message for communication with hardware pins.
-    brightnessSensor: name of pins object, will use later for calling 'brightnessSensor' methods.
-    require: name of js or xml bll file. In simulator file
-    pins: initializes 'analog' (matches 'analog' object in the bll) with the given pin numbers. 
-        Pin types and directions are set within the bll.    */
+/**
+ *    Create message for communication with hardware pins.
+ *    brightnessSensor: name of pins object, will use later for calling 'brightnessSensor' methods.
+ *    require: name of js or xml bll file. In simulator file
+ *    pins: initializes 'analog' (matches 'analog' object in the bll) with the given pin numbers. 
+ *    Pin types and directions are set within the bll.
+ */
 application.invoke( new MessageWithObject( "pins:configure", {
     brightnessSensor: {
         require: "brightness",
@@ -60,8 +63,10 @@ application.invoke( new MessageWithObject( "pins:configure", {
     },
 }));
 
-/* Use the initialized brightnessSensor object and repeatedly 
-   call its read method with a given interval.  */
+/**
+ * Use the initialized brightnessSensor object and repeatedly
+ * call its read method with a given interval.
+ */
 application.invoke( new MessageWithObject( "pins:/brightnessSensor/read?" +
     serializeQuery({
         repeat: "on",
@@ -79,7 +84,7 @@ application.invoke( new MessageWithObject( "pins:/temperatureSensor/read?" +
 ));
 
 var MainContainer = Container.template(function($) { return {
-    left: 0, right: 0, height:30, skin: new Skin({ fill: 'white',}),
+    left: 0, right: 0, height:30, skin: new Skin({ fill: 'white' }),
     contents: [
         Label($, {
             left: 0, right: 0,
@@ -90,7 +95,7 @@ var MainContainer = Container.template(function($) { return {
 };});
 
 var BrightnessContainer = Container.template(function($) { return {
-    left: 0, right: 0, height:20, skin: new Skin({ fill: 'white',}),
+    left: 0, right: 0, height:20, skin: new Skin({ fill: 'white' }),
     contents: [
         Label($, {
             left: 0, right: 0,
@@ -113,10 +118,10 @@ var TempContainer = Container.template(function($) { return {
     ],
 };});
 
-BrightnessContainer.behaviors = new Array(1);
-TempContainer.behaviors = new Array(1);
+BrightnessContainer.behaviors = [];
+TempContainer.behaviors = [];
 
-BrightnessContainer.behaviors[0] = Behavior.template({
+BrightnessContainer.behaviors.push(Behavior.template({
     onBrightnessValueChanged: function(content, result) {
         currBrightness[0] = (result.brightness1*100).toString().substring( 0, 4 );
         currBrightness[1] = (result.brightness2*100).toString().substring( 0, 4 );
@@ -124,9 +129,9 @@ BrightnessContainer.behaviors[0] = Behavior.template({
         content.string = "Brightness Levels: " + currBrightness[0] + " %, " +
                          currBrightness[1] + " %, " + currBrightness[2]  +  " %, ";
     },
-});
+}));
 
-TempContainer.behaviors[0] = Behavior.template({
+TempContainer.behaviors.push(Behavior.template({
     onTemperatureValueChanged: function(content, result) {
         currTemps[0] = result.temperature1.toString().substring( 0, 4 );
         currTemps[1] = result.temperature2.toString().substring( 0, 4 );
@@ -136,7 +141,7 @@ TempContainer.behaviors[0] = Behavior.template({
             currTemps[1] + " °F, " +
             currTemps[2]+ " °F";
     },
-});
+}));
 
 var windowPreviewContainer = new Line({
     left: 0, right: 0, bottom: 0, top: 0, contents: [],
