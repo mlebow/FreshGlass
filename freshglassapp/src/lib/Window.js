@@ -13,7 +13,7 @@ var Window = function (name, height, width) {
     this.lastX = 0;
     this.lastY = 0;
     
-	Window.window = this;
+    Window.window = this;
 
     this.name = name || "";
     this.tint = 0; // 0 is transparent, 1 is opaque
@@ -27,7 +27,6 @@ var Window = function (name, height, width) {
     this.controls = null;
     this.statusPage = null;
     this.editPage = null;
-    // NOTE: size is hardcoded (v2.0 feature)
     this.preview = null; // kinoma container for window preview that will be used on multiple pages
     this.original = null;
 };
@@ -95,7 +94,7 @@ Window.prototype.getImageByID = function(id) {
 Window.prototype.updateSensorData = function (temperature, brightness) {
     this.temperature = temperature;
     this.brightness = brightness;
-    //Change the tint if auto-tint selected
+    // Change the tint if auto-tint selected
     if (this.autoTint){
         this.tint = this.brightness / 100;
     }
@@ -177,8 +176,10 @@ Window.prototype.updatePreview = function (shouldUpdateImages) {
     }
 };
 
-
-
+/**
+ * Update this window's preview kinoma container with new Pictures
+ * based on its current image data.
+ */
 Window.prototype.updatePreviewImages = function() {
     var heightRatio = (this.height / Window.PREVIEW_HEIGHT);
     var widthRatio = (this.width / Window.PREVIEW_WIDTH);
@@ -189,14 +190,14 @@ Window.prototype.updatePreviewImages = function() {
     this.preview.empty();
 
     this.preview.add(new Container({
-        top: 3, bottom: 3, left: 3, right: 3, 
+        top: 3, bottom: 3, left: 3, right: 3,
         skin: new Skin({fill: window.getTintHexCode()}),
     }));
     for (var i = 0; i < window.images.length; i++) {
-    	var h = window.images[i].height * heightRatio;
-    	var w = window.images[i].width * widthRatio;
-    	var t = window.images[i].y * heightRatio + 3;
-    	var l = window.images[i].x * widthRatio; 
+        var h = window.images[i].height * heightRatio;
+        var w = window.images[i].width * widthRatio;
+        var t = window.images[i].y * heightRatio + 3;
+        var l = window.images[i].x * widthRatio;
         this.preview.add(new TouchablePicture({
             height: h,
             width: w,
@@ -205,14 +206,14 @@ Window.prototype.updatePreviewImages = function() {
             window: this,
             index: i,
             contents: [
-            	new Picture({
-            		url: window.images[i].url,
-            		bottom: 0,
-            		right: 0,
-            		top: 0,
-            		left: 0,
-            		opacity: 0.5,
-            	}),
+                new Picture({
+                    url: window.images[i].url,
+                    bottom: 0,
+                    right: 0,
+                    top: 0,
+                    left: 0,
+                    opacity: 0.5,
+                }),
             ],
         }));
     }
@@ -225,21 +226,21 @@ Window.prototype.updatePreviewImages = function() {
  * Creates a touchable picture to support touch to move.
  */
 var TouchablePicture = Container.template(function($) {
-	var window = $.window;
-	var index = $.index;
+    var window = $.window;
+    var index = $.index;
     return {
-    	top: $.top, left: $.left,
+        top: $.top, left: $.left,
         height: $.height,
         width: $.width,
         active: true,
         behavior: Behavior({
-        	onTouchEnded: function (container, id, x, y, ticks) {
-		    	window.selectedImage = window.images[index];
-		    	window.somethingSelected = true;
-		    	window.lastX = x;
-		    	window.lastY = y;
-			}
-	    }),
+            onTouchEnded: function (container, id, x, y, ticks) {
+                window.selectedImage = window.images[index];
+                window.somethingSelected = true;
+                window.lastX = x;
+                window.lastY = y;
+            }
+        }),
         contents: $.contents,
     };
 });
@@ -248,31 +249,31 @@ var TouchablePicture = Container.template(function($) {
  * Creates a touchable preview that supports touch to move
  */
 var TouchablePreview = Container.template(function($) {
-	var window = $.window;
+    var window = $.window;
     return {
         left: 0, right: 0, top: 0, bottom: 0, active: true,
         behavior: Behavior({
-        	onTouchEnded: function (container, id, x, y, ticks) {
-		        var win = window;
-				if (win.somethingSelected) {
-					win.selectedImage.x += x - win.lastX;
-					if (win.selectedImage.x < 0) {
-						win.selectedImage.x = 0;
-					} else if (win.selectedImage.x + win.selectedImage.width > Window.PREVIEW_WIDTH) {
-						win.selectedImage.x = Window.PREVIEW_WIDTH - win.selectedImage.width;
-					}
-					win.selectedImage.y += y - win.lastY;
-					if (win.selectedImage.y < 0) {
-						win.selectedImage.y = 0;
-					} else if (win.selectedImage.y + win.selectedImage.height > Window.PREVIEW_HEIGHT) {
-						win.selectedImage.y = Window.PREVIEW_HEIGHT - win.selectedImage.height;
-					}
-					win.somethingSelected = false;
-					win.updatePreview();
-			    }
-			}
-			
-	    }),
+            onTouchEnded: function (container, id, x, y, ticks) {
+                var win = window;
+                if (win.somethingSelected) {
+                    win.selectedImage.x += x - win.lastX;
+                    if (win.selectedImage.x < 0) {
+                        win.selectedImage.x = 0;
+                    } else if (win.selectedImage.x + win.selectedImage.width > Window.PREVIEW_WIDTH) {
+                        win.selectedImage.x = Window.PREVIEW_WIDTH - win.selectedImage.width;
+                    }
+                    win.selectedImage.y += y - win.lastY;
+                    if (win.selectedImage.y < 0) {
+                        win.selectedImage.y = 0;
+                    } else if (win.selectedImage.y + win.selectedImage.height > Window.PREVIEW_HEIGHT) {
+                        win.selectedImage.y = Window.PREVIEW_HEIGHT - win.selectedImage.height;
+                    }
+                    win.somethingSelected = false;
+                    win.updatePreview();
+                }
+            }
+            
+        }),
         contents: [],
     };
 });
