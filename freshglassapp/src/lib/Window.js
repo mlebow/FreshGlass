@@ -243,7 +243,6 @@ var TouchablePicture = Container.template(function($) {
 		    	window.lastY = y;
 		    	trace("window.lastX, window.lastY" + x + "," + y + "\n");
 			}
-			
 	    }),
         contents: $.contents,
     };
